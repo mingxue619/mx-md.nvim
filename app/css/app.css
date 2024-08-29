@@ -1,5 +1,19 @@
-body {
-    background-color: white;
-    margin-left: 1rem;
-    margin-right: 1rem;
-}
+ body {
+     background-color: white;
+     margin-left: 1rem;
+     margin-right: 1rem;
+ }
+
+ section {
+     page-break-inside: avoid;
+     page-break-after: always;
+     width: 210mm;
+     height:297mm;
+     margin: 0 auto;
+     padding: 20mm;
+     box-sizing: border-box;
+ }
+
+ /* hr { */
+ /*     page-break-after: always; */
+ /* } */

@@ -29,13 +29,14 @@ class Markdown {
         this.lines = lines;
         this.content = newContent;
 
-        const newHtml = md
+        const html = md
             .use(window.markdownitCanvas)
             .use(window.markdownitHr)
             .use(window.markdownitSub)
             .use(window.markdownitSup)
             .use(window.markdownitInjectLinenumbers)
             .render(newContent);
+        const newHtml = `<section page-break-insid>${html}</section>`;
         // console.log(Object.keys(md.renderer.rules));
         const contentElement = document.getElementById("content");
         contentElement.innerHTML = newHtml;

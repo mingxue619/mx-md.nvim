@@ -5,6 +5,8 @@ window.markdownitHr = function (md) {
     md.renderer.rules.hr = function (tokens, idx, options, env, self) {
         let token = tokens[idx];
         debugger
-        return defaultFenceRenderer(tokens, idx, options, env, self);
+        let hrElement = defaultFenceRenderer(tokens, idx, options, env, self);
+        const element = `${hrElement}</section><section>`;
+        return element;
     };
 };
