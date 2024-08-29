@@ -71,6 +71,17 @@ export default class MarkdownNvim {
         });
         await this.connection.setVar("mxmd_node_server_status", 1);
     }
+    async getPort() {
+        try {
+            const port = await this.connection.executeLua("return require('mx-md.service').getPort()");
+            if (port) {
+                return port;
+            }
+        } catch (e) {
+            console.log(e);
+        }
+        return 1073;
+    }
     // echo bufnr('%')
     async getBufferById(bufnr) {
         const buffers = await this.connection.buffers;
