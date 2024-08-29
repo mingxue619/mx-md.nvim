@@ -28,8 +28,14 @@ class Markdown {
         }
         this.lines = lines;
         this.content = newContent;
-       
-        const newHtml = md.use(window.markdownitCanvas).use(window.markdownitSub).use(window.markdownitSup).use(window.markdownitInjectLinenumbers).render(newContent);
+
+        const newHtml = md
+            .use(window.markdownitCanvas)
+            .use(window.markdownitHr)
+            .use(window.markdownitSub)
+            .use(window.markdownitSup)
+            .use(window.markdownitInjectLinenumbers)
+            .render(newContent);
         // console.log(Object.keys(md.renderer.rules));
         const contentElement = document.getElementById("content");
         contentElement.innerHTML = newHtml;
