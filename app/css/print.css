@@ -9,7 +9,9 @@
 
      section * {
          visibility: visible;
-         margin: 2mm;
-         width: 210mm;
+         /* margin: 1mm; */
+     }
+     hr {
+         visibility: hidden;
      }
  }

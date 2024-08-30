@@ -1,9 +1,18 @@
  section {
      page-break-inside: avoid;
-     /* page-break-after: always; */
-     width: 210mm;
-     height: 297mm;
+     page-break-after: always;
+     /* width: 210mm; */
+     /* height: 297mm; */
+     /* aspect-ratio: 1 / 1.414; */
+     aspect-ratio: 210 / 297;
+     box-sizing: border-box;
+     padding: 5mm;
      /* border: 1px solid #000; */
-     padding: 10mm; 
+     position: relative;
  }
 
+ hr {
+     position: absolute;
+     bottom: 0;
+     width: calc(100% - 10mm);
+ }
