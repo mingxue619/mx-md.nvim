@@ -36,7 +36,7 @@ class Markdown {
             .use(window.markdownitSup)
             .use(window.markdownitInjectLinenumbers)
             .render(newContent);
-        const newHtml = `<section page-break-insid>${html}</section>`;
+        const newHtml = `<section>${html}</section>`;
         // console.log(Object.keys(md.renderer.rules));
         const contentElement = document.getElementById("content");
         contentElement.innerHTML = newHtml;
