@@ -9,9 +9,11 @@
      padding: 5mm;
      /* border: 1px solid #000; */
      position: relative;
+     overflow: hidden; 
  }
 
  hr {
+     border: none;
      position: absolute;
      bottom: 0;
      width: calc(100% - 10mm);
