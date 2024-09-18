@@ -4,7 +4,8 @@ import { createHash } from "crypto";
 import { markdownitCanvas } from "./plugin/canvas.js";
 import { markdownitHr } from "./plugin/hr.js";
 import markdownitInjectLinenumbers from "markdown-it-inject-linenumbers";
-import MarkdownItTypst from "markdown-it-typst";
+// import MarkdownItTypst from "markdown-it-typst";
+import { markdownitTypst } from "./plugin/typst.js";
 
 export default class MarkdownRender {
     constructor() {
@@ -49,7 +50,8 @@ export default class MarkdownRender {
             // .use(window.markdownitSub)
             // .use(window.markdownitSup)
             .use(markdownitInjectLinenumbers)
-            .use(MarkdownItTypst)
+            // .use(MarkdownItTypst)
+            .use(markdownitTypst)
             .render(newContent);
         this.html = html;
         this.hash = newHash;
