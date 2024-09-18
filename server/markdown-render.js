@@ -4,7 +4,7 @@ import { createHash } from "crypto";
 import { markdownitCanvas } from "./plugin/canvas.js";
 import { markdownitHr } from "./plugin/hr.js";
 import markdownitInjectLinenumbers from "markdown-it-inject-linenumbers";
-import MarkdownItTypst from "../node_modules/markdown-it-typst/lib/index.js";
+import MarkdownItTypst from "markdown-it-typst";
 
 export default class MarkdownRender {
     constructor() {
@@ -32,7 +32,6 @@ export default class MarkdownRender {
     }
 
     renderMarkdown(bufferInfo) {
-        debugger;
         const lines = bufferInfo.lines;
         const newContent = lines.join("\n");
         const md5 = createHash("md5");
