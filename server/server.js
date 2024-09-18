@@ -1,5 +1,5 @@
 import PageWebSocket from "./page-websocket.js";
-import MarkdownNvim from "./markdown-nvim.js";
+import Nvim from "./nvim.js";
 import HttpServer from "./http-server.js";
 
 const servername = process.argv[2];
@@ -12,11 +12,13 @@ const servername = process.argv[2];
 
 const httpServer = HttpServer.createServer();
 const pws = new PageWebSocket(httpServer);
-const mdn = new MarkdownNvim(servername);
-pws.setupListeners(mdn);
-mdn.setupListeners(pws);
+const nvim = new Nvim(servername);
+pws.setupListeners(nvim);
+nvim.setupListeners(pws);
 
-let port = await mdn.getPort()
+let port = await nvim.getPort()
 httpServer.listen(port, async () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    const msg = `Server is running on http://localhost:${port}`;
+    console.log(msg);
+    // await nvim.print(msg);
 });

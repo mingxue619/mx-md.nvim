@@ -1,8 +1,9 @@
 import * as child_process from "node:child_process";
 import { attach, findNvim } from "neovim";
 import Browser from "./browser.js";
+import MarkdownRender from "./markdown-render.js";
 
-export default class MarkdownNvim {
+export default class Nvim {
     constructor(servername) {
         if (servername) {
             this.connection = attach({
@@ -14,6 +15,7 @@ export default class MarkdownNvim {
             const nvim_proc = child_process.spawn(found.matches[0].path, ["--clean", "--embed"], {});
             this.connection = attach({ proc: nvim_proc });
         }
+        this.render = new MarkdownRender();
         this.connection.channelId
             .then(async (channelId) => {
                 console.log("channelId: " + channelId);
@@ -82,6 +84,14 @@ export default class MarkdownNvim {
         }
         return 1073;
     }
+    async print(msg) {
+        try {
+            const lua = `require('mx-md.service').print("${msg}")`;
+            await this.connection.executeLua(lua);
+        } catch (e) {
+            console.log(e);
+        }
+    }
     // echo bufnr('%')
     async getBufferById(bufnr) {
         const buffers = await this.connection.buffers;
@@ -139,5 +149,11 @@ export default class MarkdownNvim {
             lines,
         };
         return bufferInfo;
+    }
+    async getHtmlInfo(bufnr) {
+        let bufferInfo = await this.getBufferInfo(bufnr);
+        const htmlInfo = this.render.renderMarkdown(bufferInfo);
+        htmlInfo.type = "html";
+        return htmlInfo;
     }
 }

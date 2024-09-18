@@ -1,7 +1,3 @@
-local job = require("mx-md.job")
-local rpc = require("mx-md.rpc")
-local autocmd = require("mx-md.autocmd")
-
 local M = {}
 
 -- function M.register()
@@ -21,6 +17,9 @@ function M.getPort()
         end
 	end
     return 1073;
+end
+function M.print(msg)
+    print(msg);
 end
 
 return M

@@ -26,6 +26,7 @@ end
 function M.restart()
     job.restart();
 	autocmd.setup_autocmd()
+    print("bufnr == " .. vim.g.mxmd_preview_bufnr)
 end
 
 function M.openBrowser()

@@ -4,7 +4,7 @@ export default class PageWebSocket {
     constructor(httpServer) {
         this.wss = new WebSocketServer({ server: httpServer });
     }
-    setupListeners(mdn) {
+    setupListeners(nvim) {
         this.wss.on("connection", async (ws) => {
             console.log("A WebSocket connection has been established.");
             ws.on("error", async (err) => {
@@ -16,7 +16,7 @@ export default class PageWebSocket {
                 let action = data.action;
                 if (action === "Init") {
                     let bufnr = data.bufnr;
-                    let bufferInfo = await mdn.getBufferInfo(bufnr);
+                    let bufferInfo = await nvim.getHtmlInfo(bufnr);
                     bufferInfo.action = action;
                     let bufferInfoStr = JSON.stringify(bufferInfo);
                     ws.send(bufferInfoStr);
