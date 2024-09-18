@@ -19,7 +19,9 @@ export default class MarkdownRender {
         if (this.hash != newHash) {
             const html = this.md.render(newContent);
             this.html = html;
+            this.hash = newHash;
         }
+        bufferInfo.hash = this.hash;
         bufferInfo.html = this.html;
         return bufferInfo;
     }
