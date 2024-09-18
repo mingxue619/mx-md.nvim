@@ -1,9 +1,28 @@
 import markdownit from "markdown-it";
-import { createHash } from 'crypto';
+import hljs from 'highlight.js' // https://highlightjs.org
+import { createHash } from "crypto";
 
 export default class MarkdownRender {
     constructor() {
-        this.md = markdownit();
+        const md = markdownit({
+            html: true,
+            xhtmlOut: true,
+            breaks: false,
+            langPrefix: "language-",
+            linkify: true,
+            typographer: true,
+            quotes: "“”‘’",
+            highlight: function (str, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    try {
+                        return '<pre><code class="hljs">' + hljs.highlight(str, { language: lang, ignoreIllegals: true }).value + "</code></pre>";
+                    } catch (__) {}
+                }
+
+                return '<pre><code class="hljs">' + md.utils.escapeHtml(str) + "</code></pre>";
+            },
+        });
+        this.md = md;
         this.hash = "";
         this.html = "";
     }
@@ -12,15 +31,16 @@ export default class MarkdownRender {
         debugger;
         const lines = bufferInfo.lines;
         const newContent = lines.join("\n");
-        const md5 = createHash('md5');
+        const md5 = createHash("md5");
         md5.update(newContent);
-        const newHash = md5.digest('hex');
+        const newHash = md5.digest("hex");
 
-        if (this.hash != newHash) {
-            const html = this.md.render(newContent);
-            this.html = html;
-            this.hash = newHash;
+        if (this.hash === newHash) {
+            return bufferInfo;
         }
+        const html = this.md.render(newContent);
+        this.html = html;
+        this.hash = newHash;
         bufferInfo.hash = this.hash;
         bufferInfo.html = this.html;
         return bufferInfo;

@@ -17,6 +17,7 @@
     "@chemzqm/neovim": "^6.1.2",
     "@types/node": "^20.14.9",
     "@types/ws": "^8.5.12",
+    "highlight.js": "^11.10.0",
     "markdown-it": "^14.1.0",
     "markdown-it-inject-linenumbers": "^0.3.0",
     "markdown-it-sub": "^2.0.0",
