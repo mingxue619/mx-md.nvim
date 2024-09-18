@@ -1,6 +1,7 @@
 import markdownit from "markdown-it";
-import hljs from 'highlight.js' // https://highlightjs.org
+import hljs from "highlight.js"; // https://highlightjs.org
 import { createHash } from "crypto";
+import { markdownitCanvas } from "./plugin/canvas.js";
 
 export default class MarkdownRender {
     constructor() {
@@ -36,9 +37,17 @@ export default class MarkdownRender {
         const newHash = md5.digest("hex");
 
         if (this.hash === newHash) {
+            bufferInfo.hash = this.hash;
+            bufferInfo.html = this.html;
             return bufferInfo;
         }
-        const html = this.md.render(newContent);
+        const html = this.md
+            .use(markdownitCanvas)
+            // .use(window.markdownitHr)
+            // .use(window.markdownitSub)
+            // .use(window.markdownitSup)
+            // .use(window.markdownitInjectLinenumbers)
+            .render(newContent);
         this.html = html;
         this.hash = newHash;
         bufferInfo.hash = this.hash;
