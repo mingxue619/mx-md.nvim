@@ -63,7 +63,7 @@ export default class Nvim {
             if (cursorAction.includes(action)) {
                 bufferInfo = await this.getCursorInfo(bufferId);
             } else if (contentAction.includes(action)) {
-                bufferInfo = await this.getBufferInfo(bufferId);
+                bufferInfo = await this.getHtmlInfo(bufferId);
             }
             if (!bufferInfo) {
                 bufferInfo = {};

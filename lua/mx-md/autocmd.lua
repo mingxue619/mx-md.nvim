@@ -14,12 +14,12 @@ M.last_call = 0
 -- end
 
 function M.isPreviewBuffer()
-	local success, mxmd_node_channel_id = pcall(vim.api.nvim_get_var, "mxmd_preview_bufnr")
+	local success, mxmd_preview_bufnr = pcall(vim.api.nvim_get_var, "mxmd_preview_bufnr")
 	if not success then
 		return false
 	end
 	local current_buf = vim.api.nvim_get_current_buf()
-	return current_buf == mxmd_node_channel_id
+	return current_buf == mxmd_preview_bufnr
 end
 
 function M.cursorTimeAllow()
@@ -41,7 +41,9 @@ function M.contentTimeAllow()
 end
 
 function M.onCursorMoved(action)
+    -- print("onCursorMoved");
 	if not M.isPreviewBuffer() then
+        -- print("not PreviewBuffer");
 		return
 	end
 	-- if not M.cursorTimeAllow() then
@@ -49,6 +51,7 @@ function M.onCursorMoved(action)
 	-- end
 	local current_buf = vim.api.nvim_get_current_buf()
 	rpc.notify(action, current_buf)
+    -- print("onCursorMoved" .. action .. current_buf);
 end
 
 function M.onContentRefresh(action)

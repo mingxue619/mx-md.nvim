@@ -31,7 +31,6 @@ function M.start()
             vim.notify("stdout: " .. table.concat(data, "\n"), vim.log.levels.INFO)
 		end,
 		on_stderr = function(id, data, name)
-			vim.g.mxmd_preview_bufnr = nil
 			-- print("stderr: " .. table.concat(data, "\n"))
             vim.notify("stderr: " .. table.concat(data, "\n"), vim.log.levels.ERROR)
 		end,
