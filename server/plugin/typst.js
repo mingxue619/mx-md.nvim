@@ -14,8 +14,7 @@ class Compiler {
     }
 }
 function typstWrapper(code) {
-    return "#set page(width: auto, height: auto, margin: 5pt)\n" 
-        + "#set text(size: 18pt)\n" + code;
+    return "#set page(width: auto, height: auto, margin: 5pt)\n" + "#set text(size: 18pt)\n" + code;
 }
 function svgWrapper(svg) {
     return '<div class="typst">\n' + svg + "\n</div>";
@@ -41,11 +40,11 @@ function markdownitTypst(md) {
     });
 
     md.renderer.rules.typst = (tokens, idx, opts, env, self) => {
-        debugger
+        debugger;
         const code = typstWrapper(tokens[idx].content);
         const svg = Compiler.svg(code);
-
-        return svgWrapper(svg) + "\n";
+        const result = svgWrapper(svg) + "\n";
+        return result;
     };
 }
 export { markdownitTypst };
