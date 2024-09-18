@@ -2,6 +2,8 @@ import markdownit from "markdown-it";
 import hljs from "highlight.js"; // https://highlightjs.org
 import { createHash } from "crypto";
 import { markdownitCanvas } from "./plugin/canvas.js";
+import { markdownitHr } from "./plugin/hr.js";
+import markdownitInjectLinenumbers from "markdown-it-inject-linenumbers";
 
 export default class MarkdownRender {
     constructor() {
@@ -43,10 +45,10 @@ export default class MarkdownRender {
         }
         const html = this.md
             .use(markdownitCanvas)
-            // .use(window.markdownitHr)
+            .use(markdownitHr)
             // .use(window.markdownitSub)
             // .use(window.markdownitSup)
-            // .use(window.markdownitInjectLinenumbers)
+            .use(markdownitInjectLinenumbers)
             .render(newContent);
         this.html = html;
         this.hash = newHash;
