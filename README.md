@@ -17,9 +17,10 @@ https://markdown-it.github.io/
 markdown-it-inject-linenumbers
 | plugin             | suport | github                                                            | example |
 | ----------------   | ------ | ------------------------------------------------                  | ------- |
-| subscript          | y      | <https://github.com/markdown-it/markdown-it-sub>                  | H~2~0   |
-| superscript        | y      | <https://github.com/markdown-it/markdown-it-sup>                  | 29^th^  |
+| subscript          | n      | <https://github.com/markdown-it/markdown-it-sub>                  | H~2~0   |
+| superscript        | n      | <https://github.com/markdown-it/markdown-it-sup>                  | 29^th^  |
 | inject-linenumbers | y      | <https://github.com/digitalmoksha/markdown-it-inject-linenumbers> |         |
+| typst              | y      | <https://github.com/Xecades/markdown-it-typst>                    |         |
 | footnote           |        |                                                                   |         |
 | definition list    |        |                                                                   |         |
 | abbreviation       |        |                                                                   |         |
