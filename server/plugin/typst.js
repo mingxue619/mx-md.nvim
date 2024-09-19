@@ -13,7 +13,12 @@ class Typst {
 
     static compile(code) {
         Typst.instance();
-        return Typst.compiler.compile({ mainFileContent: code });
+        return Typst.compiler.compile({
+            mainFileContent: code,
+            inputs: {
+                theme: "dark",
+            },
+        });
     }
 
     static svg(code) {
