@@ -59,13 +59,13 @@ function markdownitTypst(md) {
             const result = svgWrapper(svg) + "\n";
             return result;
         } catch (error) {
-            const errorMessage = JSON.stringify(error);
+            const errorMessage = JSON.stringify(error, null, 2);
             const compile = Typst.compile(code);
             const diagnostics = compile.takeDiagnostics();
             if (diagnostics && diagnostics.compilationStatus === "error") {
                 const shortDiagnostics = diagnostics.shortDiagnostics;
                 const len = shortDiagnostics.length;
-                const diagnoseMessage = JSON.stringify(shortDiagnostics);
+                const diagnoseMessage = JSON.stringify(shortDiagnostics, null, 2);
                 const diagnoseResult = `<pre><code style="color: red;">error::<br>${errorMessage} <br><br>diagnose:: ${len} compiler error<br>${diagnoseMessage}</code></pre>`;
                 return diagnoseResult;
             } else {
