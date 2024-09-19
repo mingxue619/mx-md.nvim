@@ -31,10 +31,9 @@ end
 
 function M.openBrowser()
 	local timer = vim.loop.new_timer()
-	local sleep = 1000
 	timer:start(
 		1000,
-		sleep,
+		0,
 		vim.schedule_wrap(function()
 			-- vim.notify("new_timer")
 			local nodeServerStatus = M.getNodeServerStatus()

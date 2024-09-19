@@ -35,7 +35,7 @@ function M.start()
             vim.notify("stderr: " .. table.concat(data, "\n"), vim.log.levels.ERROR)
 		end,
 		on_exit = function(id, code, event)
-			vim.g.mxmd_preview_bufnr = nil
+			-- vim.g.mxmd_preview_bufnr = nil
 			-- print("Node process exited with code " .. code)
             vim.notify("Node process exited with code " .. code, vim.log.levels.INFO)
 		end,
