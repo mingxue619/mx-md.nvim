@@ -3,8 +3,8 @@ class CursorScroll {
         const cursor = bufferInfo.cursor;
         const winline = bufferInfo.winline;
         const winheight = bufferInfo.winheight;
-        const lines = bufferInfo.lines || markdown.lines;
-        const len = lines.length;
+        this.lines = bufferInfo.lines || this.lines;
+        const len = this.lines.length;
         const ratio = winline / winheight;
         const line = cursor[1] - 1;
         if (line === 0 || line === len - 1) {
