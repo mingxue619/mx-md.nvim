@@ -70,13 +70,13 @@ function markdownitCanvas(md) {
                             (function() {
                                 // debugger;
                                 let errorElement = document.getElementById('${errorId}');  
+                                let element = document.getElementById("${id}");
                                 try {
-                                    let element = document.getElementById("${id}");
-                                    if (element.getContext) {
-                                        let canvas = element.getContext("${context}");
-                                        canvas.clearRect(0, 0, element.width, element.height);
-                                        ${content}
-                                    };
+                                    // if (element.getContext) {
+                                    //     let ctx = element.getContext("${context}");
+                                    //     ctx.clearRect(0, 0, element.width, element.height);
+                                    // };
+                                    ${content}
                                 } catch (error) {
                                     errorElement.style.display = "block";
                                     let code = document.createElement('code');  
