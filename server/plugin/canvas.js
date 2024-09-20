@@ -26,6 +26,13 @@ function getId(attributes) {
     }
     return id;
 }
+function getElementName(attributes) {
+    let element = attributes.element;
+    if(!element) {
+        element = 'element';
+    }
+    return element;
+}
 function markdownitCanvas(md) {
     md.core.ruler.after("block", "canvas", (state) => {
         for (let i = 0; i < state.tokens.length; i++) {
@@ -54,6 +61,7 @@ function markdownitCanvas(md) {
         let attributes = getAttributes(info);
         let id = getId(attributes);
         let errorId = "error-" + id;
+        let element = getElementName(attributes);
         let context = attributes.context || "2d";
         let content = token.content || "";
         let canvasAttribute = Object.entries(attributes)
@@ -68,15 +76,11 @@ function markdownitCanvas(md) {
         const script = `
                         <script>
                             (function() {
-                                // debugger;
                                 let errorElement = document.getElementById('${errorId}');  
-                                let element = document.getElementById("${id}");
+                                let ${element} = document.getElementById("${id}");
                                 try {
-                                    // if (element.getContext) {
-                                    //     let ctx = element.getContext("${context}");
-                                    //     ctx.clearRect(0, 0, element.width, element.height);
-                                    // };
-                                    ${content}
+                                    const func = new Function('${element}', \`${content}\`);
+                                    func(${element});
                                 } catch (error) {
                                     errorElement.style.display = "block";
                                     let code = document.createElement('code');  
