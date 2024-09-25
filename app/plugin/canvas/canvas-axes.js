@@ -33,6 +33,8 @@ class Axes {
         ctx.lineWidth = 2;
         ctx.stroke();
         this.drawArrow(0, 0, 0, height, 'Y');
+         // 重置虚线样式为实线
+        ctx.setLineDash([]);  // 重置虚线样式为实线
     }
     // 绘制箭头
     drawArrow(fromX, fromY, toX, toY, label) {
