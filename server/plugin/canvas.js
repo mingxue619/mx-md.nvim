@@ -1,19 +1,18 @@
-function getAttributes(info) {
-    const attributes = {};
-    const canvasRegex = /canvas\(([^)]+)\)/;
-    const match = info.match(canvasRegex);
-    if (match && match[1]) {
-        const attributesString = match[1];
-        const attributePairs = attributesString.split(",");
-        attributePairs.forEach((pair) => {
-            const [key, value] = pair.trim().split("=");
-            attributes[key.trim()] = value.replace(/^['"]|['"]$/g, "");
-        });
-    }
-    return attributes;
-}
-function getId(attributes) {
-    let id = attributes.id;
+function parseCanvasProps(info) {  
+    info = info.replace(/^[^(]+\(|\);?$/g, '');
+    const params = info.split(', ');
+
+    const props = params.reduce((acc, param) => {
+        const [key, value] = param.split('=');
+        acc[key.trim()] = value ? value.trim() : key.trim();
+        return acc;
+    }, {});
+      
+    return props;  
+}  
+
+function getId(props) {
+    let id = props.id;
     if (!id) {
         id =
             "canvas-uuid-" +
@@ -22,16 +21,30 @@ function getId(attributes) {
                     v = c == "x" ? r : (r & 0x3) | 0x8;
                 return v.toString(16);
             });
-        attributes["id"] = id;
+        props["id"] = id;
     }
     return id;
 }
-function getElementName(attributes) {
-    let element = attributes.element;
+
+function getElementName(props) {
+    let element = props.element;
     if(!element) {
         element = 'element';
     }
     return element;
+}
+
+function getAxes(props) {
+    let axes = props.axes;
+    if(!axes) {
+        return false;
+    }
+    axes = axes.toLowerCase();
+    if (axes === "false") {
+        return false;
+    }
+    return true;
+
 }
 function markdownitCanvas(md) {
     md.core.ruler.after("block", "canvas", (state) => {
@@ -58,17 +71,26 @@ function markdownitCanvas(md) {
     md.renderer.rules.canvas = function (tokens, idx, options, env, self) {
         let token = tokens[idx];
         let info = token.info;
-        let attributes = getAttributes(info);
-        let id = getId(attributes);
+        debugger
+        let props = parseCanvasProps(info);
+        let id = getId(props);
         let errorId = "error-" + id;
-        let element = getElementName(attributes);
-        let context = attributes.context || "2d";
+        let element = getElementName(props);
+        //let context = attributes.context || "2d";
+        let showAxes = getAxes(props);
+        let axes = "";
+        if (showAxes) {
+            axes = `
+                    const axes = new Axes(${element});
+                    axes.draw();
+                    `;
+        }
         let content = token.content || "";
-        let canvasAttribute = Object.entries(attributes)
+        let canvasProps = Object.entries(props)
             .map(([k, v]) => `${k}="${v}"`)
             .join(" ");
         const tag = `
-                    <canvas class="canvas" ${canvasAttribute}>
+                    <canvas class="canvas" ${canvasProps}>
                         browser not support canvas
                     </canvas>
                     <div id="${errorId}" style="display: none"></div>
@@ -79,6 +101,7 @@ function markdownitCanvas(md) {
                                 let errorElement = document.getElementById('${errorId}');  
                                 let ${element} = document.getElementById("${id}");
                                 try {
+                                    ${axes}
                                     const func = new Function('${element}', \`${content}\`);
                                     func(${element});
                                 } catch (error) {
