@@ -1,15 +1,17 @@
 class Axes {
     constructor(canvas) {
         this.ctx = canvas.getContext('2d');
-        this.ctx.strokeStyle = "red";
-        this.ctx.fillStyle = "red";
         this.width = canvas.width;
         this.height = canvas.height;
     }
 
     draw() {
+        this.ctx.save();
+        this.ctx.strokeStyle = "red";
+        this.ctx.fillStyle = "red";
         this.drawAxes(this.width, this.height);
         this.drawTicks(this.width, this.height);
+        this.ctx.restore();
     }
     // 绘制坐标轴
     drawAxes(width, height) {
