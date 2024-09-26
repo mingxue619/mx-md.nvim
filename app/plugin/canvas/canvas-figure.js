@@ -11,21 +11,35 @@ function Figure(ctx) {
             if (color) {
                 ctx.fillStyle = color;
             }
-            const fromX = x - width / 2;
-            const fromY = y - height / 2;
-            ctx.fillRect(fromX, fromY, width, height);
+            let from = {
+                x: x - width / 2,
+                y: y - height / 2,
+            };
+            ctx.fillRect(from.x, from.y, width, height);
             ctx.restore();
             // label
             const align = label.align || {};
-            align.frame = {
-                left: fromX,
-                right: fromX + width,
-                top: fromY,
-                bottom: fromY + height,
+            const frame = {
+                left: from.x,
+                right: from.x + width,
+                top: from.y,
+                bottom: from.y + height,
             };
+            align.frame = frame;
             label.align = align;
             this.label(label);
-
+            // return
+            let figure = {
+                rect: {
+                    x: from.x,
+                    y: from.y,
+                    width: width,
+                    height: height,
+                },
+                position: position,
+                frame: frame,
+            };
+            return figure;
         },
         label: function ({ title, font, color, align, position }) {
             ctx.save();
@@ -62,7 +76,7 @@ function Figure(ctx) {
                     let spaceH = fh - textHeight;
                     spaceH = spaceH > 0 ? spaceH : 0;
                     // y = frame.top + spaceH / 2 + textHeight;
-                    y = frame.bottom - spaceH /2;
+                    y = frame.bottom - spaceH / 2;
                 }
             }
 
