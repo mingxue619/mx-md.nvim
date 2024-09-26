@@ -4,6 +4,7 @@ class Theme {
     }
 
     setTheme(theme) {
+        debugger;
         if (theme === "dynamic") {
             // <html lang="en" data-darkreader-mode="dynamic" data-darkreader-scheme="dark">
             const html = document.documentElement;
@@ -23,6 +24,10 @@ class Theme {
             // window.foreground = "#eee";
             window.foreground = "white";
             this.setDarkTheme();
+        } else if (window.theme === "print") {
+            window.background = undefined;
+            window.foreground = undefined;
+            this.clearCanvas();
         }
     }
     setDarkTheme() {
@@ -32,5 +37,10 @@ class Theme {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = window.foreground;
+    }
+    clearCanvas() {
+        const canvas = this.canvas;
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 }

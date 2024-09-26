@@ -116,7 +116,19 @@ function markdownitCanvas(md) {
                                     let pre = document.createElement('pre');  
                                     pre.appendChild(code);  
                                     document.getElementById('${errorId}').appendChild(pre);
-                                }
+                                };
+                                window.addEventListener("beforeprint", () => {
+                                    debugger
+                                    if("${theme}" === "dynamic") {
+                                        new Theme(${element}).setTheme("print");
+                                        const func = new Function('${element}', 'Figure', \`${content}\`);
+                                        func(${element}, Figure);
+                                    }
+                                });
+                                
+                                window.addEventListener("afterprint", () => {
+                                });
+
                             })();
                         </script>`;
         const html = tag + script;
