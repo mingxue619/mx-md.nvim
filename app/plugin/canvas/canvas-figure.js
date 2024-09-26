@@ -1,49 +1,16 @@
 // position: 图形中心点{三角形: 底边中心}
 // frame: 画框，图形左右上下的范围
 // from: 起点
-function Figure(ctx) {
+
+import {Rect} from './canvas-rect.js';
+export const Figure = (ctx) => {
     return {
-        rect: function ({ position, size, color, label, children }) {
-            ctx.save();
-            // figure
-            let [x, y] = position;
-            const [width, height] = size;
-            if (color) {
-                ctx.fillStyle = color;
-            }
-            let from = {
-                x: x - width / 2,
-                y: y - height / 2,
-            };
-            ctx.fillRect(from.x, from.y, width, height);
-            ctx.restore();
-            // label
-            const align = label.align || {};
-            const frame = {
-                left: from.x,
-                right: from.x + width,
-                top: from.y,
-                bottom: from.y + height,
-            };
-            align.frame = frame;
-            label.align = align;
-            this.label(label);
-            // return
-            let figure = {
-                rect: {
-                    x: from.x,
-                    y: from.y,
-                    width: width,
-                    height: height,
-                },
-                position: position,
-                frame: frame,
-            };
-            // children 
-            if(children) {
-                children(figure);
-            }
-            return figure;
+        rect: function (params) {
+            const rect = new Rect(ctx);
+            return rect.draw(params);
+        },
+        cylinder: function ({ position, size, color, label, children }) {
+
         },
         label: function ({ title, font, color, align, position }) {
             ctx.save();

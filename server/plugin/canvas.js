@@ -71,7 +71,6 @@ function markdownitCanvas(md) {
     md.renderer.rules.canvas = function (tokens, idx, options, env, self) {
         let token = tokens[idx];
         let info = token.info;
-        debugger
         let props = parseCanvasProps(info);
         let id = getId(props);
         let errorId = "error-" + id;
@@ -96,14 +95,15 @@ function markdownitCanvas(md) {
                     <div id="${errorId}" style="display: none"></div>
                     `;
         const script = `
-                        <script>
+                        <script type="module">
+                            import { Figure } from '/app/plugin/canvas/canvas-figure.js';
                             (function() {
                                 let errorElement = document.getElementById('${errorId}');  
                                 let ${element} = document.getElementById("${id}");
                                 try {
                                     ${axes}
-                                    const func = new Function('${element}', \`${content}\`);
-                                    func(${element});
+                                    const func = new Function('${element}', 'Figure', \`${content}\`);
+                                    func(${element}, Figure);
                                 } catch (error) {
                                     errorElement.style.display = "block";
                                     let code = document.createElement('code');  

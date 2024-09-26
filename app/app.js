@@ -56,7 +56,6 @@ function wsConnect(bufnr) {
 //     // const ws = new WebSocket("ws://" + host);
 //     const socket = io();
 //     socket.on("connect", function () {
-//         debugger
 //         console.log("Connected to server");
 //         const data = {
 //             bufnr: bufnr,
@@ -66,7 +65,6 @@ function wsConnect(bufnr) {
 //     });
 //
 //     socket.on("refresh-content", function (msg) {
-//         debugger
 //         console.log("received message: " + msg);
 //     });
 // }

@@ -41,7 +41,6 @@ window.markdownitCanvas = function (md) {
                 const script = `
                                <script>
                                    (function() {
-                                       // debugger;
                                        let element = document.getElementById("${id}");
                                        if (element.getContext) {
                                            let canvas = element.getContext("${context}");

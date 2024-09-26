@@ -14,7 +14,10 @@ class HtmlRender {
         contentElement.innerHTML = newHtml;
         let scripts = contentElement.getElementsByTagName("script");
         Array.from(scripts).forEach(function (script) {
-            var scriptElement = document.createElement("script");
+            let scriptElement = document.createElement("script");
+            if(script.type) {
+                scriptElement.type = script.type;
+            }
             scriptElement.textContent = script.textContent || script.innerText || "";
             document.body.appendChild(scriptElement);
             // setTimeout(function () {
