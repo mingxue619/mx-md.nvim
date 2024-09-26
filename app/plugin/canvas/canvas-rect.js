@@ -17,18 +17,13 @@ export class Rect {
         };
         ctx.fillRect(from.x, from.y, width, height);
         ctx.restore();
-        // label
-        const align = label.align || {};
+        // return
         const frame = {
             left: from.x,
             right: from.x + width,
             top: from.y,
             bottom: from.y + height,
         };
-        align.frame = frame;
-        label.align = align;
-        this.label(label);
-        // return
         let figure = {
             rect: {
                 x: from.x,
