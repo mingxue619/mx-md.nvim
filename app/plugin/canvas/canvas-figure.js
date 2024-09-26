@@ -4,8 +4,13 @@
 
 import { Rect } from "./canvas-rect.js";
 import { Label } from "./canvas-label.js";
-export const Figure = (ctx) => {
+export const Figure = (canvas) => {
+    const ctx = canvas.getContext('2d');
     return {
+        label: function (params) {
+            const label = new Label(ctx);
+            label.draw(params);
+        },
         rect: function (params) {
             const rect = new Rect(ctx);
             let figure = rect.draw(params);
@@ -15,12 +20,10 @@ export const Figure = (ctx) => {
                 const align = label.align || {};
                 align.frame = figure.frame;
                 label.align = align;
-                const labelFigure = new Label(ctx);
-                labelFigure.draw(label);
+                this.label(label);
             }
             return figure;
         },
         cylinder: function ({ position, size, color, label, children }) {},
-        label: function ({ title, font, color, align, position }) {},
     };
 };
