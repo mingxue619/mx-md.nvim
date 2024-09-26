@@ -4,7 +4,6 @@
 function Figure(ctx) {
     return {
         rect: function ({ position, size, color, label }) {
-            debugger
             ctx.save();
             // figure
             let [x, y] = position;
@@ -31,7 +30,7 @@ function Figure(ctx) {
         label: function ({ title, font, color, align, position }) {
             ctx.save();
             ctx.font = font || "16px Hack Nerd Font Mono";
-            ctx.fillstyle = color;
+            ctx.fillStyle = color;
 
             let textWidth = ctx.measureText(title).width;
             var textHeight = parseInt(ctx.font, 10);
