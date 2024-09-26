@@ -3,7 +3,7 @@
 // from: 起点
 function Figure(ctx) {
     return {
-        rect: function ({ position, size, color, label }) {
+        rect: function ({ position, size, color, label, children }) {
             ctx.save();
             // figure
             let [x, y] = position;
@@ -39,6 +39,10 @@ function Figure(ctx) {
                 position: position,
                 frame: frame,
             };
+            // children 
+            if(children) {
+                children(figure);
+            }
             return figure;
         },
         label: function ({ title, font, color, align, position }) {
