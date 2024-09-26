@@ -46,7 +46,7 @@ function getAxes(props) {
     return true;
 }
 function getTheme(props) {
-    return props.theme;
+    return props.dark || props.theme;
 }
 function removeComments(content) {
     return content.split('\n')
