@@ -2,7 +2,7 @@ export class Cylinder {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    draw({ position, size, color, label, children }) {
+    draw({centerX, centerY, radius, height, color}) {
         const ctx = this.ctx;
         ctx.save();
 
