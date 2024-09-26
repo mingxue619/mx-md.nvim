@@ -2,8 +2,9 @@
 // frame: 画框，图形左右上下的范围
 // from: 起点
 
-import { Rect } from "./canvas-rect.js";
-import { Label } from "./canvas-label.js";
+import { Label } from "./figure-label.js";
+import { Rect } from "./figure-rect.js";
+import { Cylinder } from "./figure-cylinder.js";
 export const Figure = (canvas) => {
     const ctx = canvas.getContext('2d');
     return {
@@ -24,6 +25,8 @@ export const Figure = (canvas) => {
             }
             return figure;
         },
-        cylinder: function ({ position, size, color, label, children }) {},
+        cylinder: function ({ position, size, color, label, children }) {
+
+        },
     };
 };
