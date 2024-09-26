@@ -46,7 +46,7 @@ function getAxes(props) {
     return true;
 }
 function getTheme(props) {
-    return props.dark || props.light || props.theme;
+    return props.dark || props.light || props.theme || "dynamic";
 }
 function removeComments(content) {
     return content.split('\n')
@@ -86,7 +86,6 @@ function markdownitCanvas(md) {
         let showAxes = getAxes(props);
         let content = token.content || "";
         content = removeComments(content);
-        debugger
         let canvasProps = Object.entries(props)
             .map(([k, v]) => `${k}="${v}"`)
             .join(" ");

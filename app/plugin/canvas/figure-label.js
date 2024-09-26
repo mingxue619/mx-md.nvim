@@ -6,7 +6,11 @@ export class Label {
         const ctx = this.ctx;
         ctx.save();
         ctx.font = font || "16px Hack Nerd Font Mono";
-        ctx.fillStyle = color;
+        if(color) {
+            ctx.fillStyle = color;
+        } else {
+            ctx.fillStyle = window.foreground;
+        }
 
         let textWidth = ctx.measureText(title).width;
         var textHeight = parseInt(ctx.font, 10);
