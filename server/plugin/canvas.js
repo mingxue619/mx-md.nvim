@@ -46,6 +46,11 @@ function getAxes(props) {
     return true;
 
 }
+function removeComments(content) {
+    return content.split('\n')
+                .filter(line => !line.trim().startsWith('//'))
+                .join('\n'); 
+}
 function markdownitCanvas(md) {
     md.core.ruler.after("block", "canvas", (state) => {
         for (let i = 0; i < state.tokens.length; i++) {
@@ -75,7 +80,6 @@ function markdownitCanvas(md) {
         let id = getId(props);
         let errorId = "error-" + id;
         let element = getElementName(props);
-        //let context = attributes.context || "2d";
         let showAxes = getAxes(props);
         let axes = "";
         if (showAxes) {
@@ -85,6 +89,8 @@ function markdownitCanvas(md) {
                     `;
         }
         let content = token.content || "";
+        content = removeComments(content);
+        debugger
         let canvasProps = Object.entries(props)
             .map(([k, v]) => `${k}="${v}"`)
             .join(" ");
