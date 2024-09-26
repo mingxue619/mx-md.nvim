@@ -1,3 +1,4 @@
+// examle
 // const figure = new Figure(canvas);
 // const ecs = figure.rect({
 //     position: [200, 100], 
