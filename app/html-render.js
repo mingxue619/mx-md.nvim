@@ -1,6 +1,6 @@
 class HtmlRender {
     constructor() {
-
+        this.hash = "";
     }
     render(bufferInfo) {
         const newHash = bufferInfo.hash;
@@ -24,6 +24,7 @@ class HtmlRender {
             //     document.body.removeChild(newScript);
             // }, 0);
         });
+        this.hash = newHash;
         return true;
     }
 }
