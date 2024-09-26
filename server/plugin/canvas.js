@@ -44,7 +44,9 @@ function getAxes(props) {
         return false;
     }
     return true;
-
+}
+function getTheme(props) {
+    return props.theme;
 }
 function removeComments(content) {
     return content.split('\n')
@@ -80,14 +82,8 @@ function markdownitCanvas(md) {
         let id = getId(props);
         let errorId = "error-" + id;
         let element = getElementName(props);
+        let theme = getTheme(props);
         let showAxes = getAxes(props);
-        let axes = "";
-        if (showAxes) {
-            axes = `
-                    const axes = new Axes(${element});
-                    axes.draw();
-                    `;
-        }
         let content = token.content || "";
         content = removeComments(content);
         debugger
@@ -107,7 +103,10 @@ function markdownitCanvas(md) {
                                 let errorElement = document.getElementById('${errorId}');  
                                 let ${element} = document.getElementById("${id}");
                                 try {
-                                    ${axes}
+                                    new Theme(${element}).setTheme("${theme}");
+                                    if(${showAxes}) {
+                                        new Axes(${element}).draw();
+                                    }
                                     const func = new Function('${element}', 'Figure', \`${content}\`);
                                     func(${element}, Figure);
                                 } catch (error) {

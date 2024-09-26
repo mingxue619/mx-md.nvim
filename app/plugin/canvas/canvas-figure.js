@@ -14,6 +14,7 @@ export class Figure {
         const label = new Label(this.ctx);
         label.draw(params);
     }
+
     rect(params) {
         const rect = new Rect(this.ctx);
         let figure = rect.draw(params);
