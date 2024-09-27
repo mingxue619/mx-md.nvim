@@ -1,35 +1,3 @@
-// examle
-// const figure = new Figure(canvas);
-// const ecs = figure.rect({
-//     position: [200, 100], 
-//     size: [100, 100], 
-//     style: {
-//         strokeStyle: "black",
-//         lineWidth: 1,
-//         fill: false,
-//         fillStyle: "black"
-//     },
-//     label: {
-//         title: "ECS",
-//         color: "black",
-//         align: {
-//             v: "top",
-//             margin: 10,
-//         }
-//     },
-//     children: function(parents) {
-//         figure.rect({
-//             position: [parents.position[0], parents.position[1] + 20], 
-//             size: [90, 30], 
-//             //color: "blue",
-//             label: {
-//                 title: "sharding",
-//                 //color: "red",
-//             }
-//         });
-//     }
-// });
-
 export class Rect {
     constructor(ctx) {
         this.ctx = ctx;
