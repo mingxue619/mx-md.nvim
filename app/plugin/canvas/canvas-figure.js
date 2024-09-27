@@ -33,15 +33,8 @@ export class Figure {
         }
         return figure;
     }
-    cylinder({ position, size, color, label, children }) {
+    cylinder(params) {
         const cylinder = new Cylinder(this.ctx);
-        var radius = 50; // 半径
-        var height = 100; // 高度
-        var color = "#3399ff"; // 颜色
-
-        // 调用函数绘制圆柱
-        drawCylinder(ctx, centerX, centerY, radius, height, color);
-
-        cylinder.draw();
+        let figure = cylinder.draw(params);
     }
 }

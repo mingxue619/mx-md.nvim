@@ -2,7 +2,7 @@ export class Rect {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    draw({ position, size, style, label, children }) {
+    draw({ position, size, style, children }) {
         const ctx = this.ctx;
         ctx.save();
         let [x, y] = position;
