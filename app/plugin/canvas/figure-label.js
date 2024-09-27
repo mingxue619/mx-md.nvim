@@ -12,8 +12,8 @@ export class Label {
 
         let [x, y] = [0, 0];
         if (position) {
-            x = position.x - textWidth / 2;
-            y = position.y + textHeight / 2;
+            x = position[0] - textWidth / 2;
+            y = position[1] + textHeight / 2;
         } else {
             // h: left, right, center; v: top, bottom,center; frame: left,right,top bottom
             let { frame = { left: 0, right: 100, top: 0, bottom: 100 }, margin = 1, v = "center", h = "center" } = align || {};
