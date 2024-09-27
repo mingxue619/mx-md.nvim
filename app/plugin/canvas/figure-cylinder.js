@@ -15,14 +15,13 @@ export class Cylinder {
         const radiusX = width / 2;
         ctx.beginPath();
         // draw ellipse at top
-        //ctx.ellipse(x, from.y, radiusX, radiusY, 0, 0, 2 * Math.PI);
-        // draw rect
+        ctx.ellipse(x, from.y, radiusX, radiusY, 0, 0, 2 * Math.PI);
+        // draw bottom
         ctx.moveTo(from.x + width, from.y);
         ctx.lineTo(from.x + width, from.y + height);
         ctx.ellipse(x, from.y + height, radiusX, radiusY, 0, 0, Math.PI);
-        ctx.moveTo(from.x, from.y + height);
         ctx.lineTo(from.x, from.y);
-        ctx.closePath(); 
+        //ctx.closePath(); 
         // style
         const { strokeStyle, lineWidth, fill, fillStyle } = style || {};
         ctx.strokeStyle = strokeStyle;
@@ -34,5 +33,27 @@ export class Cylinder {
             ctx.fill();
         }
         ctx.restore();
+        // return
+        const frame = {
+            left: from.x,
+            right: from.x + width,
+            top: from.y,
+            bottom: from.y + height,
+        };
+        let figure = {
+            rect: {
+                x: from.x,
+                y: from.y,
+                width: width,
+                height: height,
+            },
+            position: position,
+            frame: frame,
+        };
+        // children
+        if (children) {
+            children(figure);
+        }
+        return figure;
     }
 }
