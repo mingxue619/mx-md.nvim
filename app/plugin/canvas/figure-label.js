@@ -2,6 +2,28 @@ export class Label {
     constructor(ctx) {
         this.ctx = ctx;
     }
+    parseMargin(margin) {
+        let marginTop = 0,
+            marginRight = 0,
+            marginBottom = 0,
+            marginLeft = 0;
+        if (typeof margin === "number") {
+            marginTop = marginRight = marginBottom = marginLeft = margin;
+        } else if (typeof margin === "object") {
+            if (margin instanceof Array) {
+                marginTop = margin[0] || 0;
+                marginRight = margin[1] || 0;
+                marginBottom = margin[2] || 0;
+                marginLeft = margin[3] || 0;
+            } else {
+                marginTop = margin.top || 0;
+                marginRight = margin.right || 0;
+                marginBottom = margin.bottom || 0;
+                marginLeft = margin.left || 0;
+            }
+        }
+        return { marginTop, marginRight, marginBottom, marginLeft };
+    }
     draw(params) {
         if (typeof params === "string") {
             params = {
@@ -23,15 +45,12 @@ export class Label {
         } else {
             // h: left, right, center; v: top, bottom,center; frame: left,right,top bottom
             let { frame = { left: 0, right: 100, top: 0, bottom: 100 }, margin, v = "center", h = "center" } = align || {};
+            const { marginTop, marginRight, marginBottom, marginLeft } = this.parseMargin(margin);
             debugger
-            if (typeof margin != "object") {
-                const marginValue = margin;
-
-            }
             if (h === "left") {
-                x = frame.left + margin;
+                x = frame.left + marginLeft;
             } else if (h === "right") {
-                x = frame.right - textWidth - margin;
+                x = frame.right - textWidth - marginRight;
             } else if (h === "center") {
                 const fw = frame.right - frame.left;
                 let spaceW = fw - textWidth;
@@ -41,9 +60,9 @@ export class Label {
                 throw new Error("label.align.h is error");
             }
             if (v === "top") {
-                y = frame.top + textHeight + margin;
+                y = frame.top + textHeight + marginTop;
             } else if (v === "bottom") {
-                y = frame.bottom + margin;
+                y = frame.bottom + marginBottom;
             } else {
                 const fh = frame.bottom - frame.top;
                 let spaceH = fh - textHeight;
