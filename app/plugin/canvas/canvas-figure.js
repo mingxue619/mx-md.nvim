@@ -46,8 +46,8 @@ export class Figure {
         this.drawLabelWithFrame(params.label, figure.frame);
     }
     line(params) {
-        debugger
         const line = new Line(this.ctx);
         let figure = line.draw(params);
+        return figure;
     }
 }
