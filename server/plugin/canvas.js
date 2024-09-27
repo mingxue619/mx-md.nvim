@@ -99,43 +99,41 @@ function markdownitCanvas(md) {
         const script = `
                         <script type="module">
                             import { Figure } from '/app/plugin/canvas/canvas-figure.js';
-                            (function() {
-                                let errorElement = document.getElementById('${errorId}');  
-                                let ${element} = document.getElementById("${id}");
-                                function drawAxesAndFigure() {
-                                    try {
-                                        if(${showAxes}) {
-                                            new Axes(${element}).draw();
-                                        }
-                                        const func = new Function('${element}', 'Figure', \`${content}\`);
-                                        func(${element}, Figure);
-                                    } catch (error) {
-                                        errorElement.style.display = "block";
-                                        let code = document.createElement('code');  
-                                        code.style.color = "red";
-                                        code.textContent = error.stack;  
-                                        let pre = document.createElement('pre');  
-                                        pre.appendChild(code);  
-                                        document.getElementById('${errorId}').appendChild(pre);
-                                    };
-                                }
-                                new Theme(${element}).setTheme("${theme}");
-                                drawAxesAndFigure();
-                                window.addEventListener("beforeprint", () => {
-                                    if("${theme}" === "dynamic" && window.theme === "dark") {
-                                        new Theme(${element}).setTheme("beforeprint");
-                                        drawAxesAndFigure();
+                            let errorElement = document.getElementById('${errorId}');  
+                            let ${element} = document.getElementById("${id}");
+                            function drawAxesAndFigure() {
+                                try {
+                                    if(${showAxes}) {
+                                        new Axes(${element}).draw();
                                     }
-                                });
-                                
-                                window.addEventListener("afterprint", () => {
-                                    if("${theme}" === "dynamic" && window.theme === "dark") {
-                                        new Theme(${element}).setTheme("afterprint");
-                                        drawAxesAndFigure();
-                                    }
-                                });
+                                    const func = new Function('${element}', 'Figure', \`${content}\`);
+                                    func(${element}, Figure);
+                                } catch (error) {
+                                    errorElement.style.display = "block";
+                                    let code = document.createElement('code');  
+                                    code.style.color = "red";
+                                    code.textContent = error.stack;  
+                                    let pre = document.createElement('pre');  
+                                    pre.appendChild(code);  
+                                    document.getElementById('${errorId}').appendChild(pre);
+                                };
+                            }
+                            new Theme(${element}).setTheme("${theme}");
+                            drawAxesAndFigure();
 
-                            })();
+                            window.addEventListener("beforeprint", () => {
+                                if("${theme}" === "dynamic" && window.theme === "dark") {
+                                    new Theme(${element}).setTheme("beforeprint");
+                                    drawAxesAndFigure();
+                                }
+                            });
+                            
+                            window.addEventListener("afterprint", () => {
+                                if("${theme}" === "dynamic" && window.theme === "dark") {
+                                    new Theme(${element}).setTheme("afterprint");
+                                    drawAxesAndFigure();
+                                }
+                            });
                         </script>`;
         const html = tag + script;
         return html;
