@@ -36,5 +36,18 @@ export class Figure {
     cylinder(params) {
         const cylinder = new Cylinder(this.ctx);
         let figure = cylinder.draw(params);
+        // label
+        let label = params.label;
+        if (label) {
+            if(typeof label === "string") {
+                label = {
+                    title: label
+                }
+            }
+            const align = label.align || {};
+            align.frame = figure.frame;
+            label.align = align;
+            this.label(label);
+        }
     }
 }

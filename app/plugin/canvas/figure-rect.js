@@ -38,12 +38,6 @@ export class Rect {
             bottom: from.y + height,
         };
         let figure = {
-            rect: {
-                x: from.x,
-                y: from.y,
-                width: width,
-                height: height,
-            },
             position: position,
             frame: frame,
         };
