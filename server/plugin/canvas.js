@@ -34,6 +34,14 @@ function getElementName(props) {
     return element;
 }
 
+function getFigureName(props) {
+    let figure = props.figure;
+    if (!figure) {
+        figure = "figure";
+    }
+    return figure;
+}
+
 function getAxes(props) {
     let axes = props.axes;
     if (!axes) {
@@ -83,6 +91,7 @@ function markdownitCanvas(md) {
         let id = getId(props);
         let errorId = "error-" + id;
         let element = getElementName(props);
+        let figure = getFigureName(props);
         let theme = getTheme(props);
         let showAxes = getAxes(props);
         let content = token.content || "";
@@ -101,13 +110,14 @@ function markdownitCanvas(md) {
                             import { Figure } from '/app/plugin/canvas/canvas-figure.js';
                             let errorElement = document.getElementById('${errorId}');  
                             let ${element} = document.getElementById("${id}");
+                            const ${figure} = new Figure(${element});
                             function drawAxesAndFigure() {
                                 try {
                                     if(${showAxes}) {
                                         new Axes(${element}).draw();
                                     }
-                                    const func = new Function('${element}', 'Figure', \`${content}\`);
-                                    func(${element}, Figure);
+                                    const func = new Function('${element}', 'Figure', '${figure}', \`${content}\`);
+                                    func(${element}, Figure, ${figure});
                                 } catch (error) {
                                     errorElement.style.display = "block";
                                     let code = document.createElement('code');  
