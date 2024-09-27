@@ -118,15 +118,26 @@ function markdownitCanvas(md) {
                                     document.getElementById('${errorId}').appendChild(pre);
                                 };
                                 window.addEventListener("beforeprint", () => {
-                                    debugger
                                     if("${theme}" === "dynamic") {
-                                        new Theme(${element}).setTheme("print");
+                                        new Theme(${element}).setTheme("beforeprint");
+                                        if(${showAxes}) {
+                                            new Axes(${element}).draw();
+                                        }
                                         const func = new Function('${element}', 'Figure', \`${content}\`);
                                         func(${element}, Figure);
                                     }
                                 });
                                 
                                 window.addEventListener("afterprint", () => {
+                                    debugger
+                                    if("${theme}" === "dynamic") {
+                                        new Theme(${element}).setTheme("afterprint");
+                                        if(${showAxes}) {
+                                            new Axes(${element}).draw();
+                                        }
+                                        const func = new Function('${element}', 'Figure', \`${content}\`);
+                                        func(${element}, Figure);
+                                    }
                                 });
 
                             })();
