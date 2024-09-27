@@ -4,7 +4,6 @@ class Theme {
     }
 
     setTheme(config) {
-        debugger;
         if (config === "dynamic") {
             window.theme = this.getDarkReaderConfig();
         } else if (config === "light" || config === "dark") {

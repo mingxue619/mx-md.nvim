@@ -35,7 +35,6 @@ export class Rect {
         this.ctx = ctx;
     }
     draw({ position, size, style, label, children }) {
-        debugger
         const ctx = this.ctx;
         ctx.save();
         let [x, y] = position;
