@@ -6,12 +6,7 @@ export class Label {
         const ctx = this.ctx;
         ctx.save();
         ctx.font = font || "16px Hack Nerd Font Mono";
-        if(color) {
-            ctx.fillStyle = color;
-        } else {
-            ctx.fillStyle = window.foreground;
-        }
-
+        ctx.fillStyle = color || window.foreground;
         let textWidth = ctx.measureText(title).width;
         var textHeight = parseInt(ctx.font, 10);
 
@@ -20,6 +15,7 @@ export class Label {
             x = position.x - textWidth / 2;
             y = position.y + textHeight / 2;
         } else {
+            // h: left, right, center; v: top, bottom,center; frame: left,right,top bottom
             let { frame = { left: 0, right: 100, top: 0, bottom: 100 }, margin = 1, v = "center", h = "center" } = align || {};
             if (h === "left") {
                 x = frame.left + margin;
