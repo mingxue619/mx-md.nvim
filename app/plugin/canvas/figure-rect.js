@@ -26,11 +26,17 @@ export class Rect {
         ctx.stroke();
         // fill
         if (fill) {
-            ctx.fillStyle = fillStyle || window.foreground; 
+            ctx.fillStyle = fillStyle || window.foreground;
             ctx.fill();
         }
         ctx.restore();
         // return
+        const point = {
+            top: [x, y - height / 2],
+            right: [x + width / 2, y],
+            bottom: [x, y + height / 2],
+            left: [x - width / 2, y],
+        };
         const frame = {
             left: from.x,
             right: from.x + width,
@@ -38,6 +44,7 @@ export class Rect {
             bottom: from.y + height,
         };
         let figure = {
+            point: point,
             position: position,
             frame: frame,
         };
