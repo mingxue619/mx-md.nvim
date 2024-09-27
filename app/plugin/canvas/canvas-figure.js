@@ -5,6 +5,8 @@
 import { Label } from "./figure-label.js";
 import { Rect } from "./figure-rect.js";
 import { Cylinder } from "./figure-cylinder.js";
+import { Line } from "./figure-line.js";
+
 export class Figure {
     constructor(canvas) {
         const ctx = canvas.getContext("2d");
@@ -36,10 +38,15 @@ export class Figure {
         this.drawLabelWithFrame(params.label, figure.frame);
         return figure;
     }
+
     cylinder(params) {
         const cylinder = new Cylinder(this.ctx);
         let figure = cylinder.draw(params);
         // label
         this.drawLabelWithFrame(params.label, figure.frame);
+    }
+    line(params) {
+        const line = new Line(this.ctx);
+        let figure = line.draw(params);
     }
 }
