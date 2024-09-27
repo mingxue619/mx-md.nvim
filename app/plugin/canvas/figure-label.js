@@ -2,7 +2,13 @@ export class Label {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    draw({ title, font, color, align, position }) {
+    draw(params) {
+        if (typeof params === "string") {
+            params = {
+                title: params,
+            };
+        }
+        const { title, font, color, align, position } = params;
         const ctx = this.ctx;
         ctx.save();
         ctx.font = font || "16px Hack Nerd Font Mono";
