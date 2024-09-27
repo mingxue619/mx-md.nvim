@@ -46,7 +46,6 @@ export class Label {
             // h: left, right, center; v: top, bottom,center; frame: left,right,top bottom
             let { frame = { left: 0, right: 100, top: 0, bottom: 100 }, margin, v = "center", h = "center" } = align || {};
             const { marginTop, marginRight, marginBottom, marginLeft } = this.parseMargin(margin);
-            debugger
             if (h === "left") {
                 x = frame.left + marginLeft;
             } else if (h === "right") {
