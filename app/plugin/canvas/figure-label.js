@@ -22,7 +22,12 @@ export class Label {
             y = position[1] + textHeight / 2;
         } else {
             // h: left, right, center; v: top, bottom,center; frame: left,right,top bottom
-            let { frame = { left: 0, right: 100, top: 0, bottom: 100 }, margin = 1, v = "center", h = "center" } = align || {};
+            let { frame = { left: 0, right: 100, top: 0, bottom: 100 }, margin, v = "center", h = "center" } = align || {};
+            debugger
+            if (typeof margin != "object") {
+                const marginValue = margin;
+
+            }
             if (h === "left") {
                 x = frame.left + margin;
             } else if (h === "right") {

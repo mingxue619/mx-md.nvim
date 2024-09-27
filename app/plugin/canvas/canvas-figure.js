@@ -15,11 +15,7 @@ export class Figure {
         label.draw(params);
     }
 
-    rect(params) {
-        const rect = new Rect(this.ctx);
-        let figure = rect.draw(params);
-        // label
-        let label = params.label;
+    drawLabelWithFrame(label, frame) {
         if (label) {
             if(typeof label === "string") {
                 label = {
@@ -27,27 +23,23 @@ export class Figure {
                 }
             }
             const align = label.align || {};
-            align.frame = figure.frame;
+            align.frame = frame;
             label.align = align;
             this.label(label);
         }
+    }
+
+    rect(params) {
+        const rect = new Rect(this.ctx);
+        let figure = rect.draw(params);
+        // label
+        this.drawLabelWithFrame(params.label, figure.frame);
         return figure;
     }
     cylinder(params) {
         const cylinder = new Cylinder(this.ctx);
         let figure = cylinder.draw(params);
         // label
-        let label = params.label;
-        if (label) {
-            if(typeof label === "string") {
-                label = {
-                    title: label
-                }
-            }
-            const align = label.align || {};
-            align.frame = figure.frame;
-            label.align = align;
-            this.label(label);
-        }
+        this.drawLabelWithFrame(params.label, figure.frame);
     }
 }
