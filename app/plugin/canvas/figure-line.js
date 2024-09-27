@@ -2,7 +2,7 @@ export class Line {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    draw({ from, to, style, arrow }) {
+    draw({ from, to, style, arrow = {} }) {
         const ctx = this.ctx;
         // style
         const { strokeStyle, lineWidth } = style || {};
@@ -19,7 +19,7 @@ export class Line {
         ctx.strokeStyle = strokeStyle;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
-        if (arrow) {
+        if (arrow != false) {
             const { length = 10, fillStyle } = arrow;
             // 计算箭头的位置
             const dx = endX - startX;
