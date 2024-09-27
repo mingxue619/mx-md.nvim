@@ -26,7 +26,7 @@ export class Rect {
         ctx.stroke();
         // 设置填充颜色
         if (fill) {
-            ctx.fillStyle = fillStyle;
+            ctx.fillStyle = fillStyle || window.foreground; 
             ctx.fill();
         }
         ctx.restore();
