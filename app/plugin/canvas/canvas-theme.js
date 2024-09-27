@@ -3,28 +3,29 @@ class Theme {
         this.canvas = canvas;
     }
 
-    setTheme(theme) {
+    setTheme(config) {
         debugger;
-        if (theme === "dynamic") {
-            // <html lang="en" data-darkreader-mode="dynamic" data-darkreader-scheme="dark">
-            const html = document.documentElement;
-            const darkreaderMode = html.dataset.darkreaderMode;
-            const darkreaderScheme = html.dataset.darkreaderScheme;
-            if (darkreaderScheme === "dark") {
-                window.theme = darkreaderScheme;
-            } else {
-                window.theme = "light";
-            }
+        if (config === "dynamic") {
+            window.theme = this.getDarkReaderConfig();
+        } else if (config === "light" || config === "dark") {
+            window.theme = config;
         } else {
-            window.theme = theme;
         }
         if (window.theme === "dark") {
-            this.setDarkTheme();
-        } else if (window.theme === "beforeprint") {
-            this.clearCanvas();
-        } else if (window.theme === "afterprint") {
-            this.setDarkTheme();
+            if (config === "beforeprint") {
+                this.clearCanvas();
+            } else if (config === "afterprint") {
+                this.setDarkTheme();
+            } else {
+                this.setDarkTheme();
+            }
         }
+    }
+    getDarkReaderConfig() {
+        // <html lang="en" data-darkreader-mode="dynamic" data-darkreader-scheme="dark">
+        const darkreaderMode = document.documentElement.dataset.darkreaderMode;
+        const darkreaderScheme = document.documentElement.dataset.darkreaderScheme;
+        return darkreaderScheme || "light";
     }
     setDarkTheme() {
         // window.background = "#333";
