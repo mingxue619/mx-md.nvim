@@ -24,7 +24,7 @@ export class Rect {
         ctx.strokeStyle = strokeStyle;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
-        // 设置填充颜色
+        // fill
         if (fill) {
             ctx.fillStyle = fillStyle || window.foreground; 
             ctx.fill();
