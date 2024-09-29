@@ -35,10 +35,17 @@ export class Label {
         ctx.save();
         ctx.font = font || "16px Hack Nerd Font Mono";
         ctx.fillStyle = color || window.foreground;
-        let textWidth = ctx.measureText(title).width;
-        var textHeight = parseInt(ctx.font, 10);
 
-        let [x, y] = [0, 0];
+        let textHeight = 0;
+        let textWidth = 0;
+        let lineHeight = parseInt(ctx.font, 10);
+        const lines = title.split("<br>");
+        lines.forEach((line) => {
+            let lineWidth = ctx.measureText(line).width;
+            textWidth = Math.max(textWidth, lineWidth);
+            textHeight = textHeight + lineHeight;
+        });
+        let [x, y] = [0, 0]; // start point, [left, top]
         if (position) {
             x = position[0] - textWidth / 2;
             y = position[1] + textHeight / 2;
@@ -55,23 +62,30 @@ export class Label {
                 let spaceW = fw - textWidth;
                 spaceW = spaceW > 0 ? spaceW : 0;
                 x = frame.left + spaceW / 2;
+                x = x + marginLeft - marginRight;
             } else {
                 throw new Error("label.align.h is error");
             }
             if (v === "top") {
-                y = frame.top + textHeight + marginTop;
+                y = frame.top + marginTop;
             } else if (v === "bottom") {
-                y = frame.bottom + marginBottom;
+                y = frame.bottom - textHeight - marginBottom;
             } else {
+                debugger
                 const fh = frame.bottom - frame.top;
                 let spaceH = fh - textHeight;
                 spaceH = spaceH > 0 ? spaceH : 0;
-                // y = frame.top + spaceH / 2 + textHeight;
-                y = frame.bottom - spaceH / 2;
+                y = frame.top + spaceH / 2;
+                y = y + marginTop - marginBottom;
             }
         }
+        lines.forEach((line) => {
+            const lineWidth = ctx.measureText(line).width;
+            const spaceW = textWidth - lineWidth;
+            y = y + lineHeight;
+            ctx.fillText(line, x + spaceW / 2, y);
+        });
 
-        ctx.fillText(title, x, y);
         ctx.restore();
     }
 }
