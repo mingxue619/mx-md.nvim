@@ -7,6 +7,7 @@ import { Line } from "./figure-line.js";
 import { Rect } from "./figure-rect.js";
 import { Cylinder } from "./figure-cylinder.js";
 import { Triangle } from "./figure-triangle.js";
+import { Circle } from "./figure-circle.js";
 
 export class Figure {
     constructor(canvas) {
@@ -72,6 +73,14 @@ export class Figure {
     cylinder(params) {
         const cylinder = new Cylinder(this.ctx);
         let figure = cylinder.draw(params);
+        // label
+        this.drawLabelWithFrame(params.label, figure.frame);
+        return figure;
+    }
+
+    circle(params) {
+        const circle = new Circle(this.ctx);
+        let figure = circle.draw(params);
         // label
         this.drawLabelWithFrame(params.label, figure.frame);
         return figure;
