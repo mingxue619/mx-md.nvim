@@ -20,10 +20,10 @@ export class Figure {
 
     drawLabelWithFrame(label, frame) {
         if (label) {
-            if(typeof label === "string") {
+            if (typeof label === "string") {
                 label = {
-                    title: label
-                }
+                    title: label,
+                };
             }
             const align = label.align || {};
             align.frame = frame;
@@ -49,8 +49,23 @@ export class Figure {
     triangle(params) {
         const triangle = new Triangle(this.ctx);
         let figure = triangle.draw(params);
+        let frame = figure.frame;
+        const height = frame.bottom - frame.top; 
         // label
-        this.drawLabelWithFrame(params.label, figure.frame);
+        let label = params.label;
+        if (typeof label === "string") {
+            label = {
+                title: label,
+                align: {
+                    v: "top",
+                    margin: {
+                        top: height/2
+                    }
+                },
+            };
+        }
+        this.drawLabelWithFrame(label, frame);
+
         return figure;
     }
 
