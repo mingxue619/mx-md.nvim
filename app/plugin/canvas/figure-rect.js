@@ -43,6 +43,7 @@ export class Rect {
             top: from.y,
             bottom: from.y + height,
         };
+
         let figure = {
             point: point,
             position: position,
@@ -50,7 +51,12 @@ export class Rect {
         };
         // children
         if (children) {
-            children(figure);
+            const childrenObj = children(figure);
+            const result = {
+                ...figure,
+                children: childrenObj,
+            };
+            return result;
         }
         return figure;
     }
