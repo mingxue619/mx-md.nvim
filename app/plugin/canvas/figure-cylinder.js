@@ -21,7 +21,7 @@ export class Cylinder {
         ctx.lineTo(from.x + width, from.y + height);
         ctx.ellipse(x, from.y + height, radiusX, radiusY, 0, 0, Math.PI);
         ctx.lineTo(from.x, from.y);
-        //ctx.closePath(); 
+        //ctx.closePath();
         // style
         const { strokeStyle, lineWidth, fill, fillStyle } = style || {};
         ctx.strokeStyle = strokeStyle;
@@ -29,11 +29,17 @@ export class Cylinder {
         ctx.stroke();
         // fill
         if (fill) {
-            ctx.fillStyle = fillStyle || window.foreground; 
+            ctx.fillStyle = fillStyle || window.foreground;
             ctx.fill();
         }
         ctx.restore();
         // return
+        const point = {
+            top: [x, y - height / 2 - radiusY],
+            right: [x + width / 2, y],
+            bottom: [x, y + height / 2 + radiusY],
+            left: [x - width / 2, y],
+        };
         const frame = {
             left: from.x,
             right: from.x + width,
@@ -41,6 +47,7 @@ export class Cylinder {
             bottom: from.y + height,
         };
         let figure = {
+            point: point,
             position: position,
             frame: frame,
         };

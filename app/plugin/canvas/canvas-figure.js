@@ -44,6 +44,7 @@ export class Figure {
         let figure = cylinder.draw(params);
         // label
         this.drawLabelWithFrame(params.label, figure.frame);
+        return figure;
     }
     line(params) {
         const line = new Line(this.ctx);
