@@ -51,12 +51,13 @@ export class Rect {
         };
         // children
         if (children) {
-            const childrenObj = children(figure);
-            const result = {
-                ...figure,
-                children: childrenObj,
-            };
-            return result;
+            const childrenObjects = children(figure);
+            if (childrenObjects) {
+                return {
+                    ...figure,
+                    children: childrenObjects,
+                };
+            }
         }
         return figure;
     }
