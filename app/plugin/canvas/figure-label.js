@@ -30,7 +30,7 @@ export class Label {
                 title: params,
             };
         }
-        let { title, lineHeight, font, color, align, position } = params;
+        let { title, lineSpace, font, color, align, position } = params;
         const ctx = this.ctx;
         ctx.save();
         ctx.font = font || "16px Hack Nerd Font Mono";
@@ -38,8 +38,9 @@ export class Label {
 
         let textHeight = 0;
         let textWidth = 0;
-        const fontHeight = parseInt(ctx.font, 10);
-        lineHeight = lineHeight || (fontHeight * 5) / 4;
+        const lineHeight = parseInt(ctx.font, 10);
+        lineSpace = lineSpace || lineHeight / 4;
+
         const lines = title.split("<br>");
         lines.forEach((line) => {
             let lineWidth = ctx.measureText(line).width;
@@ -84,6 +85,7 @@ export class Label {
             const spaceW = textWidth - lineWidth;
             y = y + lineHeight;
             ctx.fillText(line, x + spaceW / 2, y);
+            y = y + lineSpace;
         });
 
         ctx.restore();
