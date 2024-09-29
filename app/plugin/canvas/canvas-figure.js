@@ -3,9 +3,10 @@
 // from: 起点
 
 import { Label } from "./figure-label.js";
+import { Line } from "./figure-line.js";
 import { Rect } from "./figure-rect.js";
 import { Cylinder } from "./figure-cylinder.js";
-import { Line } from "./figure-line.js";
+import { Triangle } from "./figure-triangle.js";
 
 export class Figure {
     constructor(canvas) {
@@ -31,9 +32,23 @@ export class Figure {
         }
     }
 
+    line(params) {
+        const line = new Line(this.ctx);
+        let figure = line.draw(params);
+        return figure;
+    }
+
     rect(params) {
         const rect = new Rect(this.ctx);
         let figure = rect.draw(params);
+        // label
+        this.drawLabelWithFrame(params.label, figure.frame);
+        return figure;
+    }
+
+    triangle(params) {
+        const triangle = new Triangle(this.ctx);
+        let figure = triangle.draw(params);
         // label
         this.drawLabelWithFrame(params.label, figure.frame);
         return figure;
@@ -44,11 +59,6 @@ export class Figure {
         let figure = cylinder.draw(params);
         // label
         this.drawLabelWithFrame(params.label, figure.frame);
-        return figure;
-    }
-    line(params) {
-        const line = new Line(this.ctx);
-        let figure = line.draw(params);
         return figure;
     }
 }
