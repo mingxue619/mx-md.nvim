@@ -21,7 +21,7 @@ export class Line {
         ctx.beginPath();
         ctx.moveTo(from[0], from[1]);
         if (polyline) {
-            let { points, direction } = polyline;
+            let { points, direction, count } = polyline;
             if (points) {
                 points.forEach(([x, y]) => {
                     ctx.lineTo(x, y);
@@ -40,13 +40,14 @@ export class Line {
                 if (!direction) {
                     const width = Math.abs(from[0] - to[0]);
                     const height = Math.abs(from[1] - to[1]);
-                    // short first
-                    if (width < height) {
+                    // long first
+                    if (width > height) {
                         direction = "x";
                     } else {
                         direction = "y";
                     }
                 }
+
                 if (direction === "x") {
                     firstLine = {
                         from: [from[0], from[1]],
@@ -75,8 +76,8 @@ export class Line {
         ctx.stroke();
         if (arrow != false) {
             arrow = arrow || {};
-            if(arrow === 2) {
-                arrow = {}
+            if (arrow === 2) {
+                arrow = {};
                 arrow.bidirection = true;
             }
             arrow.strokeStyle == arrow.strokeStyle || strokeStyle;
