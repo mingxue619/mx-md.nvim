@@ -40,7 +40,8 @@ export class Line {
                 if (!direction) {
                     const width = Math.abs(from[0] - to[0]);
                     const height = Math.abs(from[1] - to[1]);
-                    if (width > height) {
+                    // short first
+                    if (width < height) {
                         direction = "x";
                     } else {
                         direction = "y";
@@ -49,7 +50,7 @@ export class Line {
                 if (direction === "x") {
                     firstLine = {
                         from: [from[0], from[1]],
-                        to: [fo[0], from[1]],
+                        to: [to[0], from[1]],
                     };
                     lastLine = {
                         from: [to[0], from[1]],
