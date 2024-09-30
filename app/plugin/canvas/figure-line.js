@@ -21,10 +21,9 @@ export class Line {
         ctx.beginPath();
         ctx.moveTo(from[0], from[1]);
         if (polyline) {
-            const { points, direction = "x" } = polyline;
+            let { points, direction } = polyline;
             if (points) {
                 points.forEach(([x, y]) => {
-                    debugger;
                     ctx.lineTo(x, y);
                 });
                 const first = points.at(0);
@@ -37,6 +36,36 @@ export class Line {
                     from: [last[0], last[1]],
                     to: [to[0], to[1]],
                 };
+            } else {
+                if (!direction) {
+                    const width = Math.abs(from[0] - to[0]);
+                    const height = Math.abs(from[1] - to[1]);
+                    if (width > height) {
+                        direction = "x";
+                    } else {
+                        direction = "y";
+                    }
+                }
+                if (direction === "x") {
+                    firstLine = {
+                        from: [from[0], from[1]],
+                        to: [fo[0], from[1]],
+                    };
+                    lastLine = {
+                        from: [to[0], from[1]],
+                        to: [to[0], to[1]],
+                    };
+                } else {
+                    firstLine = {
+                        from: [from[0], from[1]],
+                        to: [from[0], to[1]],
+                    };
+                    lastLine = {
+                        from: [from[0], to[1]],
+                        to: [to[0], to[1]],
+                    };
+                }
+                ctx.lineTo(firstLine.to[0], firstLine.to[1]);
             }
         }
         ctx.lineTo(to[0], to[1]);
