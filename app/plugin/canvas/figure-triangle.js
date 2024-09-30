@@ -1,3 +1,4 @@
+// position in triangle 
 export class Triangle {
     constructor(ctx) {
         this.ctx = ctx;
@@ -29,12 +30,13 @@ export class Triangle {
             ctx.fill();
         }
         ctx.restore();
+        
         // return
         const point = {
             top: [x, y - height / 2],
-            right: [x + width / 2, y],
+            right: [x + width / 4, y],
             bottom: [x, y + height / 2],
-            left: [x - width / 2, y],
+            left: [x - width / 4, y],
         };
         const frame = {
             left: from.x,
