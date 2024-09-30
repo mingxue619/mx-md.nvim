@@ -8,6 +8,7 @@ import { Rect } from "./figure-rect.js";
 import { Cylinder } from "./figure-cylinder.js";
 import { Triangle } from "./figure-triangle.js";
 import { Circle } from "./figure-circle.js";
+import { Ellipse } from "./figure-ellipse.js";
 
 export class Figure {
     constructor(canvas) {
@@ -81,6 +82,14 @@ export class Figure {
     circle(params) {
         const circle = new Circle(this.ctx);
         let figure = circle.draw(params);
+        // label
+        this.drawLabelWithFrame(params.label, figure.frame);
+        return figure;
+    }
+
+    ellipse(params) {
+        const ellipse = new Ellipse(this.ctx);
+        let figure = ellipse.draw(params);
         // label
         this.drawLabelWithFrame(params.label, figure.frame);
         return figure;
