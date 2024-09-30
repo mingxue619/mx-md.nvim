@@ -24,6 +24,7 @@ export class Line {
             let { points, direction, ratios = [1] } = polyline;
             if (!points) {
                 points = [];
+                points.push([from[0], from[1]]);
                 const width = to[0] - from[0];
                 const height = to[1] - from[1];
                 // set default direction
@@ -58,7 +59,7 @@ export class Line {
                             points.push([x, y]);
                         }
                         if (i < ratioArrayY.length) {
-                            let lastPoint = points.at(-1) || [from[0], from[1]];
+                            let lastPoint = points.at(-1);
                             let x = lastPoint[0];
                             let y = lastPoint[1] + height * ratioArrayY[i];
                             points.push([x, y]);
@@ -69,19 +70,22 @@ export class Line {
                     const ratioArrayY = odds;
                     for (let i = 0; i < maxLength; i++) {
                         if (i < ratioArrayY.length) {
-                            let lastPoint = points.at(-1) || [from[0], from[1]];
+                            let lastPoint = points.at(-1);
                             let x = lastPoint[0];
                             let y = lastPoint[1] + height * ratioArrayY[i];
                             points.push([x, y]);
                         }
                         if (i < ratioArrayX.length) {
-                            let lastPoint = points.at(-1) || [from[0], from[1]];
+                            let lastPoint = points.at(-1);
                             let x = lastPoint[0] + width * ratioArrayX[i];
                             let y = lastPoint[1];
                             points.push([x, y]);
                         }
                     }
                 }
+                // delete first and last point
+                points.shift();
+                points.pop();
             }
             // draw point
             points.forEach(([x, y]) => {
