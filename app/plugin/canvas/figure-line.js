@@ -21,7 +21,7 @@ export class Line {
         ctx.beginPath();
         ctx.moveTo(from[0], from[1]);
         if (polyline) {
-            let { points, direction, count } = polyline;
+            let { points, direction, ratios = [1] } = polyline;
             if (points) {
                 points.forEach(([x, y]) => {
                     ctx.lineTo(x, y);
