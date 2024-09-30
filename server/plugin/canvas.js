@@ -107,10 +107,19 @@ function markdownitCanvas(md) {
                     `;
         const script = `
                         <script type="module">
+                            debugger
+                            let canvas = window.canvas || [];
                             import { Figure } from '/app/plugin/canvas/canvas-figure.js';
                             let errorElement = document.getElementById('${errorId}');  
                             let ${element} = document.getElementById("${id}");
                             const ${figure} = new Figure(${element});
+                            canvas.push({
+                                id: "${id}",
+                                element: ${element},
+                                map: [${token.map}],
+                                figure: ${figure}
+                            });
+                            window.canvas = canvas;
                             function drawAxesAndFigure() {
                                 try {
                                     if(${showAxes}) {
