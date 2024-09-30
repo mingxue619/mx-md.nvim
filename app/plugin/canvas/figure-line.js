@@ -74,6 +74,10 @@ export class Line {
         ctx.stroke();
         if (arrow != false) {
             arrow = arrow || {};
+            if(arrow === 2) {
+                arrow = {}
+                arrow.bidirection = true;
+            }
             arrow.strokeStyle == arrow.strokeStyle || strokeStyle;
             this.drawArraw(arrow, firstLine, lastLine);
         }
