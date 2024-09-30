@@ -107,7 +107,6 @@ function markdownitCanvas(md) {
                     `;
         const script = `
                         <script type="module">
-                            debugger
                             let canvas = window.canvas || [];
                             import { Figure } from '/app/plugin/canvas/canvas-figure.js';
                             let errorElement = document.getElementById('${errorId}');  
