@@ -22,24 +22,12 @@ export class Line {
         ctx.moveTo(from[0], from[1]);
         if (polyline) {
             let { points, direction, ratios = [1] } = polyline;
-            if (points) {
-                points.forEach(([x, y]) => {
-                    ctx.lineTo(x, y);
-                });
-                const first = points.at(0);
-                const last = points.at(-1);
-                firstLine = {
-                    from: [from[0], from[1]],
-                    to: [first[0], first[1]],
-                };
-                lastLine = {
-                    from: [last[0], last[1]],
-                    to: [to[0], to[1]],
-                };
-            } else {
+            if (!points) {
+                points = [];
+                const width = Math.abs(from[0] - to[0]);
+                const height = Math.abs(from[1] - to[1]);
+                // set default direction
                 if (!direction) {
-                    const width = Math.abs(from[0] - to[0]);
-                    const height = Math.abs(from[1] - to[1]);
                     // long first
                     if (width > height) {
                         direction = "x";
@@ -47,28 +35,68 @@ export class Line {
                         direction = "y";
                     }
                 }
-
-                if (direction === "x") {
-                    firstLine = {
-                        from: [from[0], from[1]],
-                        to: [to[0], from[1]],
-                    };
-                    lastLine = {
-                        from: [to[0], from[1]],
-                        to: [to[0], to[1]],
-                    };
-                } else {
-                    firstLine = {
-                        from: [from[0], from[1]],
-                        to: [from[0], to[1]],
-                    };
-                    lastLine = {
-                        from: [from[0], to[1]],
-                        to: [to[0], to[1]],
-                    };
+                // set points
+                const odds = ratios.filter((number) => number % 2 !== 0);
+                const evens = ratios.filter((number) => number % 2 === 0);
+                const sumOdd = odds.reduce((acc, num) => acc + num, 0);
+                const sumEven = evens.reduce((acc, num) => acc + num, 0);
+                if (sumOdd < 1) {
+                    odds.push(1 - sumOdd);
                 }
-                ctx.lineTo(firstLine.to[0], firstLine.to[1]);
+                if (sumEven < 1) {
+                    evens.push(1 - sumEven);
+                }
+                const maxLength = Math.max(odds.length, evens.length);
+                if (direction === "x") {
+                    const ratioArrayX = odds;
+                    const ratioArrayY = evens;
+                    for (let i = 0; i < maxLength; i++) {
+                        if (i < ratioArrayX.length) {
+                            let lastPoint = points.at(-1) || [from[0], from[1]];
+                            let x = lastPoint[0] + width * ratioArrayX[i];
+                            let y = lastPoint[1];
+                            points.push([x, y]);
+                        }
+                        if (i < ratioArrayY.length) {
+                            let lastPoint = points.at(-1) || [from[0], from[1]];
+                            let x = lastPoint[0];
+                            let y = lastPoint[1] + height * ratioArrayY[i];
+                            points.push([x, y]);
+                        }
+                    }
+                } else {
+                    const ratioArrayX = evens;
+                    const ratioArrayY = odds;
+                    for (let i = 0; i < maxLength; i++) {
+                        if (i < ratioArrayY.length) {
+                            let lastPoint = points.at(-1) || [from[0], from[1]];
+                            let x = lastPoint[0];
+                            let y = lastPoint[1] + height * ratioArrayY[i];
+                            points.push([x, y]);
+                        }
+                        if (i < ratioArrayX.length) {
+                            let lastPoint = points.at(-1) || [from[0], from[1]];
+                            let x = lastPoint[0] + width * ratioArrayX[i];
+                            let y = lastPoint[1];
+                            points.push([x, y]);
+                        }
+                    }
+                }
             }
+            // draw point
+            points.forEach(([x, y]) => {
+                ctx.lineTo(x, y);
+            });
+            const first = points.at(0);
+            const last = points.at(-1);
+            firstLine = {
+                from: [from[0], from[1]],
+                to: [first[0], first[1]],
+            };
+            lastLine = {
+                from: [last[0], last[1]],
+                to: [to[0], to[1]],
+            };
         }
         ctx.lineTo(to[0], to[1]);
         ctx.strokeStyle = strokeStyle;
