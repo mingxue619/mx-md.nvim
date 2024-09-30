@@ -24,12 +24,12 @@ export class Line {
             let { points, direction, ratios = [1] } = polyline;
             if (!points) {
                 points = [];
-                const width = Math.abs(from[0] - to[0]);
-                const height = Math.abs(from[1] - to[1]);
+                const width = to[0] - from[0];
+                const height = to[1] - from[1];
                 // set default direction
                 if (!direction) {
                     // long first
-                    if (width > height) {
+                    if (Math.abs(width) > Math.abs(height)) {
                         direction = "x";
                     } else {
                         direction = "y";
