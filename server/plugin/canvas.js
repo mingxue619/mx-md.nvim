@@ -141,10 +141,10 @@ function markdownitCanvas(md) {
         let theme = getTheme(props);
         let showAxes = getAxes(props);
         let content = token.content || "";
-        content = removeComments(content);
         const variables = parseVariable(content);
         const lineMap = getLineMap(variables);
         const contentReturnLine = getContentReturnLine(variables);
+        //content = removeComments(content);
         content = content + contentReturnLine;
         let canvasProps = Object.entries(props)
             .map(([k, v]) => `${k}="${v}"`)
