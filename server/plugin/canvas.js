@@ -177,6 +177,7 @@ function markdownitCanvas(md) {
                                         lineMap: ${lineMap}
                                     });
                                     window.canvas = canvas;
+                                    cursorScroll.reScroll();
                                 } catch (error) {
                                     errorElement.style.display = "block";
                                     let code = document.createElement('code');  

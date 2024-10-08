@@ -1,5 +1,7 @@
 let render = new HtmlRender();
+window.render = render;
 let cursorScroll = new CursorScroll();
+window.cursorScroll = cursorScroll;
 let bufnr = getBufferNumber();
 if (bufnr) {
     wsConnect(bufnr);

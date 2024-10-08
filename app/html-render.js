@@ -3,6 +3,7 @@ class HtmlRender {
         this.hash = "";
     }
     render(bufferInfo) {
+        this.bufferInfo = bufferInfo;
         const newHash = bufferInfo.hash;
         if (this.hash === newHash) {
             return;
