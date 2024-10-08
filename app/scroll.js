@@ -31,6 +31,7 @@ class CursorScroll {
 
         const matchs = entries.filter(([key, value]) => line <= key);
         const [key, name] = matchs.at(0) || entries.at(-1);
+        const figure = info.figures[name];
 
         debugger;
         if (cursorAtCanvas === false) {
