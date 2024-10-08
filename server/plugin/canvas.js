@@ -1,7 +1,5 @@
-//import { acorn } from "acorn";
-//import { walk } from "acorn-walk";
-import * as acorn from 'acorn';
-import * as walk from 'acorn-walk';
+import * as acorn from "acorn";
+import * as walk from "acorn-walk";
 
 function parseCanvasProps(info) {
     info = info.replace(/^[^(]+\(|\);?$/g, "");
@@ -146,6 +144,7 @@ function markdownitCanvas(md) {
                             const ${figure} = new Figure(${element});
                             function drawAxesAndFigure() {
                                 try {
+    debugger;
                                     if(${showAxes}) {
                                         new Axes(${element}).draw();
                                     }
