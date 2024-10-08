@@ -144,7 +144,6 @@ function markdownitCanvas(md) {
                             let errorElement = document.getElementById('${errorId}');  
                             let ${element} = document.getElementById("${id}");
                             const ${figure} = new Figure(${element});
-                            window.canvas = canvas;
                             function drawAxesAndFigure() {
                                 try {
                                     if(${showAxes}) {
@@ -152,14 +151,14 @@ function markdownitCanvas(md) {
                                     }
                                     const func = new Function('${element}', 'Figure', '${figure}', \`${content}\`);
                                     const result = func(${element}, Figure, ${figure});
-                                    debugger;
                                     let canvas = window.canvas || new Map();
-                                    canvas.push({
+                                    canvas.set("${id}", {
                                         id: "${id}",
                                         element: ${element},
                                         map: [${token.map}],
                                         figures: result
                                     });
+                                    window.canvas = canvas;
                                 } catch (error) {
                                     errorElement.style.display = "block";
                                     let code = document.createElement('code');  
