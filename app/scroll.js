@@ -12,17 +12,24 @@ class CursorScroll {
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
         let cursorAtCanvas = false;
-        const values = Array.from(canvasMap.entries()).filter(([key, value]) => {
-            let [start, end] = value.map;
-            if (start <= line && line < end) {
-                return true;
-            }
-            return false;
-        }).map(([key, value])=> value);
-        if(values.length <= 0) {
+        const values = Array.from(canvasMap.entries())
+            .filter(([key, value]) => {
+                let [start, end] = value.map;
+                if (start <= line && line < end) {
+                    return true;
+                }
+                return false;
+            })
+            .map(([key, value]) => value);
+        if (values.length <= 0) {
             return false;
         }
         const info = values[0];
+        let [start, end] = info.map;
+        const lineMap = info.lineMap;
+        let matchs = Object.entries(lineMap)
+            .map(([key, value]) => [start + parseInt(key), value])
+            .filter(([key, value]) => line <= key);
         debugger;
         if (cursorAtCanvas === false) {
             return false;
