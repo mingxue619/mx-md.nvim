@@ -1,3 +1,8 @@
+//import { acorn } from "acorn";
+//import { walk } from "acorn-walk";
+import * as acorn from 'acorn';
+import * as walk from 'acorn-walk';
+
 function parseCanvasProps(info) {
     info = info.replace(/^[^(]+\(|\);?$/g, "");
     const params = info.split(", ");
@@ -62,6 +67,30 @@ function removeComments(content) {
         .filter((line) => !line.trim().startsWith("//"))
         .join("\n");
 }
+function parseVariable(content) {
+    const ast = acorn.parse(content, { ecmaVersion: 2020, locations: true });
+    const variableRanges = new Map();
+    // 遍历 AST
+    walk.simple(ast, {
+        VariableDeclaration(node) {
+            node.declarations.forEach((declaration) => {
+                if (declaration.id.type === "Identifier") {
+                    const variableName = declaration.id.name;
+                    const startLine = node.loc.start.line;
+                    const endLine = node.loc.end.line;
+                    variableRanges.set(variableName, { startLine, endLine });
+                }
+            });
+        },
+    });
+
+    return variableRanges;
+}
+function getContentReturnLine(variableRanges) {
+    const names = Array.from(variableRanges.keys()).join(",");
+    return `return {${names}};`;
+}
+
 function markdownitCanvas(md) {
     md.core.ruler.after("block", "canvas", (state) => {
         for (let i = 0; i < state.tokens.length; i++) {
@@ -96,6 +125,10 @@ function markdownitCanvas(md) {
         let showAxes = getAxes(props);
         let content = token.content || "";
         content = removeComments(content);
+        const variables = parseVariable(content);
+        const contentReturnLine = getContentReturnLine(variables);
+        content = content + contentReturnLine;
+        debugger;
         let canvasProps = Object.entries(props)
             .map(([k, v]) => `${k}="${v}"`)
             .join(" ");
@@ -107,17 +140,10 @@ function markdownitCanvas(md) {
                     `;
         const script = `
                         <script type="module">
-                            let canvas = window.canvas || [];
                             import { Figure } from '/app/plugin/canvas/canvas-figure.js';
                             let errorElement = document.getElementById('${errorId}');  
                             let ${element} = document.getElementById("${id}");
                             const ${figure} = new Figure(${element});
-                            canvas.push({
-                                id: "${id}",
-                                element: ${element},
-                                map: [${token.map}],
-                                figure: ${figure}
-                            });
                             window.canvas = canvas;
                             function drawAxesAndFigure() {
                                 try {
@@ -125,7 +151,15 @@ function markdownitCanvas(md) {
                                         new Axes(${element}).draw();
                                     }
                                     const func = new Function('${element}', 'Figure', '${figure}', \`${content}\`);
-                                    func(${element}, Figure, ${figure});
+                                    const result = func(${element}, Figure, ${figure});
+                                    debugger;
+                                    let canvas = window.canvas || new Map();
+                                    canvas.push({
+                                        id: "${id}",
+                                        element: ${element},
+                                        map: [${token.map}],
+                                        figures: result
+                                    });
                                 } catch (error) {
                                     errorElement.style.display = "block";
                                     let code = document.createElement('code');  
