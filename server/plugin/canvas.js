@@ -97,6 +97,14 @@ function getContentReturnLine(variableRanges) {
     const names = Array.from(variableRanges.keys()).join(",");
     return `return {${names}};`;
 }
+function getLineMap(variableRanges) {
+    const entries = Array.from(variableRanges.entries())
+        .map(([variableName, { startLine, endLine }]) => [endLine, variableName])
+        .sort((a, b) => a[0] - b[0]);
+    const object = Object.fromEntries(entries);
+    const jsonString = JSON.stringify(object);
+    return jsonString;
+}
 
 function markdownitCanvas(md) {
     md.core.ruler.after("block", "canvas", (state) => {
@@ -133,6 +141,7 @@ function markdownitCanvas(md) {
         let content = token.content || "";
         content = removeComments(content);
         const variables = parseVariable(content);
+        const lineMap = getLineMap(variables);
         const contentReturnLine = getContentReturnLine(variables);
         content = content + contentReturnLine;
         let canvasProps = Object.entries(props)
@@ -162,7 +171,8 @@ function markdownitCanvas(md) {
                                         id: "${id}",
                                         element: ${element},
                                         map: [${token.map}],
-                                        figures: result
+                                        figures: result,
+                                        lineMap: ${lineMap}
                                     });
                                     window.canvas = canvas;
                                 } catch (error) {
