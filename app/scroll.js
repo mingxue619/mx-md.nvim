@@ -27,9 +27,11 @@ class CursorScroll {
         const info = values[0];
         let [start, end] = info.map;
         const lineMap = info.lineMap;
-        let matchs = Object.entries(lineMap)
-            .map(([key, value]) => [start + parseInt(key), value])
-            .filter(([key, value]) => line <= key);
+        const entries = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
+
+        const matchs = entries.filter(([key, value]) => line <= key);
+        const [key, name] = matchs.at(0) || entries.at(-1);
+
         debugger;
         if (cursorAtCanvas === false) {
             return false;
