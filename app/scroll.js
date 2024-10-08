@@ -4,8 +4,19 @@ class CursorScroll {
         const bufferInfo = render.bufferInfo;
         this.scrollTo(bufferInfo);
     }
-    scrollTo(bufferInfo) {
+    focusToCanvas(bufferInfo) {
+        const canvasMap = window.canvas;
+        if(!canvasMap) {
+            return false;
+        }
         debugger;
+        return true;
+    }
+    scrollTo(bufferInfo) {
+        let toCanvas = this.focusToCanvas(bufferInfo);
+        if(toCanvas) {
+            return;
+        }
         const cursor = bufferInfo.cursor;
         const winline = bufferInfo.winline;
         const winheight = bufferInfo.winheight;
