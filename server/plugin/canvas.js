@@ -70,14 +70,16 @@ function parseVariable(content) {
     const variableRanges = new Map();
     // 遍历 AST
     ast.body.forEach((node) => {
-        node.declarations.forEach((declaration) => {
-            if (declaration.id.type === "Identifier") {
-                const variableName = declaration.id.name;
-                const startLine = declaration.loc.start.line;
-                const endLine = declaration.loc.end.line;
-                variableRanges.set(variableName, { startLine, endLine });
-            }
-        });
+        if (node.type === "VariableDeclaration") {
+            node.declarations.forEach((declaration) => {
+                if (declaration.id.type === "Identifier") {
+                    const variableName = declaration.id.name;
+                    const startLine = declaration.loc.start.line;
+                    const endLine = declaration.loc.end.line;
+                    variableRanges.set(variableName, { startLine, endLine });
+                }
+            });
+        }
     });
     // walk.simple(ast, {
     //     VariableDeclaration(node) {
