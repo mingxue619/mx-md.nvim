@@ -6,15 +6,32 @@ class CursorScroll {
     }
     focusToCanvas(bufferInfo) {
         const canvasMap = window.canvas;
-        if(!canvasMap) {
+        if (!canvasMap) {
             return false;
         }
+        const cursor = bufferInfo.cursor;
+        const line = cursor[1] - 1;
+        let cursorAtCanvas = false;
+        const values = Array.from(canvasMap.entries()).filter(([key, value]) => {
+            let [start, end] = value.map;
+            if (start <= line && line < end) {
+                return true;
+            }
+            return false;
+        }).map(([key, value])=> value);
+        if(values.length <= 0) {
+            return false;
+        }
+        const info = values[0];
         debugger;
+        if (cursorAtCanvas === false) {
+            return false;
+        }
         return true;
     }
     scrollTo(bufferInfo) {
         let toCanvas = this.focusToCanvas(bufferInfo);
-        if(toCanvas) {
+        if (toCanvas) {
             return;
         }
         const cursor = bufferInfo.cursor;
