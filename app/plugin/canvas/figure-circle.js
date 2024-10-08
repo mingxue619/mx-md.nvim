@@ -43,6 +43,7 @@ export class Circle {
         };
 
         let figure = {
+            type: "circle",
             point: point,
             position: position,
             frame: frame,

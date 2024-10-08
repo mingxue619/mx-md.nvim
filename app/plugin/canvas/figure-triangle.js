@@ -46,6 +46,7 @@ export class Triangle {
         };
 
         let figure = {
+            type: "triangle",
             point: point,
             position: position,
             frame: frame,

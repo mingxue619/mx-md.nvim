@@ -45,6 +45,7 @@ export class Rect {
         };
 
         let figure = {
+            type: "rect",
             point: point,
             position: position,
             frame: frame,

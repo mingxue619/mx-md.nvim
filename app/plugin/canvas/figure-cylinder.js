@@ -47,6 +47,7 @@ export class Cylinder {
             bottom: from.y + height,
         };
         let figure = {
+            type: "cylinder",
             point: point,
             position: position,
             frame: frame,

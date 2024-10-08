@@ -89,5 +89,11 @@ export class Label {
         });
 
         ctx.restore();
+
+        // return
+        let figure = {
+            type: "label",
+        };
+        return figure;
     }
 }

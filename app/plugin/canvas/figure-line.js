@@ -2,7 +2,8 @@ export class Line {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    draw({ from, to, style, arrow = {}, polyline }) {
+    draw(params) {
+        const { from, to, style, arrow = {}, polyline } = params;
         const ctx = this.ctx;
         // style
         const { strokeStyle, lineWidth } = style || {};
@@ -118,7 +119,10 @@ export class Line {
         ctx.restore();
 
         // return
-        const figure = {};
+        const figure = {
+            type: "line",
+            params: params,
+        };
         return figure;
     }
     drawArraw(arrow, firstLine, lastLine) {

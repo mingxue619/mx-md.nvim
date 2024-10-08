@@ -42,6 +42,7 @@ export class Ellipse {
         };
 
         let figure = {
+            type: "ellipse",
             point: point,
             position: position,
             frame: frame,
