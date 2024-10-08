@@ -1,5 +1,5 @@
 import * as acorn from "acorn";
-import * as walk from "acorn-walk";
+//import * as walk from "acorn-walk";
 
 function parseCanvasProps(info) {
     info = info.replace(/^[^(]+\(|\);?$/g, "");
@@ -69,19 +69,28 @@ function parseVariable(content) {
     const ast = acorn.parse(content, { ecmaVersion: 2020, locations: true });
     const variableRanges = new Map();
     // 遍历 AST
-    walk.simple(ast, {
-        VariableDeclaration(node) {
-            node.declarations.forEach((declaration) => {
-                if (declaration.id.type === "Identifier") {
-                    const variableName = declaration.id.name;
-                    const startLine = node.loc.start.line;
-                    const endLine = node.loc.end.line;
-                    variableRanges.set(variableName, { startLine, endLine });
-                }
-            });
-        },
+    ast.body.forEach((node) => {
+        node.declarations.forEach((declaration) => {
+            if (declaration.id.type === "Identifier") {
+                const variableName = declaration.id.name;
+                const startLine = declaration.loc.start.line;
+                const endLine = declaration.loc.end.line;
+                variableRanges.set(variableName, { startLine, endLine });
+            }
+        });
     });
-
+    // walk.simple(ast, {
+    //     VariableDeclaration(node) {
+    //         node.declarations.forEach((declaration) => {
+    //             if (declaration.id.type === "Identifier") {
+    //                 const variableName = declaration.id.name;
+    //                 const startLine = node.loc.start.line;
+    //                 const endLine = node.loc.end.line;
+    //                 variableRanges.set(variableName, { startLine, endLine });
+    //             }
+    //         });
+    //     },
+    // });
     return variableRanges;
 }
 function getContentReturnLine(variableRanges) {
@@ -126,7 +135,6 @@ function markdownitCanvas(md) {
         const variables = parseVariable(content);
         const contentReturnLine = getContentReturnLine(variables);
         content = content + contentReturnLine;
-        debugger;
         let canvasProps = Object.entries(props)
             .map(([k, v]) => `${k}="${v}"`)
             .join(" ");
@@ -144,7 +152,6 @@ function markdownitCanvas(md) {
                             const ${figure} = new Figure(${element});
                             function drawAxesAndFigure() {
                                 try {
-    debugger;
                                     if(${showAxes}) {
                                         new Axes(${element}).draw();
                                     }
