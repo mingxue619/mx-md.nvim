@@ -2,7 +2,8 @@ export class Rect {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    draw({ position, size, style, children }) {
+    draw(params) {
+        const { position, size, style, children } = params;
         const ctx = this.ctx;
         ctx.save();
         let [x, y] = position;
@@ -12,7 +13,7 @@ export class Rect {
             y: y - height / 2,
         };
         // style
-        const { strokeStyle, lineWidth, fill, fillStyle } = style || {};
+        const { strokeStyle, lineWidth, fill, fillStyle, lineDash } = style || {};
         // draw
         ctx.beginPath();
         ctx.moveTo(from.x, from.y);
@@ -23,6 +24,9 @@ export class Rect {
         // 绘制边框
         ctx.strokeStyle = strokeStyle;
         ctx.lineWidth = lineWidth;
+        if(lineDash) {
+            ctx.setLineDash(lineDash);
+        }
         ctx.stroke();
         // fill
         if (fill) {
@@ -46,6 +50,7 @@ export class Rect {
 
         let figure = {
             type: "rect",
+            params: params,
             point: point,
             position: position,
             frame: frame,

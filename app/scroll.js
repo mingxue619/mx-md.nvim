@@ -31,17 +31,30 @@ class CursorScroll {
 
         const matchs = entries.filter(([key, value]) => line <= key);
         const [key, name] = matchs.at(0) || entries.at(-1);
-        debugger
+        const paint = info.paint;
         const figure = info.figures[name];
-        this.canvasHighlight(figure);
+        this.canvasHighlight(paint, figure);
         if (cursorAtCanvas === false) {
             return false;
         }
         return true;
     }
-    canvasHighlight(figure) {
-        const type = figure.type;
+    canvasHighlight(paint, figure) {
+        const { type, position, frame } = figure;
         if (type === "rect") {
+            const width = Math.abs(frame.right - frame.left) + 20;
+            const height = Math.abs(frame.bottom - frame.top) + 20;
+
+            const params = {
+                position: position,
+                size: [width, height],
+                style: {
+                    strokeStyle: "red",
+                    lineWidth: 2,
+                    lineDash: [5, 5],
+                },
+            };
+            paint.rect(params);
             debugger;
         }
     }

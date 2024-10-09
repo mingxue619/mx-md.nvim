@@ -172,6 +172,7 @@ function markdownitCanvas(md) {
                                     canvas.set("${id}", {
                                         id: "${id}",
                                         element: ${element},
+                                        paint: ${paint},
                                         map: [${token.map}],
                                         figures: result,
                                         lineMap: ${lineMap}
