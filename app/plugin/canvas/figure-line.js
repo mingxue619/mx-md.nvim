@@ -3,7 +3,7 @@ export class Line {
         this.ctx = ctx;
     }
     draw(params) {
-        const { from, to, style, arrow = {}, polyline } = params;
+        let { from, to, style, arrow = {}, polyline } = params;
         const ctx = this.ctx;
         // style
         const { strokeStyle, lineWidth } = style || {};
