@@ -37,12 +37,12 @@ function getElementName(props) {
     return element;
 }
 
-function getFigureName(props) {
-    let figure = props.figure;
-    if (!figure) {
-        figure = "figure";
+function getPaintName(props) {
+    let paint = props.paint;
+    if (!paint) {
+        paint = "paint";
     }
-    return figure;
+    return paint;
 }
 
 function getAxes(props) {
@@ -137,7 +137,7 @@ function markdownitCanvas(md) {
         let id = getId(props);
         let errorId = "error-" + id;
         let element = getElementName(props);
-        let figure = getFigureName(props);
+        let paint = getPaintName(props);
         let theme = getTheme(props);
         let showAxes = getAxes(props);
         let content = token.content || "";
@@ -157,17 +157,17 @@ function markdownitCanvas(md) {
                     `;
         const script = `
                         <script type="module">
-                            import { Figure } from '/app/plugin/canvas/canvas-figure.js';
+                            import { Paint } from '/app/plugin/canvas/canvas-paint.js';
                             let errorElement = document.getElementById('${errorId}');  
                             let ${element} = document.getElementById("${id}");
-                            const ${figure} = new Figure(${element});
-                            function drawAxesAndFigure() {
+                            const ${paint} = new Paint(${element});
+                            function drawAxesAndpaint() {
                                 try {
                                     if(${showAxes}) {
                                         new Axes(${element}).draw();
                                     }
-                                    const func = new Function('${element}', 'Figure', '${figure}', \`${content}\`);
-                                    const result = func(${element}, Figure, ${figure});
+                                    const func = new Function('${element}', 'Paint', '${paint}', \`${content}\`);
+                                    const result = func(${element}, Paint, ${paint});
                                     let canvas = window.canvas || new Map();
                                     canvas.set("${id}", {
                                         id: "${id}",
@@ -189,19 +189,19 @@ function markdownitCanvas(md) {
                                 };
                             }
                             new Theme(${element}).setTheme("${theme}");
-                            drawAxesAndFigure();
+                            drawAxesAndpaint();
 
                             window.addEventListener("beforeprint", () => {
                                 if("${theme}" === "dynamic" && window.theme === "dark") {
                                     new Theme(${element}).setTheme("beforeprint");
-                                    drawAxesAndFigure();
+                                    drawAxesAndpaint();
                                 }
                             });
                             
                             window.addEventListener("afterprint", () => {
                                 if("${theme}" === "dynamic" && window.theme === "dark") {
                                     new Theme(${element}).setTheme("afterprint");
-                                    drawAxesAndFigure();
+                                    drawAxesAndpaint();
                                 }
                             });
                         </script>`;

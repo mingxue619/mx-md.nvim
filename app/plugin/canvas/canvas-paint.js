@@ -2,15 +2,15 @@
 // frame: 画框，图形左右上下的范围
 // from: 起点
 
-import { Label } from "./figure-label.js";
-import { Line } from "./figure-line.js";
-import { Rect } from "./figure-rect.js";
-import { Cylinder } from "./figure-cylinder.js";
-import { Triangle } from "./figure-triangle.js";
-import { Circle } from "./figure-circle.js";
-import { Ellipse } from "./figure-ellipse.js";
+import { Label } from "./paint-label.js";
+import { Line } from "./paint-line.js";
+import { Rect } from "./paint-rect.js";
+import { Cylinder } from "./paint-cylinder.js";
+import { Triangle } from "./paint-triangle.js";
+import { Circle } from "./paint-circle.js";
+import { Ellipse } from "./paint-ellipse.js";
 
-export class Figure {
+export class Paint {
     constructor(canvas) {
         const ctx = canvas.getContext("2d");
         this.ctx = ctx;
