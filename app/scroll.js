@@ -32,12 +32,17 @@ class CursorScroll {
         const matchs = entries.filter(([key, value]) => line <= key);
         const [key, name] = matchs.at(0) || entries.at(-1);
         const figure = info.figures[name];
-
-        debugger;
+        this.canvasHighlight(figure);
         if (cursorAtCanvas === false) {
             return false;
         }
         return true;
+    }
+    canvasHighlight(figure) {
+        const type = figure.type;
+        if (type === "rect") {
+            debugger;
+        }
     }
     scrollTo(bufferInfo) {
         let toCanvas = this.focusToCanvas(bufferInfo);
