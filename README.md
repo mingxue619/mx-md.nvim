@@ -28,4 +28,5 @@ markdown-it-inject-linenumbers
 | custom container   |        |                                                                   |         |
 | insert             |        |                                                                   |         |
 | mark               |        |                                                                   |         |
+| table-merge-cells  | n      | https://github.com/Tianci-blog/markdown-it-table-merge-cells      |         |
 
