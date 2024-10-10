@@ -11,11 +11,15 @@ import { Circle } from "./paint-circle.js";
 import { Ellipse } from "./paint-ellipse.js";
 
 export class Paint {
+
     constructor(canvas) {
         this.canvas = canvas;
         const ctx = canvas.getContext("2d", { willReadFrequently: true });
         this.ctx = ctx;
     }
+
+    static paintingMap = new Map();
+
     static dispatchPaintFinishEvent(painting) {
         const paintFinishEvent = new CustomEvent("PaintFinishEvent", {
             detail: painting,
@@ -31,19 +35,24 @@ export class Paint {
             const ctx = paint.getContext();
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             painting.imageData = imageData;
-            // paintingMap 
-            const paintingMap = window.paintingMap || new Map();
+            // paintingMap
+            const paintingMap = Paint.paintingMap;
             const id = painting.id;
             paintingMap.set(id, painting);
-            window.paintingMap = paintingMap;
+            Paint.paintingMap = paintingMap;
 
-            callback(painting, window.paintingMap);
+            callback(painting, paintingMap);
         });
     }
-    static resetAllImageData(){
-        //const imageData = painting.imageData;
-        //ctx.putImageData(imageData, 0, 0);
-
+    static resetAllImageData() {
+        const paintingMap = Paint.paintingMap;
+        Array.from(paintingMap.entries()).forEach(([id, painting]) => {
+            const ctx = painting.paint.getContext();;
+            const imageData = painting.imageData;
+            if(imageData) {
+                ctx.putImageData(imageData, 0, 0);
+            }
+        });
     }
     getCanvas() {
         return this.canvas;

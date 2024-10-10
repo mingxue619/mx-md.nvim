@@ -1,3 +1,5 @@
+import { Paint } from '/app/plugin/canvas/canvas-paint.js';
+
 export class CursorScroll {
     reScroll() {
         const render = window.render;
@@ -61,7 +63,7 @@ export class CursorScroll {
         }
     }
     scrollTo(bufferInfo) {
-
+        Paint.resetAllImageData();
         let toCanvas = this.focusToCanvas(bufferInfo);
         if (toCanvas) {
             return;
