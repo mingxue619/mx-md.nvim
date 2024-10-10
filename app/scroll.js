@@ -6,62 +6,6 @@ export class CursorScroll {
         const bufferInfo = render.bufferInfo;
         this.scrollTo(bufferInfo);
     }
-    focusToCanvas(bufferInfo) {
-        const paintingMap = window.paintingMap;
-        if (!paintingMap) {
-            return false;
-        }
-        const cursor = bufferInfo.cursor;
-        const line = cursor[1] - 1;
-        let cursorAtCanvas = false;
-        const paintings = Array.from(paintingMap.entries())
-            .filter(([key, value]) => {
-                let [start, end] = value.map;
-                if (start <= line && line < end) {
-                    return true;
-                }
-                return false;
-            })
-            .map(([key, value]) => value);
-        if (paintings.length <= 0) {
-            return false;
-        }
-        const painting = paintings[0];
-        let [start, end] = painting.map;
-        let lineMap = painting.lineMap;
-        // 相对行号转为绝对行号
-        lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
-        const matchLines = lineMap.filter(([key, value]) => line <= key);
-        const [key, variableName] = matchLines.at(0) || entries.at(-1);
-        const paint = painting.paint;
-        const figure = painting.figures[variableName];
-        // const ctx = paint.getContext();
-        this.canvasHighlight(paint, figure);
-        debugger
-        if (cursorAtCanvas === false) {
-            return false;
-        }
-        return true;
-    }
-    canvasHighlight(paint, figure) {
-        const { type, position, frame } = figure;
-        if (type === "rect") {
-            const width = Math.abs(frame.right - frame.left) + 20;
-            const height = Math.abs(frame.bottom - frame.top) + 20;
-
-            const params = {
-                position: position,
-                size: [width, height],
-                style: {
-                    strokeStyle: "red",
-                    lineWidth: 2,
-                    lineDash: [5, 5],
-                },
-            };
-            paint.rect(params);
-            debugger;
-        }
-    }
     scrollTo(bufferInfo) {
         Paint.resetAllImageData();
         let toCanvas = this.focusToCanvas(bufferInfo);
@@ -135,5 +79,59 @@ export class CursorScroll {
             }
         }
         return [currentLine < len ? currentLine : len - 1, ele ? ele.offsetTop : document.documentElement.scrollHeight];
+    }
+    // canvas
+    focusToCanvas(bufferInfo) {
+        debugger
+        const paintingMap = Paint.paintingMap;
+        const cursor = bufferInfo.cursor;
+        const line = cursor[1] - 1;
+        let cursorAtCanvas = false;
+        const paintings = Array.from(paintingMap.entries())
+            .filter(([key, value]) => {
+                let [start, end] = value.map;
+                if (start <= line && line < end) {
+                    return true;
+                }
+                return false;
+            })
+            .map(([key, value]) => value);
+        if (paintings.length <= 0) {
+            return false;
+        }
+        const painting = paintings[0];
+        let [start, end] = painting.map;
+        let lineMap = painting.lineMap;
+        // 相对行号转为绝对行号
+        lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
+        const matchLines = lineMap.filter(([key, value]) => line <= key);
+        const [key, variableName] = matchLines.at(0) || entries.at(-1);
+        const paint = painting.paint;
+        const figure = painting.figures[variableName];
+        // const ctx = paint.getContext();
+        this.canvasHighlight(paint, figure);
+        debugger
+        if (cursorAtCanvas === false) {
+            return false;
+        }
+        return true;
+    }
+    canvasHighlight(paint, figure) {
+        const { type, position, frame } = figure;
+        if (type === "rect") {
+            const width = Math.abs(frame.right - frame.left) + 20;
+            const height = Math.abs(frame.bottom - frame.top) + 20;
+            const params = {
+                position: position,
+                size: [width, height],
+                style: {
+                    strokeStyle: "red",
+                    lineWidth: 2,
+                    lineDash: [5, 5],
+                },
+            };
+            paint.rect(params);
+            debugger;
+        }
     }
 }

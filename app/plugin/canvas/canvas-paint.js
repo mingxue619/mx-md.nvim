@@ -11,7 +11,6 @@ import { Circle } from "./paint-circle.js";
 import { Ellipse } from "./paint-ellipse.js";
 
 export class Paint {
-
     constructor(canvas) {
         this.canvas = canvas;
         const ctx = canvas.getContext("2d", { willReadFrequently: true });
@@ -47,11 +46,11 @@ export class Paint {
     static resetAllImageData() {
         const paintingMap = Paint.paintingMap;
         Array.from(paintingMap.entries()).forEach(([id, painting]) => {
-            const ctx = painting.paint.getContext();;
+            const paint = painting.paint;
+            // const canvas = paint.getCanvas();
+            const ctx = paint.getContext();
             const imageData = painting.imageData;
-            if(imageData) {
-                ctx.putImageData(imageData, 0, 0);
-            }
+            ctx.putImageData(imageData, 0, 0);
         });
     }
     getCanvas() {
