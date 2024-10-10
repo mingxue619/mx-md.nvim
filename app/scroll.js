@@ -1,4 +1,4 @@
-class CursorScroll {
+export class CursorScroll {
     reScroll() {
         const render = window.render;
         const bufferInfo = render.bufferInfo;

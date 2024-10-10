@@ -1,4 +1,6 @@
 import { Paint } from '/app/plugin/canvas/canvas-paint.js';
+import { CursorScroll } from '/app/scroll.js';
+import { HtmlRender } from '/app/html-render.js';
 let render = new HtmlRender();
 let cursorScroll = new CursorScroll();
 window.render = render;

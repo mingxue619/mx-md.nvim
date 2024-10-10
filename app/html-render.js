@@ -1,4 +1,4 @@
-class HtmlRender {
+export class HtmlRender {
     constructor() {
         this.hash = "";
     }
