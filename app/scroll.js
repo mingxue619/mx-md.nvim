@@ -8,8 +8,8 @@ export class CursorScroll {
     }
     scrollTo(bufferInfo) {
         Paint.resetAllImageData();
-        let toCanvas = this.focusToCanvas(bufferInfo);
-        if (toCanvas) {
+        let scrollToCanvas = this.scrollToCanvas(bufferInfo);
+        if (scrollToCanvas) {
             return;
         }
         const cursor = bufferInfo.cursor;
@@ -81,8 +81,7 @@ export class CursorScroll {
         return [currentLine < len ? currentLine : len - 1, ele ? ele.offsetTop : document.documentElement.scrollHeight];
     }
     // canvas
-    focusToCanvas(bufferInfo) {
-        debugger;
+    scrollToCanvas(bufferInfo) {
         const paintingMap = Paint.paintingMap;
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
@@ -105,14 +104,15 @@ export class CursorScroll {
         lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
         const matchLines = lineMap.filter(([key, value]) => line <= key);
         const [key, variableName] = matchLines.at(0) || entries.at(-1);
+        const element = painting.element;
         const paint = painting.paint;
         const figure = painting.figures[variableName];
         // const ctx = paint.getContext();
         this.canvasHighlight(paint, figure);
+        this.focusToFigure(element, figure);
         return true;
     }
     canvasHighlight(paint, figure) {
-        debugger;
         const { type, position, frame } = figure;
         if (type === "label") {
         } else if (type === "line") {
@@ -134,5 +134,10 @@ export class CursorScroll {
         } else if (type === "circle") {
         } else if (type === "ellipse") {
         }
+    }
+    focusToFigure(element, figure) {
+        debugger
+        element.scrollIntoView({ behavior: 'smooth' });
+
     }
 }
