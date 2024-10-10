@@ -15,6 +15,16 @@ export class Paint {
         this.canvas = canvas;
         const ctx = canvas.getContext("2d");
         this.ctx = ctx;
+        canvas.addEventListener("PaintFinishEvent", this.onPaintFinish);
+    }
+    dispatchPaintFinishEvent(painting) {
+        const paintFinishEvent = new CustomEvent("PaintFinishEvent", {
+            detail: painting,
+        });
+        this.canvas.dispatchEvent(paintFinishEvent);
+    }
+    onPaintFinish(event) {
+        debugger;
     }
     getCanvas() {
         return this.canvas;
@@ -59,7 +69,7 @@ export class Paint {
         const triangle = new Triangle(this.ctx);
         let figure = triangle.draw(params);
         let frame = figure.frame;
-        const height = frame.bottom - frame.top; 
+        const height = frame.bottom - frame.top;
         // label
         let label = params.label;
         if (typeof label === "string") {
@@ -68,8 +78,8 @@ export class Paint {
                 align: {
                     v: "top",
                     margin: {
-                        top: height/2
-                    }
+                        top: height / 2,
+                    },
                 },
             };
         }

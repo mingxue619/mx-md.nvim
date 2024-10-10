@@ -168,17 +168,15 @@ function markdownitCanvas(md) {
                                     }
                                     const func = new Function('${element}', 'Paint', '${paint}', \`${content}\`);
                                     const result = func(${element}, Paint, ${paint});
-                                    let paintingMap = window.paintingMap || new Map();
-                                    paintingMap.set("${id}", {
+                                    const painting = {
                                         id: "${id}",
                                         element: ${element},
                                         paint: ${paint},
                                         map: [${token.map}],
                                         figures: result,
                                         lineMap: ${lineMap}
-                                    });
-                                    window.paintingMap = paintingMap;
-                                    cursorScroll.reScroll();
+                                    };
+                                    ${paint}.dispatchPaintFinishEvent(painting);
                                 } catch (error) {
                                     errorElement.style.display = "block";
                                     let code = document.createElement('code');  
