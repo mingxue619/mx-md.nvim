@@ -10,9 +10,8 @@ if (bufnr) {
     wsConnect(bufnr);
 }
 Paint.onPaintFinish((painting, paintingMap) => {
-    debugger
+    cursorScroll.reScroll();
 });
-debugger;
 
 function getBufferNumber() {
     const pathname = window.location.pathname;

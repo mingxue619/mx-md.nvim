@@ -13,7 +13,7 @@ import { Ellipse } from "./paint-ellipse.js";
 export class Paint {
     constructor(canvas) {
         this.canvas = canvas;
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d", { willReadFrequently: true });
         this.ctx = ctx;
     }
     static dispatchPaintFinishEvent(painting) {
@@ -25,10 +25,18 @@ export class Paint {
     static onPaintFinish(callback) {
         document.addEventListener("PaintFinishEvent", (event) => {
             let painting = event.detail;
+            // image data
+            const paint = painting.paint;
+            const canvas = paint.getCanvas();
+            const ctx = paint.getContext();
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            painting.imageData = imageData;
+            // paintingMap 
             const paintingMap = window.paintingMap || new Map();
             const id = painting.id;
             paintingMap.set(id, painting);
             window.paintingMap = paintingMap;
+
             callback(painting, window.paintingMap);
         });
     }

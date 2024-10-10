@@ -1,6 +1,7 @@
 export class Theme {
     constructor(canvas) {
         this.canvas = canvas;
+        this.ctx = canvas.getContext("2d");
     }
 
     setTheme(config) {
@@ -32,7 +33,7 @@ export class Theme {
         // window.foreground = "#eee";
         window.foreground = "white";
         const canvas = this.canvas;
-        const ctx = canvas.getContext("2d");
+        const ctx = this.ctx;
         ctx.save();
         ctx.fillStyle = window.background;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -43,7 +44,7 @@ export class Theme {
         window.background = undefined;
         window.foreground = undefined;
         const canvas = this.canvas;
-        var ctx = canvas.getContext("2d");
+        const ctx = this.ctx;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.restore();
     }

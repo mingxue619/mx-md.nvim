@@ -1,6 +1,6 @@
 export class Axes {
-    constructor(canvas) {
-        this.ctx = canvas.getContext('2d');
+    constructor(canvas, ctx) {
+        this.ctx = ctx;
         this.width = canvas.width;
         this.height = canvas.height;
     }
