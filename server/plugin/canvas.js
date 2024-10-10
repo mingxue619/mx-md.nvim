@@ -168,8 +168,8 @@ function markdownitCanvas(md) {
                                     }
                                     const func = new Function('${element}', 'Paint', '${paint}', \`${content}\`);
                                     const result = func(${element}, Paint, ${paint});
-                                    let canvas = window.canvas || new Map();
-                                    canvas.set("${id}", {
+                                    let paintingMap = window.paintingMap || new Map();
+                                    paintingMap.set("${id}", {
                                         id: "${id}",
                                         element: ${element},
                                         paint: ${paint},
@@ -177,7 +177,7 @@ function markdownitCanvas(md) {
                                         figures: result,
                                         lineMap: ${lineMap}
                                     });
-                                    window.canvas = canvas;
+                                    window.paintingMap = paintingMap;
                                     cursorScroll.reScroll();
                                 } catch (error) {
                                     errorElement.style.display = "block";

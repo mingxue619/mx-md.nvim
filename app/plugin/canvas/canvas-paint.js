@@ -12,8 +12,15 @@ import { Ellipse } from "./paint-ellipse.js";
 
 export class Paint {
     constructor(canvas) {
+        this.canvas = canvas;
         const ctx = canvas.getContext("2d");
         this.ctx = ctx;
+    }
+    getCanvas() {
+        return this.canvas;
+    }
+    getContext() {
+        return this.ctx;
     }
     label(params) {
         const label = new Label(this.ctx);

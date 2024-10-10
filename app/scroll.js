@@ -5,14 +5,14 @@ class CursorScroll {
         this.scrollTo(bufferInfo);
     }
     focusToCanvas(bufferInfo) {
-        const canvasMap = window.canvas;
-        if (!canvasMap) {
+        const paintingMap = window.paintingMap;
+        if (!paintingMap) {
             return false;
         }
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
         let cursorAtCanvas = false;
-        const values = Array.from(canvasMap.entries())
+        const values = Array.from(paintingMap.entries())
             .filter(([key, value]) => {
                 let [start, end] = value.map;
                 if (start <= line && line < end) {
@@ -33,7 +33,13 @@ class CursorScroll {
         const [key, name] = matchs.at(0) || entries.at(-1);
         const paint = info.paint;
         const figure = info.figures[name];
+        const canvas = paint.getCanvas();
+        const ctx = paint.getContext();
+        debugger
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         this.canvasHighlight(paint, figure);
+        debugger
+        ctx.putImageData(imageData, 0, 0);
         if (cursorAtCanvas === false) {
             return false;
         }
@@ -59,6 +65,7 @@ class CursorScroll {
         }
     }
     scrollTo(bufferInfo) {
+
         let toCanvas = this.focusToCanvas(bufferInfo);
         if (toCanvas) {
             return;
