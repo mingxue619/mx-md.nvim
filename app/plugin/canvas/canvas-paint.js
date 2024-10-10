@@ -59,6 +59,7 @@ export class Paint {
     getContext() {
         return this.ctx;
     }
+    // figure
     label(params) {
         const label = new Label(this.ctx);
         label.draw(params);

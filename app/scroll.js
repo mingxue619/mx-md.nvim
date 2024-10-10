@@ -1,4 +1,4 @@
-import { Paint } from '/app/plugin/canvas/canvas-paint.js';
+import { Paint } from "/app/plugin/canvas/canvas-paint.js";
 
 export class CursorScroll {
     reScroll() {
@@ -82,7 +82,7 @@ export class CursorScroll {
     }
     // canvas
     focusToCanvas(bufferInfo) {
-        debugger
+        debugger;
         const paintingMap = Paint.paintingMap;
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
@@ -112,8 +112,11 @@ export class CursorScroll {
         return true;
     }
     canvasHighlight(paint, figure) {
+        debugger;
         const { type, position, frame } = figure;
-        if (type === "rect") {
+        if (type === "label") {
+        } else if (type === "line") {
+        } else if (type === "rect") {
             const width = Math.abs(frame.right - frame.left) + 20;
             const height = Math.abs(frame.bottom - frame.top) + 20;
             const params = {
@@ -126,7 +129,10 @@ export class CursorScroll {
                 },
             };
             paint.rect(params);
-            debugger;
+        } else if (type === "triangle") {
+        } else if (type === "cylinder") {
+        } else if (type === "circle") {
+        } else if (type === "ellipse") {
         }
     }
 }
