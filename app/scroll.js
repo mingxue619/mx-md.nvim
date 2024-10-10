@@ -12,7 +12,7 @@ export class CursorScroll {
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
         let cursorAtCanvas = false;
-        const values = Array.from(paintingMap.entries())
+        const paintings = Array.from(paintingMap.entries())
             .filter(([key, value]) => {
                 let [start, end] = value.map;
                 if (start <= line && line < end) {
@@ -21,25 +21,21 @@ export class CursorScroll {
                 return false;
             })
             .map(([key, value]) => value);
-        if (values.length <= 0) {
+        if (paintings.length <= 0) {
             return false;
         }
-        const info = values[0];
-        let [start, end] = info.map;
-        const lineMap = info.lineMap;
-        const entries = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
-
-        const matchs = entries.filter(([key, value]) => line <= key);
-        const [key, name] = matchs.at(0) || entries.at(-1);
-        const paint = info.paint;
-        const figure = info.figures[name];
-        const canvas = paint.getCanvas();
-        const ctx = paint.getContext();
-        debugger
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const painting = paintings[0];
+        let [start, end] = painting.map;
+        let lineMap = painting.lineMap;
+        // 相对行号转为绝对行号
+        lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
+        const matchLines = lineMap.filter(([key, value]) => line <= key);
+        const [key, variableName] = matchLines.at(0) || entries.at(-1);
+        const paint = painting.paint;
+        const figure = painting.figures[variableName];
+        // const ctx = paint.getContext();
         this.canvasHighlight(paint, figure);
         debugger
-        ctx.putImageData(imageData, 0, 0);
         if (cursorAtCanvas === false) {
             return false;
         }

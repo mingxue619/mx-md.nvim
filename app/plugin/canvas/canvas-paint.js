@@ -40,6 +40,11 @@ export class Paint {
             callback(painting, window.paintingMap);
         });
     }
+    static resetAllImageData(){
+        //const imageData = painting.imageData;
+        //ctx.putImageData(imageData, 0, 0);
+
+    }
     getCanvas() {
         return this.canvas;
     }
