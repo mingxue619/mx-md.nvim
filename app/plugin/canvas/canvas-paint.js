@@ -15,16 +15,22 @@ export class Paint {
         this.canvas = canvas;
         const ctx = canvas.getContext("2d");
         this.ctx = ctx;
-        canvas.addEventListener("PaintFinishEvent", this.onPaintFinish);
     }
-    dispatchPaintFinishEvent(painting) {
+    static dispatchPaintFinishEvent(painting) {
         const paintFinishEvent = new CustomEvent("PaintFinishEvent", {
             detail: painting,
         });
-        this.canvas.dispatchEvent(paintFinishEvent);
+        document.dispatchEvent(paintFinishEvent);
     }
-    onPaintFinish(event) {
-        debugger;
+    static onPaintFinish(callback) {
+        document.addEventListener("PaintFinishEvent", (event) => {
+            let painting = event.detail;
+            const paintingMap = window.paintingMap || new Map();
+            const id = painting.id;
+            paintingMap.set(id, painting);
+            window.paintingMap = paintingMap;
+            callback(painting, window.paintingMap);
+        });
     }
     getCanvas() {
         return this.canvas;

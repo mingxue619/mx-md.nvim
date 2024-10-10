@@ -1,3 +1,4 @@
+import { Paint } from '/app/plugin/canvas/canvas-paint.js';
 let render = new HtmlRender();
 let cursorScroll = new CursorScroll();
 window.render = render;
@@ -6,6 +7,10 @@ let bufnr = getBufferNumber();
 if (bufnr) {
     wsConnect(bufnr);
 }
+Paint.onPaintFinish((painting, paintingMap) => {
+    debugger
+});
+debugger;
 
 function getBufferNumber() {
     const pathname = window.location.pathname;
