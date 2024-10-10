@@ -158,6 +158,8 @@ function markdownitCanvas(md) {
         const script = `
                         <script type="module">
                             import { Paint } from '/app/plugin/canvas/canvas-paint.js';
+                            import { Axes } from '/app/plugin/canvas/canvas-axes.js';
+                            import { Theme } from '/app/plugin/canvas/canvas-theme.js';
                             let errorElement = document.getElementById('${errorId}');  
                             let ${element} = document.getElementById("${id}");
                             const ${paint} = new Paint(${element});

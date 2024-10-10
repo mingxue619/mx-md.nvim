@@ -1,4 +1,4 @@
-class Axes {
+export class Axes {
     constructor(canvas) {
         this.ctx = canvas.getContext('2d');
         this.width = canvas.width;

@@ -1,4 +1,4 @@
-class Theme {
+export class Theme {
     constructor(canvas) {
         this.canvas = canvas;
     }
