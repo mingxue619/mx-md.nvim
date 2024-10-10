@@ -86,7 +86,6 @@ export class CursorScroll {
         const paintingMap = Paint.paintingMap;
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
-        let cursorAtCanvas = false;
         const paintings = Array.from(paintingMap.entries())
             .filter(([key, value]) => {
                 let [start, end] = value.map;
@@ -110,10 +109,6 @@ export class CursorScroll {
         const figure = painting.figures[variableName];
         // const ctx = paint.getContext();
         this.canvasHighlight(paint, figure);
-        debugger
-        if (cursorAtCanvas === false) {
-            return false;
-        }
         return true;
     }
     canvasHighlight(paint, figure) {
