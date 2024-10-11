@@ -73,6 +73,8 @@ export class Paint {
     line(params) {
         const line = new Line(this.ctx);
         let figure = line.draw(params);
+        // label
+        new Label(this.ctx).drawLabelWithLine(params.label, figure.trackPoints);
         return figure;
     }
 

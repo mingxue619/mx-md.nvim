@@ -110,5 +110,11 @@ export class Label {
             this.draw(label);
         }
     }
+    drawLabelWithLine(label, trackPoints) {
+        debugger;
+        if(label) {
+
+        }
+    }
 
 }
