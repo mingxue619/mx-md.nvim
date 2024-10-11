@@ -8,7 +8,7 @@ export class Line {
         // style
         const { strokeStyle, lineWidth } = style || {};
         // points
-        const trackPoints = [];
+        let trackPoints = [];
         trackPoints.push(from);
 
         let firstLine = {
@@ -87,7 +87,7 @@ export class Line {
                 points.shift();
                 points.pop();
             }
-            trackPoints.concat(points);
+            trackPoints = trackPoints.concat(points);
             const first = points.at(0);
             const last = points.at(-1);
             firstLine = {
