@@ -1,4 +1,25 @@
 import { Paint } from "/app/plugin/canvas/canvas-paint.js";
+export class CurrentFocusCanvas {
+    static element;
+    static figure;
+    static unFocus() {
+        CurrentFocusCanvas.element = null;
+        CurrentFocusCanvas.figure = null;
+    }
+    static focus(element, figure) {
+        CurrentFocusCanvas.element = element;
+        CurrentFocusCanvas.figure = figure;
+    }
+    static isFocus(element, figure) {
+        if (CurrentFocusCanvas.element != element) {
+            return false;
+        }
+        if (CurrentFocusCanvas.figure != figure) {
+            return false;
+        }
+        return true;
+    }
+}
 
 export class CursorScroll {
     reScroll() {
@@ -12,6 +33,7 @@ export class CursorScroll {
             return;
         }
         Paint.resetAllImageData();
+        CurrentFocusCanvas.unFocus();
         const cursor = bufferInfo.cursor;
         const winline = bufferInfo.winline;
         const winheight = bufferInfo.winheight;
@@ -108,8 +130,14 @@ export class CursorScroll {
         const paint = painting.paint;
         const figure = painting.figures[variableName];
         // const ctx = paint.getContext();
+
+        const isFocus = CurrentFocusCanvas.isFocus(element, figure);
+        if (isFocus) {
+            return true;
+        }
         this.canvasHighlight(paint, figure);
         this.focusToFigure(element, figure);
+        CurrentFocusCanvas.focus(element, figure);
         return true;
     }
     canvasHighlight(paint, figure) {

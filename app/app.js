@@ -1,5 +1,5 @@
 import { Paint } from '/app/plugin/canvas/canvas-paint.js';
-import { CursorScroll } from '/app/scroll.js';
+import { CursorScroll, CurrentFocusCanvas } from '/app/scroll.js';
 import { HtmlRender } from '/app/html-render.js';
 let render = new HtmlRender();
 let cursorScroll = new CursorScroll();
@@ -11,6 +11,7 @@ if (bufnr) {
 }
 Paint.onPaintFinish((painting, paintingMap) => {
     cursorScroll.reScroll();
+    CurrentFocusCanvas.unFocus();
 });
 
 function getBufferNumber() {
