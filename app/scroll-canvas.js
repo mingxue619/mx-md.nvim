@@ -21,7 +21,6 @@ export class CurrentFocusCanvas {
         return true;
     }
 }
-
 export class CanvasScroll {
     // canvas
     static scrollToCanvas(bufferInfo) {
@@ -134,10 +133,10 @@ export class CanvasScroll {
             if (type === "lable") {
                 return;
             } else if (type === "line") {
-                trackPoints.reduce((p, c) => {
-                    debugger
-                });
-
+                const distinct = LineUtil.pointToPolylineDistance(mouse, trackPoints);
+                if (distinct > 10) {
+                    return false;
+                }
             } else {
                 const { left, top, right, bottom } = outline;
                 if (left <= x && x <= right) {
@@ -170,5 +169,73 @@ export class CanvasScroll {
             paint,
             figure,
         };
+    }
+}
+class LineUtil {
+    static pointToLineDistance(point, from, to) {
+        const [px, py] = point;
+        const [x1, y1] = from;
+        const [x2, y2] = to;
+
+        const A = x2 - x1;
+        const B = y2 - y1;
+        const C = (x1 - px) * A + (y1 - py) * B;
+        const lenSq = A * A + B * B;
+        let param, xx, yy;
+
+        if (lenSq === 0) {
+            // 线段退化为一个点
+            param = 0.0;
+        } else {
+            param = (-1.0 * C) / lenSq;
+        }
+
+        if (param < 0.0) {
+            xx = x1;
+            yy = y1;
+        } else if (param > 1.0) {
+            xx = x2;
+            yy = y2;
+        } else {
+            xx = x1 + param * A;
+            yy = y1 + param * B;
+        }
+
+        const dx = px - xx;
+        const dy = py - yy;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+    static pointToPolylineDistance(point, trackPoints) {
+        let minDistance = Infinity;
+        const numPoints = trackPoints.length;
+
+        for (let i = 0; i < numPoints - 1; i++) {
+            const distance = LineUtil.pointToLineDistance(
+                point,
+                [trackPoints[i][0], trackPoints[i][1]],
+                [trackPoints[i + 1][0], trackPoints[i + 1][1]],
+            );
+            if (distance < minDistance) {
+                minDistance = distance;
+            }
+        }
+
+        // 如果折线是闭合的，还需要检查最后一个点到第一个点的线段
+        // 注意：如果折线不是闭合的，则下面的检查应该被省略
+        if (trackPoints[0].x !== trackPoints[numPoints - 1].x || trackPoints[0].y !== trackPoints[numPoints - 1].y) {
+            const distance = pointToSegmentDistance(
+                mouse.x,
+                mouse.y,
+                trackPoints[numPoints - 1].x,
+                trackPoints[numPoints - 1].y,
+                trackPoints[0].x,
+                trackPoints[0].y,
+            );
+            if (distance < minDistance) {
+                minDistance = distance;
+            }
+        }
+
+        return minDistance;
     }
 }
