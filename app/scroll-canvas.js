@@ -59,7 +59,7 @@ export class CanvasScroll {
         return true;
     }
     static drawFocusFigure(paint, figure) {
-        const { type, position, frame } = figure;
+        const { type, position, outline } = figure;
         const style = {
             strokeStyle: "red",
             lineWidth: 2,
@@ -68,8 +68,8 @@ export class CanvasScroll {
         if (type === "label") {
         } else if (type === "line") {
         } else if (type === "rect") {
-            const width = Math.abs(frame.right - frame.left) + 20;
-            const height = Math.abs(frame.bottom - frame.top) + 20;
+            const width = Math.abs(outline.right - outline.left) + 20;
+            const height = Math.abs(outline.bottom - outline.top) + 20;
             const params = {
                 position: position,
                 size: [width, height],
@@ -77,8 +77,8 @@ export class CanvasScroll {
             };
             paint.rect(params);
         } else if (type === "triangle") {
-            const width = Math.abs(frame.right - frame.left) + 20;
-            const height = Math.abs(frame.bottom - frame.top) + 20;
+            const width = Math.abs(outline.right - outline.left) + 20;
+            const height = Math.abs(outline.bottom - outline.top) + 20;
             const params = {
                 position: position,
                 size: [width, height],
@@ -86,8 +86,8 @@ export class CanvasScroll {
             };
             paint.rect(params);
         } else if (type === "cylinder") {
-            const width = Math.abs(frame.right - frame.left) + 20;
-            const height = Math.abs(frame.bottom - frame.top) + 20;
+            const width = Math.abs(outline.right - outline.left) + 20;
+            const height = Math.abs(outline.bottom - outline.top) + 20;
             const params = {
                 position: position,
                 size: [width, height],
@@ -101,7 +101,7 @@ export class CanvasScroll {
     static focusToFigure(element, figure) {
         const rect = element.getBoundingClientRect();
         const { left, right, top, bottom, x, y } = rect;
-        const { position, frame } = figure;
+        const { position, outline } = figure;
 
         // const width = window.innerWidth;
         // const height = window.innerHeight; // 窗口的内部高度（不包括滚动条）
@@ -116,11 +116,11 @@ export class CanvasScroll {
         // 默认target，让元素左上角对齐,只有当前元素超出屏幕时才让元素居中
         let targetLeft = scrollX + left;
         let targetTop = scrollY + top;
-        if (frame.right > docWidth) {
+        if (outline.right > docWidth) {
             // 右边超出屏幕
             targetLeft = targetLeft + position[0] - docWidth / 2;
         }
-        if (frame.bottom > docHeight) {
+        if (outline.bottom > docHeight) {
             // 底部超出屏幕
             targetTop = targetTop + position[1] - docHeight / 2;
         }
@@ -141,11 +141,11 @@ export class CanvasScroll {
         const [x, y] = mouse;
         const excludeType = ["lable", "line"];
         const figureArray = Object.values(figures).filter((figure) => {
-            const { type, frame } = figure;
+            const { type, outline } = figure;
             if (excludeType.includes(type)) {
                 return false;
             }
-            const { left, top, right, bottom } = frame;
+            const { left, top, right, bottom } = outline;
             if (left <= x && x <= right) {
             } else {
                 return false;
