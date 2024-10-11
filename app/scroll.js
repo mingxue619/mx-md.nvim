@@ -150,6 +150,7 @@ export class CursorScroll {
         const scrollY = window.scrollY; //垂直滚动的距离
         // const pixelRatio = window.devicePixelRatio;
 
+        // 默认target，让元素左上角对齐,只有当前元素超出屏幕时才让元素居中
         let targetLeft = scrollX + left;
         let targetTop = scrollY + top;
         if (frame.right > docWidth) {
