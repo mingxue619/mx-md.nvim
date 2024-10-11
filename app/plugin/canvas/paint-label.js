@@ -112,7 +112,16 @@ export class Label {
     }
     drawLabelWithLine(label, figure) {
         if (label) {
-            debugger;
+            if (typeof label === "string") {
+                label = {
+                    title: label,
+                };
+            }
+            const { type, position, frame, outline, trackPoints } = figure;
+            const align = label.align || {};
+            align.frame = frame;
+            label.align = align;
+            this.draw(label);
         }
     }
 }
