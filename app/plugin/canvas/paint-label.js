@@ -117,11 +117,15 @@ export class Label {
                     title: label,
                 };
             }
-            const { type, position, frame, outline, trackPoints } = figure;
-            const align = label.align || {};
-            align.frame = frame;
-            label.align = align;
-            this.draw(label);
+            const { multi } = label;
+            if (multi) {
+            } else {
+                const { type, position, frame, outline, trackPoints } = figure;
+                const align = label.align || {};
+                align.frame = frame;
+                label.align = align;
+                this.draw(label);
+            }
         }
     }
 }
