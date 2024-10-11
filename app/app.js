@@ -1,6 +1,7 @@
-import { Paint } from '/app/plugin/canvas/canvas-paint.js';
-import { CursorScroll, CurrentFocusCanvas } from '/app/scroll.js';
-import { HtmlRender } from '/app/html-render.js';
+import { Paint } from "/app/plugin/canvas/canvas-paint.js";
+import { CursorScroll } from "/app/scroll.js";
+import { CurrentFocusCanvas } from "/app/scroll-canvas.js";
+import { HtmlRender } from "/app/html-render.js";
 let render = new HtmlRender();
 let cursorScroll = new CursorScroll();
 window.render = render;
