@@ -59,24 +59,34 @@ export class CanvasScroll {
         return true;
     }
     static drawFocusFigure(paint, figure) {
-        const { type, position, outline } = figure;
-        const excludeType = ["lable", "line"];
-        if (excludeType.includes(type)) {
-            return;
+        const { type, position, outline, params } = figure;
+        if (type === "label") {
+        } else if (type === "line") {
+            const { from, to, style, arrow, polyline } = params;
+
+            const lineParams = {
+                ...params,
+                style: {
+                    strokeStyle: "red",
+                    lineWidth: 2,
+                },
+            };
+            paint.line(lineParams);
+        } else {
+            const width = Math.abs(outline.right - outline.left) + 20;
+            const height = Math.abs(outline.bottom - outline.top) + 20;
+            const style = {
+                strokeStyle: "red",
+                lineWidth: 2,
+                lineDash: [5, 5],
+            };
+            const params = {
+                position: position,
+                size: [width, height],
+                style,
+            };
+            paint.rect(params);
         }
-        const width = Math.abs(outline.right - outline.left) + 20;
-        const height = Math.abs(outline.bottom - outline.top) + 20;
-        const style = {
-            strokeStyle: "red",
-            lineWidth: 2,
-            lineDash: [5, 5],
-        };
-        const params = {
-            position: position,
-            size: [width, height],
-            style,
-        };
-        paint.rect(params);
     }
     static focusToFigure(element, figure) {
         const rect = element.getBoundingClientRect();
@@ -119,20 +129,25 @@ export class CanvasScroll {
     static mouseMoveNeedDraw(painting, mouse) {
         let { element, paint, figures } = painting;
         const [x, y] = mouse;
-        const excludeType = ["lable", "line"];
         const figureArray = Object.values(figures).filter((figure) => {
-            const { type, outline } = figure;
-            if (excludeType.includes(type)) {
-                return false;
-            }
-            const { left, top, right, bottom } = outline;
-            if (left <= x && x <= right) {
+            const { type, outline, trackPoints } = figure;
+            if (type === "lable") {
+                return;
+            } else if (type === "line") {
+                trackPoints.reduce((p, c) => {
+                    debugger
+                });
+
             } else {
-                return false;
-            }
-            if (top <= y && y <= bottom) {
-            } else {
-                return false;
+                const { left, top, right, bottom } = outline;
+                if (left <= x && x <= right) {
+                } else {
+                    return false;
+                }
+                if (top <= y && y <= bottom) {
+                } else {
+                    return false;
+                }
             }
             return true;
         });

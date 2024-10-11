@@ -7,6 +7,9 @@ export class Line {
         const ctx = this.ctx;
         // style
         const { strokeStyle, lineWidth } = style || {};
+        // points
+        const trackPoints = [];
+        trackPoints.push(from);
 
         let firstLine = {
             from: [from[0], from[1]],
@@ -17,10 +20,6 @@ export class Line {
             to: [to[0], to[1]],
         };
 
-        // draw line
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(from[0], from[1]);
         if (polyline) {
             let { points, direction, ratios = [1] } = polyline;
             if (!points) {
@@ -88,10 +87,7 @@ export class Line {
                 points.shift();
                 points.pop();
             }
-            // draw point
-            points.forEach(([x, y]) => {
-                ctx.lineTo(x, y);
-            });
+            trackPoints.concat(points);
             const first = points.at(0);
             const last = points.at(-1);
             firstLine = {
@@ -102,8 +98,16 @@ export class Line {
                 from: [last[0], last[1]],
                 to: [to[0], to[1]],
             };
+            //
         }
-        ctx.lineTo(to[0], to[1]);
+        trackPoints.push(to);
+        // draw line
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(trackPoints[0][0], trackPoints[0][1]);
+        for (let i = 1; i < trackPoints.length; i++) {
+            ctx.lineTo(trackPoints[i][0], trackPoints[i][1]);
+        }
         ctx.strokeStyle = strokeStyle;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
@@ -119,10 +123,10 @@ export class Line {
         ctx.restore();
 
         // return
-        const left = Math.min(from.x, to.x);
-        const right = Math.max(from.x, to.x);
-        const top = Math.min(from.y, to.y);
-        const bottom = Math.max(from.y, to.y);
+        const left = Math.min(from[0], to[0]);
+        const right = Math.max(from[0], to[0]);
+        const top = Math.min(from[1], to[1]);
+        const bottom = Math.max(from[1], to[1]);
         const x = (left + right) / 2; // left + (right-left)/2;
         const y = (top + bottom) / 2; //top + (bottom - top)/2
 
@@ -132,12 +136,14 @@ export class Line {
             top,
             bottom,
         };
+
         const figure = {
             type: "line",
             params: params,
             position: [x, y],
             frame: frame,
             outline: frame,
+            trackPoints,
         };
         return figure;
     }
