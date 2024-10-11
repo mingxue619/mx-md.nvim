@@ -2,23 +2,6 @@ import { Paint } from "/app/plugin/canvas/canvas-paint.js";
 export class CurrentFocusCanvas {
     static element;
     static figure;
-    static unFocus() {
-        CurrentFocusCanvas.element = null;
-        CurrentFocusCanvas.figure = null;
-    }
-    static focus(element, figure) {
-        CurrentFocusCanvas.element = element;
-        CurrentFocusCanvas.figure = figure;
-    }
-    static isFocus(element, figure) {
-        if (CurrentFocusCanvas.element != element) {
-            return false;
-        }
-        if (CurrentFocusCanvas.figure != figure) {
-            return false;
-        }
-        return true;
-    }
 }
 
 export class CursorScroll {
@@ -33,7 +16,7 @@ export class CursorScroll {
             return;
         }
         Paint.resetAllImageData();
-        CurrentFocusCanvas.unFocus();
+        this.unFocusCanvas();
         const cursor = bufferInfo.cursor;
         const winline = bufferInfo.winline;
         const winheight = bufferInfo.winheight;
@@ -130,17 +113,19 @@ export class CursorScroll {
         const paint = painting.paint;
         const figure = painting.figures[variableName];
         // const ctx = paint.getContext();
-
-        const isFocus = CurrentFocusCanvas.isFocus(element, figure);
+        debugger;
+        const isFocus = this.isFocusCanvas(element, figure);
         if (isFocus) {
             return true;
         }
+        Paint.resetAllImageData();
         this.canvasHighlight(paint, figure);
         this.focusToFigure(element, figure);
-        CurrentFocusCanvas.focus(element, figure);
+        this.focusCanvas(element, figure);
         return true;
     }
     canvasHighlight(paint, figure) {
+        debugger;
         const { type, position, frame } = figure;
         if (type === "label") {
         } else if (type === "line") {
@@ -190,5 +175,22 @@ export class CursorScroll {
             targetTop = targetTop + position[1] - docHeight / 2;
         }
         window.scrollTo(targetLeft, targetTop);
+    }
+    unFocusCanvas() {
+        this.canvasCurrentFocuselement = null;
+        this.canvasCurrentFocusefigure = null;
+    }
+    focusCanvas(element, figure) {
+        this.canvasCurrentFocuselement = element;
+        this.canvasCurrentFocusefigure = element;
+    }
+    isFocusCanvas(element, figure) {
+        if (this.canvasCurrentFocuselement != element) {
+            return false;
+        }
+        if (this.canvasCurrentFocusefigure != figure) {
+            return false;
+        }
+        return true;
     }
 }

@@ -10,8 +10,9 @@ if (bufnr) {
     wsConnect(bufnr);
 }
 Paint.onPaintFinish((painting, paintingMap) => {
+    debugger
+    cursorScroll.unFocusCanvas();
     cursorScroll.reScroll();
-    CurrentFocusCanvas.unFocus();
 });
 
 function getBufferNumber() {
