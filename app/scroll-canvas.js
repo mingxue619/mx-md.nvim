@@ -60,6 +60,11 @@ export class CanvasScroll {
     }
     static drawFocusFigure(paint, figure) {
         const { type, position, frame } = figure;
+        const style = {
+            strokeStyle: "red",
+            lineWidth: 2,
+            lineDash: [5, 5],
+        };
         if (type === "label") {
         } else if (type === "line") {
         } else if (type === "rect") {
@@ -68,14 +73,18 @@ export class CanvasScroll {
             const params = {
                 position: position,
                 size: [width, height],
-                style: {
-                    strokeStyle: "red",
-                    lineWidth: 2,
-                    lineDash: [5, 5],
-                },
+                style,
             };
             paint.rect(params);
         } else if (type === "triangle") {
+            const width = Math.abs(frame.right - frame.left) + 20;
+            const height = Math.abs(frame.bottom - frame.top) + 20;
+            const params = {
+                position: position,
+                size: [width, height],
+                style,
+            };
+            paint.rect(params);
         } else if (type === "cylinder") {
         } else if (type === "circle") {
         } else if (type === "ellipse") {
