@@ -60,43 +60,23 @@ export class CanvasScroll {
     }
     static drawFocusFigure(paint, figure) {
         const { type, position, outline } = figure;
+        const excludeType = ["lable", "line"];
+        if (excludeType.includes(type)) {
+            return;
+        }
+        const width = Math.abs(outline.right - outline.left) + 20;
+        const height = Math.abs(outline.bottom - outline.top) + 20;
         const style = {
             strokeStyle: "red",
             lineWidth: 2,
             lineDash: [5, 5],
         };
-        if (type === "label") {
-        } else if (type === "line") {
-        } else if (type === "rect") {
-            const width = Math.abs(outline.right - outline.left) + 20;
-            const height = Math.abs(outline.bottom - outline.top) + 20;
-            const params = {
-                position: position,
-                size: [width, height],
-                style,
-            };
-            paint.rect(params);
-        } else if (type === "triangle") {
-            const width = Math.abs(outline.right - outline.left) + 20;
-            const height = Math.abs(outline.bottom - outline.top) + 20;
-            const params = {
-                position: position,
-                size: [width, height],
-                style,
-            };
-            paint.rect(params);
-        } else if (type === "cylinder") {
-            const width = Math.abs(outline.right - outline.left) + 20;
-            const height = Math.abs(outline.bottom - outline.top) + 20;
-            const params = {
-                position: position,
-                size: [width, height],
-                style,
-            };
-            paint.rect(params);
-        } else if (type === "circle") {
-        } else if (type === "ellipse") {
-        }
+        const params = {
+            position: position,
+            size: [width, height],
+            style,
+        };
+        paint.rect(params);
     }
     static focusToFigure(element, figure) {
         const rect = element.getBoundingClientRect();
