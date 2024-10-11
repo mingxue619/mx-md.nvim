@@ -7,7 +7,6 @@ export class CursorScroll {
         this.scrollTo(bufferInfo);
     }
     scrollTo(bufferInfo) {
-        debugger;
         Paint.resetAllImageData();
         let scrollToCanvas = this.scrollToCanvas(bufferInfo);
         if (scrollToCanvas) {
@@ -137,7 +136,17 @@ export class CursorScroll {
         }
     }
     focusToFigure(element, figure) {
-        element.scrollIntoView({ behavior: "smooth" });
-        debugger
+        //element.scrollIntoView({ behavior: "smooth" });
+        const frame = figure.frame;
+        // const width = window.innerWidth;
+        // const height = window.innerHeight; // 窗口的内部高度（不包括滚动条）
+        const docWidth = document.documentElement.clientWidth;
+        const docHeight = document.documentElement.clientHeight; // 文档的客户端高度（包括滚动条）
+        // const screenX = window.screenX;
+        // const screenY = window.screenY; // 窗口上边缘相对于屏幕上边缘的距离
+        const scrollX = window.scrollX;
+        const scrollY = window.scrollY; //垂直滚动的距离
+        const pixelRatio = window.devicePixelRatio;
+        debugger;
     }
 }
