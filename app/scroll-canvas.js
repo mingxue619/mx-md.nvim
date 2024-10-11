@@ -67,7 +67,7 @@ export class CanvasScroll {
                 ...params,
                 style: {
                     strokeStyle: "red",
-                    lineWidth: 2,
+                    lineWidth: 3,
                 },
             };
             paint.line(lineParams);
