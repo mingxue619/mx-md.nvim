@@ -5,10 +5,10 @@ export class CursorScroll {
     scrollToCanvas(painting) {
         const render = window.render;
         const bufferInfo = render.bufferInfo;
-        this.scrollTo(bufferInfo, painting);
+        this.scrollTo(bufferInfo);
     }
-    scrollTo(bufferInfo, painting) {
-        let scrollToCanvas = CanvasScroll.scrollToCanvas(bufferInfo, painting);
+    scrollTo(bufferInfo) {
+        let scrollToCanvas = CanvasScroll.scrollToCanvas(bufferInfo);
         if (scrollToCanvas) {
             return;
         }

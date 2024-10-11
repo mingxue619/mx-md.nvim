@@ -13,7 +13,7 @@ if (bufnr) {
 Paint.onPaintFinish((painting, paintings) => {
     // debugger
     CurrentFocusCanvas.unFocus();
-    cursorScroll.scrollToCanvas(painting);
+    cursorScroll.scrollToCanvas();
 });
 
 function getBufferNumber() {
