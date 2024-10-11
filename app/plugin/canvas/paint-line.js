@@ -123,16 +123,19 @@ export class Line {
         const right = Math.max(from.x, to.x);
         const top = Math.min(from.y, to.y);
         const bottom = Math.max(from.y, to.y);
+        const x = (left + right) / 2; // left + (right-left)/2;
+        const y = (top + bottom) / 2; //top + (bottom - top)/2
+
         const frame = {
             left,
-            right ,
+            right,
             top,
             bottom,
         };
         const figure = {
             type: "line",
             params: params,
-            position: position,
+            position: [x, y],
             frame: frame,
         };
         return figure;
