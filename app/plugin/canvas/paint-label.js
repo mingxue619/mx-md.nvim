@@ -96,4 +96,19 @@ export class Label {
         };
         return figure;
     }
+
+    drawLabelWithFrame(label, frame) {
+        if (label) {
+            if (typeof label === "string") {
+                label = {
+                    title: label,
+                };
+            }
+            const align = label.align || {};
+            align.frame = frame;
+            label.align = align;
+            this.draw(label);
+        }
+    }
+
 }

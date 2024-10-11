@@ -70,20 +70,6 @@ export class Paint {
         label.draw(params);
     }
 
-    drawLabelWithFrame(label, frame) {
-        if (label) {
-            if (typeof label === "string") {
-                label = {
-                    title: label,
-                };
-            }
-            const align = label.align || {};
-            align.frame = frame;
-            label.align = align;
-            this.label(label);
-        }
-    }
-
     line(params) {
         const line = new Line(this.ctx);
         let figure = line.draw(params);
@@ -94,7 +80,7 @@ export class Paint {
         const rect = new Rect(this.ctx);
         let figure = rect.draw(params);
         // label
-        this.drawLabelWithFrame(params.label, figure.frame);
+        new Label(this.ctx).drawLabelWithFrame(params.label, figure.frame);
         return figure;
     }
 
@@ -116,7 +102,7 @@ export class Paint {
                 },
             };
         }
-        this.drawLabelWithFrame(label, frame);
+        new Label(this.ctx).drawLabelWithFrame(label, frame);
 
         return figure;
     }
@@ -125,7 +111,7 @@ export class Paint {
         const cylinder = new Cylinder(this.ctx);
         let figure = cylinder.draw(params);
         // label
-        this.drawLabelWithFrame(params.label, figure.frame);
+        new Label(this.ctx).drawLabelWithFrame(params.label, figure.frame);
         return figure;
     }
 
@@ -133,7 +119,7 @@ export class Paint {
         const circle = new Circle(this.ctx);
         let figure = circle.draw(params);
         // label
-        this.drawLabelWithFrame(params.label, figure.frame);
+        new Label(this.ctx).drawLabelWithFrame(params.label, figure.frame);
         return figure;
     }
 
@@ -141,7 +127,7 @@ export class Paint {
         const ellipse = new Ellipse(this.ctx);
         let figure = ellipse.draw(params);
         // label
-        this.drawLabelWithFrame(params.label, figure.frame);
+        new Label(this.ctx).drawLabelWithFrame(params.label, figure.frame);
         return figure;
     }
 }
