@@ -58,10 +58,6 @@ export class CanvasScroll {
         CurrentFocusCanvas.focus(element, figure);
         return true;
     }
-    static onMouseMove(painting, mouse) {
-        // debugger;
-        console.log("mouse");
-    }
     static drawFocusFigure(paint, figure) {
         const { type, position, frame } = figure;
         if (type === "label") {
@@ -112,5 +108,55 @@ export class CanvasScroll {
             targetTop = targetTop + position[1] - docHeight / 2;
         }
         window.scrollTo(targetLeft, targetTop);
+    }
+    static onMouseMove(painting, mouse) {
+        const { reset, draw, element, paint, figure } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
+        if (reset) {
+            Paint.resetAllImageData();
+        }
+        if (draw) {
+            CanvasScroll.drawFocusFigure(paint, figure);
+            CurrentFocusCanvas.focus(element, figure);
+        }
+    }
+    static mouseMoveNeedDraw(painting, mouse) {
+        let { element, paint, figures } = painting;
+        const [x, y] = mouse;
+        const excludeType = ["lable"];
+        const figureArray = Object.values(figures).filter((figure) => {
+            const { type, frame } = figure;
+            if (excludeType.includes(type)) {
+                return false;
+            }
+            const { left, top, right, bottom } = frame;
+            if (left <= x && x <= right) {
+            } else {
+                return false;
+            }
+            if (top <= y && y <= bottom) {
+            } else {
+                return false;
+            }
+            return true;
+        });
+        if (figureArray.length <= 0) {
+            return {
+                reset: true,
+            };
+        }
+        const figure = figureArray[0];
+        const isFocus = CurrentFocusCanvas.isFocus(element, figure);
+        if (isFocus) {
+            return {
+                reset: false,
+            };
+        }
+        return {
+            reset: true,
+            draw: true,
+            element,
+            paint,
+            figure,
+        };
     }
 }
