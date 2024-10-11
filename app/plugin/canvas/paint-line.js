@@ -119,9 +119,21 @@ export class Line {
         ctx.restore();
 
         // return
+        const left = Math.min(from.x, to.x);
+        const right = Math.max(from.x, to.x);
+        const top = Math.min(from.y, to.y);
+        const bottom = Math.max(from.y, to.y);
+        const frame = {
+            left,
+            right ,
+            top,
+            bottom,
+        };
         const figure = {
             type: "line",
             params: params,
+            position: position,
+            frame: frame,
         };
         return figure;
     }

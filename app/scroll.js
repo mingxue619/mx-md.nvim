@@ -7,6 +7,7 @@ export class CursorScroll {
         this.scrollTo(bufferInfo);
     }
     scrollTo(bufferInfo) {
+        debugger;
         Paint.resetAllImageData();
         let scrollToCanvas = this.scrollToCanvas(bufferInfo);
         if (scrollToCanvas) {
@@ -136,8 +137,7 @@ export class CursorScroll {
         }
     }
     focusToFigure(element, figure) {
+        element.scrollIntoView({ behavior: "smooth" });
         debugger
-        element.scrollIntoView({ behavior: 'smooth' });
-
     }
 }
