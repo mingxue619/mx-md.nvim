@@ -24,7 +24,7 @@ export class Rect {
         // 绘制边框
         ctx.strokeStyle = strokeStyle;
         ctx.lineWidth = lineWidth;
-        if(lineDash) {
+        if (lineDash) {
             ctx.setLineDash(lineDash);
         }
         ctx.stroke();
@@ -54,6 +54,7 @@ export class Rect {
             point: point,
             position: position,
             frame: frame,
+            outline: frame,
         };
         // children
         if (children) {

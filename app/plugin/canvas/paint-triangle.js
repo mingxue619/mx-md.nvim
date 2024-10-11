@@ -50,6 +50,7 @@ export class Triangle {
             point: point,
             position: position,
             frame: frame,
+            outline: frame,
         };
         // children
         if (children) {

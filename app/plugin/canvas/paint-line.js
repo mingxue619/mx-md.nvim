@@ -137,6 +137,7 @@ export class Line {
             params: params,
             position: [x, y],
             frame: frame,
+            outline: frame,
         };
         return figure;
     }

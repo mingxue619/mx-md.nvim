@@ -86,6 +86,14 @@ export class CanvasScroll {
             };
             paint.rect(params);
         } else if (type === "cylinder") {
+            const width = Math.abs(frame.right - frame.left) + 20;
+            const height = Math.abs(frame.bottom - frame.top) + 20;
+            const params = {
+                position: position,
+                size: [width, height],
+                style,
+            };
+            paint.rect(params);
         } else if (type === "circle") {
         } else if (type === "ellipse") {
         }
