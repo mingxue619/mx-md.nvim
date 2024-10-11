@@ -116,7 +116,10 @@ export class CanvasScroll {
         window.scrollTo(targetLeft, targetTop);
     }
     static onMouseMove(painting, mouse) {
-        const { reset, draw, element, paint, figure } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
+        const { unFocus, reset, draw, element, paint, figure } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
+        if (unFocus) {
+            CurrentFocusCanvas.unFocus();
+        }
         if (reset) {
             Paint.resetAllImageData();
         }
@@ -153,6 +156,7 @@ export class CanvasScroll {
         if (figureArray.length <= 0) {
             return {
                 reset: true,
+                unFocus: true,
             };
         }
         const figure = figureArray[0];
