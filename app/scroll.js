@@ -7,11 +7,11 @@ export class CursorScroll {
         this.scrollTo(bufferInfo);
     }
     scrollTo(bufferInfo) {
-        Paint.resetAllImageData();
         let scrollToCanvas = this.scrollToCanvas(bufferInfo);
         if (scrollToCanvas) {
             return;
         }
+        Paint.resetAllImageData();
         const cursor = bufferInfo.cursor;
         const winline = bufferInfo.winline;
         const winheight = bufferInfo.winheight;
