@@ -23,20 +23,22 @@ export class CurrentFocusCanvas {
 
 export class CanvasScroll {
     // canvas
-    static scrollToCanvas(bufferInfo) {
+    static scrollToCanvas(bufferInfo, painting) {
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
-        const paintings = Paint.paintings.filter((painting) => {
-            let [start, end] = painting.map;
-            if (start <= line && line < end) {
-                return true;
+        if (!painting) {
+            const paintings = Paint.paintings.filter((painting) => {
+                let [start, end] = painting.map;
+                if (start <= line && line < end) {
+                    return true;
+                }
+                return false;
+            });
+            if (paintings.length <= 0) {
+                return false;
             }
-            return false;
-        });
-        if (paintings.length <= 0) {
-            return false;
+            painting = paintings[0];
         }
-        const painting = paintings[0];
         let [start, end] = painting.map;
         let lineMap = painting.lineMap;
         // 相对行号转为绝对行号

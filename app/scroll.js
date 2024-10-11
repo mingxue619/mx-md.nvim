@@ -2,13 +2,13 @@ import { Paint } from "/app/plugin/canvas/canvas-paint.js";
 import { CanvasScroll } from "/app/scroll-canvas.js";
 
 export class CursorScroll {
-    reScroll() {
+    scrollToCanvas(painting) {
         const render = window.render;
         const bufferInfo = render.bufferInfo;
-        this.scrollTo(bufferInfo);
+        this.scrollTo(bufferInfo, painting);
     }
-    scrollTo(bufferInfo) {
-        let scrollToCanvas = CanvasScroll.scrollToCanvas(bufferInfo);
+    scrollTo(bufferInfo, painting) {
+        let scrollToCanvas = CanvasScroll.scrollToCanvas(bufferInfo, painting);
         if (scrollToCanvas) {
             return;
         }
