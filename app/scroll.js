@@ -136,10 +136,10 @@ export class CursorScroll {
         }
     }
     focusToFigure(element, figure) {
-        element.scrollIntoView({ behavior: "smooth" }); //先对齐画布
         const rect = element.getBoundingClientRect();
-        const { left, right, top, bottom } = figure.frame;
-        const [x, y] = figure.position;
+        const { left, right, top, bottom, x, y } = rect;
+        const { position, frame } = figure;
+
         // const width = window.innerWidth;
         // const height = window.innerHeight; // 窗口的内部高度（不包括滚动条）
         const docWidth = document.documentElement.clientWidth;
@@ -150,16 +150,16 @@ export class CursorScroll {
         const scrollY = window.scrollY; //垂直滚动的距离
         // const pixelRatio = window.devicePixelRatio;
 
-        let moveX = 0,
-            moveY = 0;
-        if (right > docWidth) {
+        let targetLeft = scrollX + left;
+        let targetTop = scrollY + top;
+        if (frame.right > docWidth) {
             // 右边超出屏幕
-            moveX = x - docWidth/2;
+            targetLeft = targetLeft + position[0] - docWidth / 2;
         }
-        if (bottom > docHeight) {
+        if (frame.bottom > docHeight) {
             // 底部超出屏幕
-            moveY = y - docHeight/2;
+            targetTop = targetTop + position[1] - docHeight / 2;
         }
-        window.scrollBy(moveX, moveY);
+        window.scrollTo(targetLeft, targetTop);
     }
 }
