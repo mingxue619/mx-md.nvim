@@ -139,7 +139,6 @@ export class Line {
 
         const figure = {
             type: "line",
-            params: params,
             position: [x, y],
             frame: frame,
             outline: frame,
