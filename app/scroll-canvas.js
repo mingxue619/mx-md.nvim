@@ -122,7 +122,7 @@ export class CanvasScroll {
     static mouseMoveNeedDraw(painting, mouse) {
         let { element, paint, figures } = painting;
         const [x, y] = mouse;
-        const excludeType = ["lable"];
+        const excludeType = ["lable", "line"];
         const figureArray = Object.values(figures).filter((figure) => {
             const { type, frame } = figure;
             if (excludeType.includes(type)) {

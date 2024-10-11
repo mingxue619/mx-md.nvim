@@ -9,7 +9,7 @@ import { Cylinder } from "./paint-cylinder.js";
 import { Triangle } from "./paint-triangle.js";
 import { Circle } from "./paint-circle.js";
 import { Ellipse } from "./paint-ellipse.js";
-
+// type = [label, line, rect, triangle, cylinder, circle, ellipse]
 export class Paint {
     constructor(canvas) {
         this.canvas = canvas;
