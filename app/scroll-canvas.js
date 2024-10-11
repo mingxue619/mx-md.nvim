@@ -1,4 +1,5 @@
 import { Paint } from "/app/plugin/canvas/canvas-paint.js";
+
 export class CurrentFocusCanvas {
     static element;
     static figure;
@@ -56,6 +57,10 @@ export class CanvasScroll {
         CanvasScroll.focusToFigure(element, figure);
         CurrentFocusCanvas.focus(element, figure);
         return true;
+    }
+    static onMouseMove(painting, mouse) {
+        // debugger;
+        console.log("mouse");
     }
     static drawFocusFigure(paint, figure) {
         const { type, position, frame } = figure;
