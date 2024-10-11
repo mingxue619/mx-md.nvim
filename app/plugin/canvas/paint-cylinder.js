@@ -46,12 +46,18 @@ export class Cylinder {
             top: from.y,
             bottom: from.y + height,
         };
+        const outline = {
+            left: from.x,
+            right: from.x + width,
+            top: from.y - radiusY,
+            bottom: from.y + height + radiusY,
+        };
         let figure = {
             type: "cylinder",
             point: point,
             position: position,
             frame: frame,
-            outline: frame,
+            outline: outline,
         };
         // children
         if (children) {
