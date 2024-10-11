@@ -11,7 +11,7 @@ if (bufnr) {
 }
 Paint.onPaintFinish((painting, paintings) => {
     // debugger
-    // cursorScroll.unFocusCanvas();
+    CurrentFocusCanvas.unFocus();
     cursorScroll.reScroll();
 });
 
