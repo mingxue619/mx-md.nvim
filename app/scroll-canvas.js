@@ -52,12 +52,12 @@ export class CanvasScroll {
             return true;
         }
         Paint.resetAllImageData();
-        CanvasScroll.canvasHighlight(paint, figure);
+        CanvasScroll.drawFocusFigure(paint, figure);
         CanvasScroll.focusToFigure(element, figure);
         CurrentFocusCanvas.focus(element, figure);
         return true;
     }
-    static canvasHighlight(paint, figure) {
+    static drawFocusFigure(paint, figure) {
         const { type, position, frame } = figure;
         if (type === "label") {
         } else if (type === "line") {
