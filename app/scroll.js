@@ -1,5 +1,5 @@
 import { Paint } from "/app/plugin/canvas/canvas-paint.js";
-import { CanvasScroll } from "/app/scroll-canvas.js";
+import { CanvasScroll, CurrentFocusCanvas } from "/app/scroll-canvas.js";
 
 export class CursorScroll {
     scrollToCanvas(painting) {
@@ -12,6 +12,7 @@ export class CursorScroll {
         if (scrollToCanvas) {
             return;
         }
+        CurrentFocusCanvas.unFocus();
         Paint.resetAllImageData();
         // this.unFocusCanvas();
         const cursor = bufferInfo.cursor;
