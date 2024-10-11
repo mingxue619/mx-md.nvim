@@ -9,9 +9,9 @@ let bufnr = getBufferNumber();
 if (bufnr) {
     wsConnect(bufnr);
 }
-Paint.onPaintFinish((painting, paintingMap) => {
-    debugger
-    cursorScroll.unFocusCanvas();
+Paint.onPaintFinish((painting, paintings) => {
+    // debugger
+    // cursorScroll.unFocusCanvas();
     cursorScroll.reScroll();
 });
 

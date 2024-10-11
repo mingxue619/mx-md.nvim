@@ -17,7 +17,7 @@ export class Paint {
         this.ctx = ctx;
     }
 
-    static paintingMap = new Map();
+    static paintings = [];
 
     static dispatchPaintFinishEvent(painting) {
         const paintFinishEvent = new CustomEvent("PaintFinishEvent", {
@@ -34,18 +34,23 @@ export class Paint {
             const ctx = paint.getContext();
             const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
             painting.imageData = imageData;
-            // paintingMap
-            const paintingMap = Paint.paintingMap;
-            const id = painting.id;
-            paintingMap.set(id, painting);
-            Paint.paintingMap = paintingMap;
+            // paintings
+            const paintings = Paint.paintings.filter((painting) => {
+                const id = painting.id;
+                const element = document.getElementById(id);
+                if (element) {
+                    return true;
+                }
+                return false;
+            });
+            paintings.push(painting);
+            Paint.paintings = paintings;
 
-            callback(painting, paintingMap);
+            callback(painting, paintings);
         });
     }
     static resetAllImageData() {
-        const paintingMap = Paint.paintingMap;
-        Array.from(paintingMap.entries()).forEach(([id, painting]) => {
+        Paint.paintings.forEach((painting) => {
             const paint = painting.paint;
             // const canvas = paint.getCanvas();
             const ctx = paint.getContext();

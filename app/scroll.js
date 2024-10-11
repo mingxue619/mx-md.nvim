@@ -16,7 +16,7 @@ export class CursorScroll {
             return;
         }
         Paint.resetAllImageData();
-        this.unFocusCanvas();
+        // this.unFocusCanvas();
         const cursor = bufferInfo.cursor;
         const winline = bufferInfo.winline;
         const winheight = bufferInfo.winheight;
@@ -87,18 +87,15 @@ export class CursorScroll {
     }
     // canvas
     scrollToCanvas(bufferInfo) {
-        const paintingMap = Paint.paintingMap;
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
-        const paintings = Array.from(paintingMap.entries())
-            .filter(([key, value]) => {
-                let [start, end] = value.map;
-                if (start <= line && line < end) {
-                    return true;
-                }
-                return false;
-            })
-            .map(([key, value]) => value);
+        const paintings = Paint.paintings.filter((painting) => {
+            let [start, end] = painting.map;
+            if (start <= line && line < end) {
+                return true;
+            }
+            return false;
+        });
         if (paintings.length <= 0) {
             return false;
         }
@@ -113,19 +110,17 @@ export class CursorScroll {
         const paint = painting.paint;
         const figure = painting.figures[variableName];
         // const ctx = paint.getContext();
-        debugger;
-        const isFocus = this.isFocusCanvas(element, figure);
-        if (isFocus) {
-            return true;
-        }
+        // const isFocus = this.isFocusCanvas(element, figure);
+        // if (isFocus) {
+        //     return true;
+        // }
         Paint.resetAllImageData();
         this.canvasHighlight(paint, figure);
         this.focusToFigure(element, figure);
-        this.focusCanvas(element, figure);
+        // this.focusCanvas(element, figure);
         return true;
     }
     canvasHighlight(paint, figure) {
-        debugger;
         const { type, position, frame } = figure;
         if (type === "label") {
         } else if (type === "line") {
@@ -176,21 +171,21 @@ export class CursorScroll {
         }
         window.scrollTo(targetLeft, targetTop);
     }
-    unFocusCanvas() {
-        this.canvasCurrentFocuselement = null;
-        this.canvasCurrentFocusefigure = null;
-    }
-    focusCanvas(element, figure) {
-        this.canvasCurrentFocuselement = element;
-        this.canvasCurrentFocusefigure = element;
-    }
-    isFocusCanvas(element, figure) {
-        if (this.canvasCurrentFocuselement != element) {
-            return false;
-        }
-        if (this.canvasCurrentFocusefigure != figure) {
-            return false;
-        }
-        return true;
-    }
+    // unFocusCanvas() {
+    //     this.canvasCurrentFocuselement = null;
+    //     this.canvasCurrentFocusefigure = null;
+    // }
+    // focusCanvas(element, figure) {
+    //     this.canvasCurrentFocuselement = element;
+    //     this.canvasCurrentFocusefigure = element;
+    // }
+    // isFocusCanvas(element, figure) {
+    //     if (this.canvasCurrentFocuselement != element) {
+    //         return false;
+    //     }
+    //     if (this.canvasCurrentFocusefigure != figure) {
+    //         return false;
+    //     }
+    //     return true;
+    // }
 }
