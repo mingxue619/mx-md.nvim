@@ -1,36 +1,27 @@
-// position in triangle 
+// position in triangle
 export class Triangle {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    draw({ position, size, style, children }) {
-        const ctx = this.ctx;
-        ctx.save();
+    static build(ctx) {
+        return new Triangle(ctx);
+    }
+    buildShape(params) {
+        this.params = params;
+        const { position, size, style, children } = params;
+
         let [x, y] = position;
         const [width, height] = size;
         let from = {
             x: x - width / 2,
             y: y - height / 2,
         };
-        // style
-        const { strokeStyle, lineWidth, fill, fillStyle } = style || {};
-        // draw
-        ctx.beginPath();
-        ctx.moveTo(from.x + width / 2, from.y); // 上顶点
-        ctx.lineTo(from.x + width, from.y + height); // 右下角
-        ctx.lineTo(from.x, from.y + height); // 左下角
-        ctx.closePath(); // 闭合路径，即从左下角回到左上角
-        // 绘制边框
-        ctx.strokeStyle = strokeStyle;
-        ctx.lineWidth = lineWidth;
-        ctx.stroke();
-        // fill
-        if (fill) {
-            ctx.fillStyle = fillStyle || window.foreground;
-            ctx.fill();
-        }
-        ctx.restore();
-        
+        let trackPoints = [];
+        trackPoints.push([from.x + width / 2, from.y]); // 上顶点
+        trackPoints.push([from.x + width, from.y + height]); // 右下角
+        trackPoints.push([from.x, from.y + height]); // 左下角
+        this.trackPoints = trackPoints;
+
         // return
         const point = {
             top: [x, y - height / 2],
@@ -47,10 +38,12 @@ export class Triangle {
 
         let shape = {
             type: "triangle",
-            point: point,
+            brush: this,
             position: position,
+            point: point,
             frame: frame,
             outline: frame,
+            trackPoints,
         };
         // children
         if (children) {
@@ -63,5 +56,34 @@ export class Triangle {
             }
         }
         return shape;
+    }
+    draw() {
+        const ctx = this.ctx;
+        const params = this.params;
+        const { position, size, style, children } = params;
+
+        // style
+        const { strokeStyle, lineWidth, fill, fillStyle } = style || {};
+
+        const trackPoints = this.trackPoints;
+        // draw
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(trackPoints[0][0], trackPoints[0][1]);
+        for (let i = 1; i < trackPoints.length; i++) {
+            ctx.lineTo(trackPoints[i][0], trackPoints[i][1]);
+        }
+        ctx.closePath();
+
+        // 绘制边框
+        ctx.strokeStyle = strokeStyle;
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+        // fill
+        if (fill) {
+            ctx.fillStyle = fillStyle || window.foreground;
+            ctx.fill();
+        }
+        ctx.restore();
     }
 }

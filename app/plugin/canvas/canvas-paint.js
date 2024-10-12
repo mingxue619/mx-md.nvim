@@ -87,8 +87,9 @@ export class Paint {
     }
 
     triangle(params) {
-        const triangle = new Triangle(this.ctx);
-        let shape = triangle.draw(params);
+        let shape = Triangle.build(this.ctx).buildShape(params);
+        shape.brush.draw();
+
         let frame = shape.frame;
         const height = frame.bottom - frame.top;
         // label
