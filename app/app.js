@@ -26,6 +26,7 @@ function debounce(wait, func) {
 
 Paint.onPaintFinish((painting, paintings) => {
     debugger
+    // requestAnimationFrame
     CurrentFocusCanvas.unFocus();
     cursorScroll.scrollToCanvas();
     const element = painting.element;
