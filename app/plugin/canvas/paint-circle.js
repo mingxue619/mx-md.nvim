@@ -42,7 +42,7 @@ export class Circle {
             bottom: from.y + height,
         };
 
-        let figure = {
+        let shape = {
             type: "circle",
             point: point,
             position: position,
@@ -51,14 +51,14 @@ export class Circle {
         };
         // children
         if (children) {
-            const childrenObjects = children(figure);
+            const childrenObjects = children(shape);
             if (childrenObjects) {
                 return {
-                    ...figure,
+                    ...shape,
                     children: childrenObjects,
                 };
             }
         }
-        return figure;
+        return shape;
     }
 }

@@ -52,7 +52,7 @@ export class Cylinder {
             top: from.y - radiusY,
             bottom: from.y + height + radiusY,
         };
-        let figure = {
+        let shape = {
             type: "cylinder",
             point: point,
             position: position,
@@ -61,8 +61,8 @@ export class Cylinder {
         };
         // children
         if (children) {
-            children(figure);
+            children(shape);
         }
-        return figure;
+        return shape;
     }
 }

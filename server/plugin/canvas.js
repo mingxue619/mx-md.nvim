@@ -175,7 +175,7 @@ function markdownitCanvas(md) {
                                         element: ${element},
                                         paint: ${paint},
                                         map: [${token.map}],
-                                        figures: result,
+                                        shapes: result,
                                         lineMap: ${lineMap}
                                     };
                                     Paint.dispatchPaintFinishEvent(painting);

@@ -41,7 +41,7 @@ export class Ellipse {
             bottom: from.y + height,
         };
 
-        let figure = {
+        let shape = {
             type: "ellipse",
             point: point,
             position: position,
@@ -50,14 +50,14 @@ export class Ellipse {
         };
         // children
         if (children) {
-            const childrenObjects = children(figure);
+            const childrenObjects = children(shape);
             if (childrenObjects) {
                 return {
-                    ...figure,
+                    ...shape,
                     children: childrenObjects,
                 };
             }
         }
-        return figure;
+        return shape;
     }
 }

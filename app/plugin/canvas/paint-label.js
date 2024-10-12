@@ -91,10 +91,10 @@ export class Label {
         ctx.restore();
 
         // return
-        let figure = {
+        let shape = {
             type: "label",
         };
-        return figure;
+        return shape;
     }
 
     drawLabelWithFrame(label, frame) {
@@ -110,7 +110,7 @@ export class Label {
             this.draw(label);
         }
     }
-    drawLabelWithLine(label, figure) {
+    drawLabelWithLine(label, shape) {
         if (label) {
             if (typeof label === "string") {
                 label = {
@@ -121,7 +121,7 @@ export class Label {
             if (multi) {
                 debugger
             } else {
-                const { type, position, frame, outline, trackPoints } = figure;
+                const { type, position, frame, outline, trackPoints } = shape;
                 const align = label.align || {};
                 align.frame = frame;
                 label.align = align;

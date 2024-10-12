@@ -45,7 +45,7 @@ export class Triangle {
             bottom: from.y + height,
         };
 
-        let figure = {
+        let shape = {
             type: "triangle",
             point: point,
             position: position,
@@ -54,14 +54,14 @@ export class Triangle {
         };
         // children
         if (children) {
-            const childrenObjects = children(figure);
+            const childrenObjects = children(shape);
             if (childrenObjects) {
                 return {
-                    ...figure,
+                    ...shape,
                     children: childrenObjects,
                 };
             }
         }
-        return figure;
+        return shape;
     }
 }

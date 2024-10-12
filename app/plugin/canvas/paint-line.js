@@ -137,7 +137,7 @@ export class Line {
             bottom,
         };
 
-        const figure = {
+        const shape = {
             params,
             type: "line",
             position: [x, y],
@@ -145,7 +145,7 @@ export class Line {
             outline: frame,
             trackPoints,
         };
-        return figure;
+        return shape;
     }
     drawArraw(arrow, firstLine, lastLine) {
         const { length = 10, fillStyle, strokeStyle, bidirection = false } = arrow;

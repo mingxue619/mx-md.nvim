@@ -64,7 +64,7 @@ export class Paint {
     getContext() {
         return this.ctx;
     }
-    // figure
+    // shape
     label(params) {
         const label = new Label(this.ctx);
         label.draw(params);
@@ -72,24 +72,24 @@ export class Paint {
 
     line(params) {
         const line = new Line(this.ctx);
-        let figure = line.draw(params);
+        let shape = line.draw(params);
         // label
-        new Label(this.ctx).drawLabelWithLine(params.label, figure);
-        return figure;
+        new Label(this.ctx).drawLabelWithLine(params.label, shape);
+        return shape;
     }
 
     rect(params) {
         const rect = new Rect(this.ctx);
-        let figure = rect.draw(params);
+        let shape = rect.draw(params);
         // label
-        new Label(this.ctx).drawLabelWithFrame(params.label, figure.frame);
-        return figure;
+        new Label(this.ctx).drawLabelWithFrame(params.label, shape.frame);
+        return shape;
     }
 
     triangle(params) {
         const triangle = new Triangle(this.ctx);
-        let figure = triangle.draw(params);
-        let frame = figure.frame;
+        let shape = triangle.draw(params);
+        let frame = shape.frame;
         const height = frame.bottom - frame.top;
         // label
         let label = params.label;
@@ -106,30 +106,30 @@ export class Paint {
         }
         new Label(this.ctx).drawLabelWithFrame(label, frame);
 
-        return figure;
+        return shape;
     }
 
     cylinder(params) {
         const cylinder = new Cylinder(this.ctx);
-        let figure = cylinder.draw(params);
+        let shape = cylinder.draw(params);
         // label
-        new Label(this.ctx).drawLabelWithFrame(params.label, figure.frame);
-        return figure;
+        new Label(this.ctx).drawLabelWithFrame(params.label, shape.frame);
+        return shape;
     }
 
     circle(params) {
         const circle = new Circle(this.ctx);
-        let figure = circle.draw(params);
+        let shape = circle.draw(params);
         // label
-        new Label(this.ctx).drawLabelWithFrame(params.label, figure.frame);
-        return figure;
+        new Label(this.ctx).drawLabelWithFrame(params.label, shape.frame);
+        return shape;
     }
 
     ellipse(params) {
         const ellipse = new Ellipse(this.ctx);
-        let figure = ellipse.draw(params);
+        let shape = ellipse.draw(params);
         // label
-        new Label(this.ctx).drawLabelWithFrame(params.label, figure.frame);
-        return figure;
+        new Label(this.ctx).drawLabelWithFrame(params.label, shape.frame);
+        return shape;
     }
 }

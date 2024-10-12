@@ -2,20 +2,20 @@ import { Paint } from "/app/plugin/canvas/canvas-paint.js";
 
 export class CurrentFocusCanvas {
     static element;
-    static figure;
+    static shape;
     static unFocus() {
         CurrentFocusCanvas.element = null;
-        CurrentFocusCanvas.figure = null;
+        CurrentFocusCanvas.shape = null;
     }
-    static focus(element, figure) {
+    static focus(element, shape) {
         CurrentFocusCanvas.element = element;
-        CurrentFocusCanvas.figure = figure;
+        CurrentFocusCanvas.shape = shape;
     }
-    static isFocus(element, figure) {
+    static isFocus(element, shape) {
         if (CurrentFocusCanvas.element != element) {
             return false;
         }
-        if (CurrentFocusCanvas.figure != figure) {
+        if (CurrentFocusCanvas.shape != shape) {
             return false;
         }
         return true;
@@ -45,20 +45,20 @@ export class CanvasScroll {
         const [key, variableName] = matchLines.at(0) || entries.at(-1);
         const element = painting.element;
         const paint = painting.paint;
-        const figure = painting.figures[variableName];
+        const shape = painting.shapes[variableName];
         // const ctx = paint.getContext();
-        const isFocus = CurrentFocusCanvas.isFocus(element, figure);
+        const isFocus = CurrentFocusCanvas.isFocus(element, shape);
         if (isFocus) {
             return true;
         }
         Paint.resetAllImageData();
-        CanvasScroll.drawFocusFigure(paint, figure);
-        CanvasScroll.focusToFigure(element, figure);
-        CurrentFocusCanvas.focus(element, figure);
+        CanvasScroll.drawFocusshape(paint, shape);
+        CanvasScroll.focusToshape(element, shape);
+        CurrentFocusCanvas.focus(element, shape);
         return true;
     }
-    static drawFocusFigure(paint, figure) {
-        const { type, position, outline, params } = figure;
+    static drawFocusshape(paint, shape) {
+        const { type, position, outline, params } = shape;
         if (type === "label") {
         } else if (type === "line") {
             const { from, to, style, arrow, polyline } = params;
@@ -87,10 +87,10 @@ export class CanvasScroll {
             paint.rect(params);
         }
     }
-    static focusToFigure(element, figure) {
+    static focusToshape(element, shape) {
         const rect = element.getBoundingClientRect();
         const { left, right, top, bottom, x, y } = rect;
-        const { position, outline } = figure;
+        const { position, outline } = shape;
 
         // const width = window.innerWidth;
         // const height = window.innerHeight; // 窗口的内部高度（不包括滚动条）
@@ -116,7 +116,7 @@ export class CanvasScroll {
         window.scrollTo(targetLeft, targetTop);
     }
     static onMouseMove(painting, mouse) {
-        const { unFocus, reset, draw, element, paint, figure } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
+        const { unFocus, reset, draw, element, paint, shape } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
         if (unFocus) {
             CurrentFocusCanvas.unFocus();
         }
@@ -124,15 +124,15 @@ export class CanvasScroll {
             Paint.resetAllImageData();
         }
         if (draw) {
-            CanvasScroll.drawFocusFigure(paint, figure);
-            CurrentFocusCanvas.focus(element, figure);
+            CanvasScroll.drawFocusshape(paint, shape);
+            CurrentFocusCanvas.focus(element, shape);
         }
     }
     static mouseMoveNeedDraw(painting, mouse) {
-        let { element, paint, figures } = painting;
+        let { element, paint, shapes } = painting;
         const [x, y] = mouse;
-        const figureArray = Object.values(figures).filter((figure) => {
-            const { type, outline, trackPoints } = figure;
+        const shapeArray = Object.values(shapes).filter((shape) => {
+            const { type, outline, trackPoints } = shape;
             if (type === "lable") {
                 return;
             } else if (type === "line") {
@@ -153,14 +153,14 @@ export class CanvasScroll {
             }
             return true;
         });
-        if (figureArray.length <= 0) {
+        if (shapeArray.length <= 0) {
             return {
                 reset: true,
                 unFocus: true,
             };
         }
-        const figure = figureArray[0];
-        const isFocus = CurrentFocusCanvas.isFocus(element, figure);
+        const shape = shapeArray[0];
+        const isFocus = CurrentFocusCanvas.isFocus(element, shape);
         if (isFocus) {
             return {
                 reset: false,
@@ -171,7 +171,7 @@ export class CanvasScroll {
             draw: true,
             element,
             paint,
-            figure,
+            shape,
         };
     }
 }
