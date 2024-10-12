@@ -1,5 +1,4 @@
 import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
-import { Paint } from "/app/plugin/canvas/canvas-paint.js";
 
 export class CurrentFocusCanvas {
     static element;

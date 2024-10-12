@@ -1,4 +1,5 @@
 import { Axes } from "/app/plugin/canvas/canvas-axes.js";
+import { CanvasScroll, CurrentFocusCanvas } from "/app/scroll-canvas.js";
 
 export class CanvasManager {
     static recursionDrawFlag = false;
@@ -34,12 +35,12 @@ export class CanvasManager {
         //     callback(painting, paintings);
         // });
         document.addEventListener("PaintingFinishEvent", (event) => {
-            debugger;
             let painting = event.detail;
             CanvasManager.paintings.push(painting);
             CanvasManager.cancelDraw();
+            CanvasManager.unFocus();
             CanvasManager.draw(painting);
-
+            CanvasManager.addMouseMoveListener(painting);
             callback(painting);
         });
     }
@@ -112,4 +113,35 @@ export class CanvasManager {
     //         ctx.putImageData(imageData, 0, 0);
     //     });
     // }
+
+    static unFocus() {
+        CanvasManager.paintings.forEach((paintding) => {
+            paintding.focusShape = null;
+        });
+    }
+    static addMouseMoveListener(painting) {
+        debugger;
+        const element = painting.element;
+        const debouncedHandler = CanvasManager.debounce(100, function (event) {
+            // 获取鼠标位置
+            const rect = element.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            const mouse = [x, y];
+            CanvasScroll.onMouseMove(painting, mouse);
+        });
+        element.addEventListener("mousemove", debouncedHandler);
+    }
+    // 防抖函数
+    static debounce(wait, func) {
+        let timeout;
+        return function (...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func.apply(this, args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
 }

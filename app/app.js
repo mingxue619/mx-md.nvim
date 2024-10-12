@@ -12,35 +12,13 @@ if (bufnr) {
     wsConnect(bufnr);
 }
 
-// 防抖函数
-function debounce(wait, func) {
-    let timeout;
-    return function (...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func.apply(this, args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
 
 CanvasManager.onPaintingDrawFinish((painting) => {
     debugger
     // requestAnimationFrame
-    CurrentFocusCanvas.unFocus();
+    // CurrentFocusCanvas.unFocus();
     cursorScroll.scrollToCanvas();
-    const element = painting.element;
 
-    const debouncedHandler = debounce(100, function (event) {
-        // 获取鼠标位置
-        const rect = element.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
-        const mouse = [x, y];
-        CanvasScroll.onMouseMove(painting, mouse);
-    });
-    element.addEventListener("mousemove", debouncedHandler);
 });
 
 function getBufferNumber() {
