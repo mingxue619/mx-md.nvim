@@ -2,29 +2,10 @@ export class Label {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    parseMargin(margin) {
-        let marginTop = 0,
-            marginRight = 0,
-            marginBottom = 0,
-            marginLeft = 0;
-        if (typeof margin === "number") {
-            marginTop = marginRight = marginBottom = marginLeft = margin;
-        } else if (typeof margin === "object") {
-            if (margin instanceof Array) {
-                marginTop = margin[0] || 0;
-                marginRight = margin[1] || 0;
-                marginBottom = margin[2] || 0;
-                marginLeft = margin[3] || 0;
-            } else {
-                marginTop = margin.top || 0;
-                marginRight = margin.right || 0;
-                marginBottom = margin.bottom || 0;
-                marginLeft = margin.left || 0;
-            }
-        }
-        return { marginTop, marginRight, marginBottom, marginLeft };
+    static build(ctx) {
+        return new Label(ctx);
     }
-    draw(params) {
+    buildShape(params) {
         if (typeof params === "string") {
             params = {
                 title: params,
@@ -32,9 +13,6 @@ export class Label {
         }
         let { title, lineSpace, font, color, align, position } = params;
         const ctx = this.ctx;
-        ctx.save();
-        ctx.font = font || "16px Hack Nerd Font Mono";
-        ctx.fillStyle = color || window.foreground;
 
         let textHeight = 0;
         let textWidth = 0;
@@ -80,53 +58,108 @@ export class Label {
                 y = y + marginTop - marginBottom;
             }
         }
+        debugger;
+
+        let trackPoints = [];
         lines.forEach((line) => {
             const lineWidth = ctx.measureText(line).width;
             const spaceW = textWidth - lineWidth;
             y = y + lineHeight;
-            ctx.fillText(line, x + spaceW / 2, y);
+            trackPoints.push({
+                text: line,
+                x: x + spaceW / 2,
+                y: y,
+            });
             y = y + lineSpace;
         });
-
-        ctx.restore();
+        this.trackPoints = trackPoints;
 
         // return
         let shape = {
             type: "label",
+            brush: this,
+            position: void 0,
+            frame: void 0,
+            outline: void 0,
+            trackPoints,
         };
         return shape;
     }
 
-    drawLabelWithFrame(label, frame) {
-        if (label) {
-            if (typeof label === "string") {
-                label = {
-                    title: label,
-                };
+    parseMargin(margin) {
+        let marginTop = 0,
+            marginRight = 0,
+            marginBottom = 0,
+            marginLeft = 0;
+        if (typeof margin === "number") {
+            marginTop = marginRight = marginBottom = marginLeft = margin;
+        } else if (typeof margin === "object") {
+            if (margin instanceof Array) {
+                marginTop = margin[0] || 0;
+                marginRight = margin[1] || 0;
+                marginBottom = margin[2] || 0;
+                marginLeft = margin[3] || 0;
+            } else {
+                marginTop = margin.top || 0;
+                marginRight = margin.right || 0;
+                marginBottom = margin.bottom || 0;
+                marginLeft = margin.left || 0;
             }
-            const align = label.align || {};
+        }
+        return { marginTop, marginRight, marginBottom, marginLeft };
+    }
+
+    buildShapeWithFrame(labelParams, frame) {
+        if (!labelParams) {
+            return [];
+        }
+        if (typeof labelParams === "string") {
+            labelParams = {
+                title: labelParams,
+            };
+        }
+        const align = labelParams.align || {};
+        labelParams.frame = frame;
+        labelParams.align = align;
+        return [this.buildShape(labelParams)];
+    }
+    buildShapesWithLine(labelParams, lineShape) {
+        if (!labelParams) {
+            return [];
+        }
+        if (typeof labelParams === "string") {
+            labelParams = {
+                title: labelParams,
+            };
+        }
+        const { multi } = labelParams;
+        if (multi) {
+            debugger;
+            return [];
+        } else {
+            const { type, position, frame, outline, trackPoints } = lineShape;
+            const align = labelParams.align || {};
             align.frame = frame;
-            label.align = align;
-            this.draw(label);
+            labelParams.align = align;
+            return [this.buildShape(labelParams)];
         }
     }
-    drawLabelWithLine(label, shape) {
-        if (label) {
-            if (typeof label === "string") {
-                label = {
-                    title: label,
-                };
-            }
-            const { multi } = label;
-            if (multi) {
-                debugger
-            } else {
-                const { type, position, frame, outline, trackPoints } = shape;
-                const align = label.align || {};
-                align.frame = frame;
-                label.align = align;
-                this.draw(label);
-            }
-        }
+    draw() {
+        debugger;
+        const ctx = this.ctx;
+        let { title, lineSpace, font, color, align, position } = this.params;
+
+        const trackPoints = this.trackPoints;
+
+        ctx.save();
+        ctx.font = font || "16px Hack Nerd Font Mono";
+        ctx.fillStyle = color || window.foreground;
+        debugger;
+        trackPoints.forEach((trackPoint) => {
+            const { text, x, y } = trackPoint;
+            ctx.fillText(text, x, y);
+        });
+
+        ctx.restore();
     }
 }
