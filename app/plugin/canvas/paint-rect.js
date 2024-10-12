@@ -8,14 +8,19 @@ export class Rect {
     buildShape(params) {
         this.params = params;
         const { position, size, style, children } = params;
-        const ctx = this.ctx;
-        ctx.save();
         let [x, y] = position;
         const [width, height] = size;
         let from = {
             x: x - width / 2,
             y: y - height / 2,
         };
+        let trackPoints = [];
+        trackPoints.push([from.x, from.y]); //左上
+        trackPoints.push([from.x + width, from.y]); // 右上角
+        trackPoints.push([from.x + width, from.y + height]); // 右下角
+        trackPoints.push([from.x, from.y + height]); // 左下角
+        this.trackPoints = trackPoints;
+
         // return
         const point = {
             top: [x, y - height / 2],
@@ -32,11 +37,12 @@ export class Rect {
 
         let shape = {
             type: "rect",
-            params: params,
-            point: point,
+            brush: this,
             position: position,
+            point: point,
             frame: frame,
             outline: frame,
+            trackPoints,
         };
         // children
         if (children) {
@@ -51,17 +57,22 @@ export class Rect {
         return shape;
     }
     draw() {
-        this.params = params;
+        const ctx = this.ctx;
+        const params = this.params;
         const { position, size, style, children } = params;
         // style
         const { strokeStyle, lineWidth, fill, fillStyle, lineDash } = style || {};
 
+        const trackPoints = this.trackPoints;
+
         // draw
+        ctx.save();
         ctx.beginPath();
-        ctx.moveTo(from.x, from.y);
-        ctx.lineTo(from.x + width, from.y); // 从左上角到右上角
-        ctx.lineTo(from.x + width, from.y + height); // 从右上角到右下角
-        ctx.lineTo(from.x, from.y + height); // 从右下角到左下角
+
+        ctx.moveTo(trackPoints[0][0], trackPoints[0][1]);
+        for (let i = 1; i < trackPoints.length; i++) {
+            ctx.lineTo(trackPoints[i][0], trackPoints[i][1]);
+        }
         ctx.closePath(); // 闭合路径，即从左下角回到左上角
         // 绘制边框
         ctx.strokeStyle = strokeStyle;

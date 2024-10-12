@@ -71,7 +71,7 @@ export class Paint {
     }
 
     line(params) {
-        let shape = Line.buildPaint(this.ctx).buildShape(params);
+        let shape = Line.build(this.ctx).buildShape(params);
         shape.brush.draw();
         // label
         new Label(this.ctx).drawLabelWithLine(params.label, shape);
@@ -80,6 +80,7 @@ export class Paint {
 
     rect(params) {
         let shape = Rect.build(this.ctx).buildShape(params);
+        shape.brush.draw();
         // label
         new Label(this.ctx).drawLabelWithFrame(params.label, shape.frame);
         return shape;

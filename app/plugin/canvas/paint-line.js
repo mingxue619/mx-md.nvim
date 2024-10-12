@@ -2,7 +2,7 @@ export class Line {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    static buildPaint(ctx) {
+    static build(ctx) {
         return new Line(ctx);
     }
     buildShape(params) {
