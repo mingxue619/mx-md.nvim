@@ -24,7 +24,7 @@ function debounce(wait, func) {
     };
 }
 
-Paint.onPaintFinish((painting, paintings) => {
+Paint.onPaintingDrawFinish((painting, paintings) => {
     debugger
     // requestAnimationFrame
     CurrentFocusCanvas.unFocus();
