@@ -117,9 +117,7 @@ export class Label {
                 title: labelParams,
             };
         }
-        const align = labelParams.align || {};
-        align.frame = frame;
-        labelParams.align = align;
+        (labelParams.align ??= {}).frame = frame;
         return [this.buildShape(labelParams)];
     }
     buildShapesWithLine(labelParams, lineShape) {
