@@ -43,7 +43,7 @@ export class CanvasScroll {
         // 相对行号转为绝对行号
         lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
         const matchLines = lineMap.filter(([key, value]) => line <= key);
-        const [key, variableName] = matchLines.at(0) || entries.at(-1);
+        const [key, variableName] = matchLines.at(0) || lineMap.at(-1);
         const element = painting.element;
         const paint = painting.paint;
         const shape = painting.shapes[variableName];
