@@ -11,6 +11,7 @@ export class Label {
                 title: params,
             };
         }
+        this.params = params;
         let { title, lineSpace, font, color, align, position } = params;
         const ctx = this.ctx;
 
@@ -58,8 +59,6 @@ export class Label {
                 y = y + marginTop - marginBottom;
             }
         }
-        debugger;
-
         let trackPoints = [];
         lines.forEach((line) => {
             const lineWidth = ctx.measureText(line).width;
@@ -134,7 +133,7 @@ export class Label {
         }
         const { multi } = labelParams;
         if (multi) {
-            debugger;
+            // debugger;
             return [];
         } else {
             const { type, position, frame, outline, trackPoints } = lineShape;
@@ -145,7 +144,6 @@ export class Label {
         }
     }
     draw() {
-        debugger;
         const ctx = this.ctx;
         let { title, lineSpace, font, color, align, position } = this.params;
 
@@ -154,7 +152,6 @@ export class Label {
         ctx.save();
         ctx.font = font || "16px Hack Nerd Font Mono";
         ctx.fillStyle = color || window.foreground;
-        debugger;
         trackPoints.forEach((trackPoint) => {
             const { text, x, y } = trackPoint;
             ctx.fillText(text, x, y);

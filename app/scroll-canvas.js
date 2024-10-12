@@ -1,3 +1,4 @@
+import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
 import { Paint } from "/app/plugin/canvas/canvas-paint.js";
 
 export class CurrentFocusCanvas {
@@ -26,7 +27,7 @@ export class CanvasScroll {
     static scrollToCanvas(bufferInfo) {
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
-        const paintings = Paint.paintings.filter((painting) => {
+        const paintings = CanvasManager.paintings.filter((painting) => {
             let [start, end] = painting.map;
             if (start <= line && line < end) {
                 return true;
@@ -51,7 +52,7 @@ export class CanvasScroll {
         if (isFocus) {
             return true;
         }
-        Paint.resetAllImageData();
+        // Paint.resetAllImageData();
         CanvasScroll.drawFocusshape(paint, shape);
         CanvasScroll.focusToshape(element, shape);
         CurrentFocusCanvas.focus(element, shape);
@@ -122,7 +123,7 @@ export class CanvasScroll {
             CurrentFocusCanvas.unFocus();
         }
         if (reset) {
-            Paint.resetAllImageData();
+            // Paint.resetAllImageData();
         }
         if (draw) {
             CanvasScroll.drawFocusshape(paint, shape);

@@ -2,6 +2,7 @@
 // frame: 画框，图形左右上下的范围
 // from: 起点
 
+import { Axes } from "/app/plugin/canvas/canvas-axes.js";
 import { Label } from "./paint-label.js";
 import { Line } from "./paint-line.js";
 import { Rect } from "./paint-rect.js";
@@ -11,105 +12,39 @@ import { Circle } from "./paint-circle.js";
 import { Ellipse } from "./paint-ellipse.js";
 // type = [label, line, rect, triangle, cylinder, circle, ellipse]
 export class Paint {
-    constructor(canvas) {
-        this.canvas = canvas;
-        const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    constructor(element) {
+        this.element = element;
+        const ctx = element.getContext("2d", { willReadFrequently: true });
         this.ctx = ctx;
     }
 
-    static paintings = [];
-
-    static dispatchPaintingFinishEvent(painting) {
-        const paintingFinishEvent = new CustomEvent("PaintingFinishEvent", {
-            detail: painting,
-        });
-        document.dispatchEvent(paintingFinishEvent);
-    }
-    static onPaintingDrawFinish(callback) {
-        // document.addEventListener("PaintingFinishEvent", (event) => {
-        //     let painting = event.detail;
-        //     // image data
-        //     const paint = painting.paint;
-        //     const canvas = paint.getCanvas();
-        //     const ctx = paint.getContext();
-        //     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        //     painting.imageData = imageData;
-        //     // paintings
-        //     const paintings = Paint.paintings.filter((painting) => {
-        //         const id = painting.id;
-        //         const element = document.getElementById(id);
-        //         if (element) {
-        //             return true;
-        //         }
-        //         return false;
-        //     });
-        //     paintings.push(painting);
-        //     Paint.paintings = paintings;
-        //
-        //     callback(painting, paintings);
-        // });
-        document.addEventListener("PaintingFinishEvent", (event) => {
-            let painting = event.detail;
-            // paintings
-            const paintings = Paint.paintings.filter((painting) => {
-                const id = painting.id;
-                const element = document.getElementById(id);
-                if (element) {
-                    return true;
-                }
-                return false;
-            });
-            paintings.push(painting);
-
-            Paint.paintings = paintings;
-
-            callback(painting, paintings);
-        });
-    }
-    static resetAllImageData() {
-        Paint.paintings.forEach((painting) => {
-            const paint = painting.paint;
-            // const canvas = paint.getCanvas();
-            const ctx = paint.getContext();
-            const imageData = painting.imageData;
-            ctx.putImageData(imageData, 0, 0);
-        });
-    }
-    getCanvas() {
-        return this.canvas;
-    }
-    getContext() {
-        return this.ctx;
-    }
     // shape
     label(params) {
-        debugger
-        // const label = new Label(this.ctx);
-        // label.draw(params);
         let shape = Label.build(this.ctx).buildShape(params);
         shape.brush.draw();
     }
 
     line(params) {
         let shape = Line.build(this.ctx).buildShape(params);
-        shape.brush.draw();
+        // shape.brush.draw();
         // label
         const lableShapes = Label.build(this.ctx).buildShapesWithLine(params.label, shape);
+        shape.labels = lableShapes;
         return shape;
     }
 
     rect(params) {
         let shape = Rect.build(this.ctx).buildShape(params);
-        shape.brush.draw();
+        // shape.brush.draw();
         // label
         const lableShapes = Label.build(this.ctx).buildShapeWithFrame(params.label, shape.frame);
+        shape.labels = lableShapes;
         return shape;
     }
 
     triangle(params) {
         let shape = Triangle.build(this.ctx).buildShape(params);
-        shape.brush.draw();
-
+        // shape.brush.draw();
         let frame = shape.frame;
         const height = frame.bottom - frame.top;
         // label
@@ -126,6 +61,7 @@ export class Paint {
             };
         }
         const lableShapes = Label.build(this.ctx).buildShapeWithFrame(params.label, shape.frame);
+        shape.labels = lableShapes;
 
         return shape;
     }
@@ -143,6 +79,7 @@ export class Paint {
         let shape = circle.draw(params);
         // label
         const lableShapes = Label.build(this.ctx).buildShapeWithFrame(params.label, shape.frame);
+        shape.labels = lableShapes;
         return shape;
     }
 
@@ -151,6 +88,7 @@ export class Paint {
         let shape = ellipse.draw(params);
         // label
         const lableShapes = Label.build(this.ctx).buildShapeWithFrame(params.label, shape.frame);
+        shape.labels = lableShapes;
         return shape;
     }
 }

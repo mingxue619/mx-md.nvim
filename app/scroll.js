@@ -13,7 +13,7 @@ export class CursorScroll {
             return;
         }
         CurrentFocusCanvas.unFocus();
-        Paint.resetAllImageData();
+        // Paint.resetAllImageData();
         // this.unFocusCanvas();
         const cursor = bufferInfo.cursor;
         const winline = bufferInfo.winline;

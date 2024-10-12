@@ -157,28 +157,26 @@ function markdownitCanvas(md) {
                     `;
         const script = `
                         <script type="module">
+                            import { CanvasManager } from '/app/plugin/canvas/canvas-manager.js';
                             import { Paint } from '/app/plugin/canvas/canvas-paint.js';
-                            import { Axes } from '/app/plugin/canvas/canvas-axes.js';
                             import { Theme } from '/app/plugin/canvas/canvas-theme.js';
                             let errorElement = document.getElementById('${errorId}');  
                             let ${element} = document.getElementById("${id}");
                             const ${paint} = new Paint(${element});
                             function drawAxesAndpaint() {
                                 try {
-                                    if(${showAxes}) {
-                                        new Axes(${element}).draw();
-                                    }
                                     const func = new Function('${element}', 'Paint', '${paint}', \`${content}\`);
-                                    const result = func(${element}, Paint, ${paint});
+                                    const shapes = func(${element}, Paint, ${paint});
                                     const painting = {
                                         id: "${id}",
                                         element: ${element},
                                         paint: ${paint},
                                         map: [${token.map}],
-                                        shapes: result,
+                                        axes: ${showAxes},
+                                        shapes: shapes,
                                         lineMap: ${lineMap}
                                     };
-                                    Paint.dispatchPaintingFinishEvent(painting);
+                                    CanvasManager.dispatchPaintingFinishEvent(painting);
                                 } catch (error) {
                                     errorElement.style.display = "block";
                                     let code = document.createElement('code');  
