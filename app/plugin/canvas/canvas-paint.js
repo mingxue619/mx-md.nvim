@@ -71,15 +71,15 @@ export class Paint {
     }
 
     line(params) {
-        let shape = Line.build(this.ctx).buildShape(params);
+        let shape = Line.buildPaint(this.ctx).buildShape(params);
+        shape.brush.draw();
         // label
         new Label(this.ctx).drawLabelWithLine(params.label, shape);
         return shape;
     }
 
     rect(params) {
-        const rect = new Rect(this.ctx);
-        let shape = rect.draw(params);
+        let shape = Rect.build(this.ctx).buildShape(params);
         // label
         new Label(this.ctx).drawLabelWithFrame(params.label, shape.frame);
         return shape;

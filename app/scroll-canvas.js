@@ -61,8 +61,8 @@ export class CanvasScroll {
         const { type, position, outline } = shape;
         if (type === "label") {
         } else if (type === "line") {
-            const line = shape.line;
-            const params = line.params;
+            const brush = shape.brush;
+            const params = brush.params;
             // const { from, to, style, arrow, polyline } = params;
             const lineParams = {
                 ...params,

@@ -2,7 +2,11 @@ export class Rect {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    draw(params) {
+    static build(ctx) {
+        return new Rect(ctx);
+    }
+    buildShape(params) {
+        this.params = params;
         const { position, size, style, children } = params;
         const ctx = this.ctx;
         ctx.save();
@@ -12,28 +16,6 @@ export class Rect {
             x: x - width / 2,
             y: y - height / 2,
         };
-        // style
-        const { strokeStyle, lineWidth, fill, fillStyle, lineDash } = style || {};
-        // draw
-        ctx.beginPath();
-        ctx.moveTo(from.x, from.y);
-        ctx.lineTo(from.x + width, from.y); // 从左上角到右上角
-        ctx.lineTo(from.x + width, from.y + height); // 从右上角到右下角
-        ctx.lineTo(from.x, from.y + height); // 从右下角到左下角
-        ctx.closePath(); // 闭合路径，即从左下角回到左上角
-        // 绘制边框
-        ctx.strokeStyle = strokeStyle;
-        ctx.lineWidth = lineWidth;
-        if (lineDash) {
-            ctx.setLineDash(lineDash);
-        }
-        ctx.stroke();
-        // fill
-        if (fill) {
-            ctx.fillStyle = fillStyle || window.foreground;
-            ctx.fill();
-        }
-        ctx.restore();
         // return
         const point = {
             top: [x, y - height / 2],
@@ -58,14 +40,41 @@ export class Rect {
         };
         // children
         if (children) {
-            const childrenObjects = children(shape);
-            if (childrenObjects) {
+            const childrenShapes = children(shape);
+            if (childrenShapes) {
                 return {
                     ...shape,
-                    children: childrenObjects,
+                    children: childrenShapes,
                 };
             }
         }
         return shape;
+    }
+    draw() {
+        this.params = params;
+        const { position, size, style, children } = params;
+        // style
+        const { strokeStyle, lineWidth, fill, fillStyle, lineDash } = style || {};
+
+        // draw
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(from.x + width, from.y); // 从左上角到右上角
+        ctx.lineTo(from.x + width, from.y + height); // 从右上角到右下角
+        ctx.lineTo(from.x, from.y + height); // 从右下角到左下角
+        ctx.closePath(); // 闭合路径，即从左下角回到左上角
+        // 绘制边框
+        ctx.strokeStyle = strokeStyle;
+        ctx.lineWidth = lineWidth;
+        if (lineDash) {
+            ctx.setLineDash(lineDash);
+        }
+        ctx.stroke();
+        // fill
+        if (fill) {
+            ctx.fillStyle = fillStyle || window.foreground;
+            ctx.fill();
+        }
+        ctx.restore();
     }
 }

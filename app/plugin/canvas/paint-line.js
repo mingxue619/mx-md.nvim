@@ -2,7 +2,7 @@ export class Line {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    static build(ctx) {
+    static buildPaint(ctx) {
         return new Line(ctx);
     }
     buildShape(params) {
@@ -104,6 +104,8 @@ export class Line {
         trackPoints.push(to);
 
         this.trackPoints = trackPoints;
+        this.firstLine = firstLine;
+        this.lastLine = lastLine;
 
         // return
         const left = Math.min(from[0], to[0]);
@@ -122,7 +124,7 @@ export class Line {
 
         const shape = {
             type: "line",
-            line: this,
+            brush: this,
             position: [x, y],
             frame: frame,
             outline: frame,
@@ -137,6 +139,8 @@ export class Line {
         const { strokeStyle, lineWidth } = style || {};
 
         const trackPoints = this.trackPoints;
+        const firstLine = this.firstLine;
+        const lastLine = this.lastLine;
         // draw line
         ctx.save();
         ctx.beginPath();
