@@ -119,6 +119,7 @@ export class Label {
             }
             const { multi } = label;
             if (multi) {
+                debugger
             } else {
                 const { type, position, frame, outline, trackPoints } = figure;
                 const align = label.align || {};
