@@ -58,11 +58,12 @@ export class CanvasScroll {
         return true;
     }
     static drawFocusshape(paint, shape) {
-        const { type, position, outline, params } = shape;
+        const { type, position, outline } = shape;
         if (type === "label") {
         } else if (type === "line") {
-            const { from, to, style, arrow, polyline } = params;
-
+            const line = shape.line;
+            const params = line.params;
+            // const { from, to, style, arrow, polyline } = params;
             const lineParams = {
                 ...params,
                 style: {

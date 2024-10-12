@@ -71,8 +71,7 @@ export class Paint {
     }
 
     line(params) {
-        const line = new Line(this.ctx);
-        let shape = line.draw(params);
+        let shape = Line.build(this.ctx).buildShape(params);
         // label
         new Label(this.ctx).drawLabelWithLine(params.label, shape);
         return shape;

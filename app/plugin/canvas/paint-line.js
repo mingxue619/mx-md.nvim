@@ -2,11 +2,12 @@ export class Line {
     constructor(ctx) {
         this.ctx = ctx;
     }
-    draw(params) {
+    static build(ctx) {
+        return new Line(ctx);
+    }
+    buildShape(params) {
+        this.params = params;
         let { from, to, style, arrow = {}, polyline } = params;
-        const ctx = this.ctx;
-        // style
-        const { strokeStyle, lineWidth } = style || {};
         // points
         let trackPoints = [];
         trackPoints.push(from);
@@ -101,6 +102,41 @@ export class Line {
             //
         }
         trackPoints.push(to);
+
+        this.trackPoints = trackPoints;
+
+        // return
+        const left = Math.min(from[0], to[0]);
+        const right = Math.max(from[0], to[0]);
+        const top = Math.min(from[1], to[1]);
+        const bottom = Math.max(from[1], to[1]);
+        const x = (left + right) / 2; // left + (right-left)/2;
+        const y = (top + bottom) / 2; //top + (bottom - top)/2
+
+        const frame = {
+            left,
+            right,
+            top,
+            bottom,
+        };
+
+        const shape = {
+            type: "line",
+            line: this,
+            position: [x, y],
+            frame: frame,
+            outline: frame,
+            trackPoints,
+        };
+        return shape;
+    }
+    draw() {
+        const ctx = this.ctx;
+        let { from, to, style, arrow = {}, polyline } = this.params;
+        // style
+        const { strokeStyle, lineWidth } = style || {};
+
+        const trackPoints = this.trackPoints;
         // draw line
         ctx.save();
         ctx.beginPath();
@@ -121,31 +157,6 @@ export class Line {
             this.drawArraw(arrow, firstLine, lastLine);
         }
         ctx.restore();
-
-        // return
-        const left = Math.min(from[0], to[0]);
-        const right = Math.max(from[0], to[0]);
-        const top = Math.min(from[1], to[1]);
-        const bottom = Math.max(from[1], to[1]);
-        const x = (left + right) / 2; // left + (right-left)/2;
-        const y = (top + bottom) / 2; //top + (bottom - top)/2
-
-        const frame = {
-            left,
-            right,
-            top,
-            bottom,
-        };
-
-        const shape = {
-            params,
-            type: "line",
-            position: [x, y],
-            frame: frame,
-            outline: frame,
-            trackPoints,
-        };
-        return shape;
     }
     drawArraw(arrow, firstLine, lastLine) {
         const { length = 10, fillStyle, strokeStyle, bidirection = false } = arrow;
