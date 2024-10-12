@@ -19,14 +19,14 @@ export class Paint {
 
     static paintings = [];
 
-    static dispatchPaintFinishEvent(painting) {
-        const paintFinishEvent = new CustomEvent("PaintFinishEvent", {
+    static dispatchSharpBuildFinishEvent(painting) {
+        const paintFinishEvent = new CustomEvent("SharpBuildFinishEvent", {
             detail: painting,
         });
         document.dispatchEvent(paintFinishEvent);
     }
-    static onPaintFinish(callback) {
-        document.addEventListener("PaintFinishEvent", (event) => {
+    static onSharpBuildFinish(callback) {
+        document.addEventListener("SharpBuildFinishEvent", (event) => {
             let painting = event.detail;
             // image data
             const paint = painting.paint;

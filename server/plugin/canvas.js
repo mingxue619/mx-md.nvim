@@ -178,7 +178,7 @@ function markdownitCanvas(md) {
                                         shapes: result,
                                         lineMap: ${lineMap}
                                     };
-                                    Paint.dispatchPaintFinishEvent(painting);
+                                    Paint.dispatchSharpBuildFinishEvent(painting);
                                 } catch (error) {
                                     errorElement.style.display = "block";
                                     let code = document.createElement('code');  
