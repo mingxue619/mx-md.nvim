@@ -1,7 +1,7 @@
 import { Paint } from "/app/plugin/canvas/canvas-paint.js";
 import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
 import { CursorScroll } from "/app/scroll.js";
-import { CanvasScroll, CurrentFocusCanvas } from "/app/scroll-canvas.js";
+import { CanvasScroll } from "/app/scroll-canvas.js";
 import { HtmlRender } from "/app/html-render.js";
 let render = new HtmlRender();
 let cursorScroll = new CursorScroll();
@@ -12,13 +12,10 @@ if (bufnr) {
     wsConnect(bufnr);
 }
 
-
 CanvasManager.onPaintingDrawFinish((painting) => {
-    debugger
     // requestAnimationFrame
     // CurrentFocusCanvas.unFocus();
     cursorScroll.scrollToCanvas();
-
 });
 
 function getBufferNumber() {

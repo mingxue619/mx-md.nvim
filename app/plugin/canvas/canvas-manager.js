@@ -1,5 +1,5 @@
 import { Axes } from "/app/plugin/canvas/canvas-axes.js";
-import { CanvasScroll, CurrentFocusCanvas } from "/app/scroll-canvas.js";
+import { CanvasScroll } from "/app/scroll-canvas.js";
 
 export class CanvasManager {
     static recursionDrawFlag = false;
@@ -68,7 +68,7 @@ export class CanvasManager {
             CanvasManager.drawShape(shape);
         });
         if (focusShape) {
-            focusShape.draw();
+            CanvasManager.drawShape(focusShape);
         }
         if (CanvasManager.recursionDrawFlag) {
             requestAnimationFrame(() => {
@@ -114,13 +114,7 @@ export class CanvasManager {
     //     });
     // }
 
-    static unFocus() {
-        CanvasManager.paintings.forEach((paintding) => {
-            paintding.focusShape = null;
-        });
-    }
     static addMouseMoveListener(painting) {
-        debugger;
         const element = painting.element;
         const debouncedHandler = CanvasManager.debounce(100, function (event) {
             // 获取鼠标位置
@@ -143,5 +137,30 @@ export class CanvasManager {
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
         };
+    }
+    static unFocus() {
+        CanvasManager.paintings.forEach((paintding) => {
+            paintding.focusTarget = null;
+            paintding.focusShape = null;
+        });
+    }
+    static isFocus(painting, shape) {
+        const matchs = CanvasManager.paintings.filter((item) => {
+            if(item != painting) {
+                return false;
+            }
+            if (item.focusTarget != shape) {
+                return false;
+            }
+            return true;
+        });
+        if (matchs.length <= 0) {
+            return false;
+        }
+        return true;
+    }
+    static setFocus(painting, focusTarget, focusShape) {
+        painting.focusTarget = focusTarget;
+        painting.focusShape = focusShape;
     }
 }

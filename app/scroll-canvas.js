@@ -1,29 +1,23 @@
 import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
 
-export class CurrentFocusCanvas {
-    static element;
-    static shape;
-    static unFocus() {
-        CurrentFocusCanvas.element = null;
-        CurrentFocusCanvas.shape = null;
-    }
-    static focus(element, shape) {
-        CurrentFocusCanvas.element = element;
-        CurrentFocusCanvas.shape = shape;
-    }
-    static isFocus(element, shape) {
-        if (CurrentFocusCanvas.element != element) {
-            return false;
-        }
-        if (CurrentFocusCanvas.shape != shape) {
-            return false;
-        }
-        return true;
-    }
-}
 export class CanvasScroll {
     // canvas
     static scrollToCanvas(bufferInfo) {
+        const { match, draw, painting, shape } = CanvasScroll.bufferMoveNeedDraw(bufferInfo);
+        if (match === false) {
+            return false;
+        }
+        if (draw) {
+            CanvasScroll.drawAndFocusShape(painting, shape);
+        }
+        return true;
+    }
+    static drawAndFocusShape(painting, shape) {
+        const focusShape = CanvasScroll.buildFocusshape(painting, shape);
+        CanvasManager.setFocus(painting, shape, focusShape);
+        CanvasScroll.focusToshape(painting, shape);
+    }
+    static bufferMoveNeedDraw(bufferInfo) {
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
         const paintings = CanvasManager.paintings.filter((painting) => {
@@ -34,7 +28,9 @@ export class CanvasScroll {
             return false;
         });
         if (paintings.length <= 0) {
-            return false;
+            return {
+                match: false,
+            };
         }
         const painting = paintings[0];
         let [start, end] = painting.map;
@@ -43,21 +39,27 @@ export class CanvasScroll {
         lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
         const matchLines = lineMap.filter(([key, value]) => line <= key);
         const [key, variableName] = matchLines.at(0) || lineMap.at(-1);
-        const element = painting.element;
-        const paint = painting.paint;
+        // const element = painting.element;
+        // const paint = painting.paint;
         const shape = painting.shapes[variableName];
         // const ctx = paint.getContext();
-        const isFocus = CurrentFocusCanvas.isFocus(element, shape);
+        const isFocus = CanvasManager.isFocus(painting, shape);
         if (isFocus) {
-            return true;
+            return {
+                draw: false,
+            };
         }
-        // Paint.resetAllImageData();
-        CanvasScroll.drawFocusshape(paint, shape);
-        CanvasScroll.focusToshape(element, shape);
-        CurrentFocusCanvas.focus(element, shape);
-        return true;
+
+        return {
+            reset: true,
+            draw: true,
+            painting,
+            shape,
+        };
     }
-    static drawFocusshape(paint, shape) {
+    static buildFocusshape(painting, shape) {
+        const { paint } = painting;
+        let focusShape = null;
         const { type, position, outline } = shape;
         if (type === "label") {
         } else if (type === "line") {
@@ -71,7 +73,7 @@ export class CanvasScroll {
                     lineWidth: 3,
                 },
             };
-            paint.line(lineParams);
+            focusShape = paint.line(lineParams);
         } else {
             const width = Math.abs(outline.right - outline.left) + 20;
             const height = Math.abs(outline.bottom - outline.top) + 20;
@@ -85,10 +87,12 @@ export class CanvasScroll {
                 size: [width, height],
                 style,
             };
-            paint.rect(params);
+            focusShape = paint.rect(params);
         }
+        return focusShape;
     }
-    static focusToshape(element, shape) {
+    static focusToshape(painting, shape) {
+        const { element } = painting;
         const rect = element.getBoundingClientRect();
         const { left, right, top, bottom, x, y } = rect;
         const { position, outline } = shape;
@@ -117,16 +121,17 @@ export class CanvasScroll {
         window.scrollTo(targetLeft, targetTop);
     }
     static onMouseMove(painting, mouse) {
-        const { unFocus, reset, draw, element, paint, shape } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
+        debugger;
+
+        const { unFocus, reset, draw, shape } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
         if (unFocus) {
-            CurrentFocusCanvas.unFocus();
+            CanvasManager.unFocus();
         }
         if (reset) {
             // Paint.resetAllImageData();
         }
         if (draw) {
-            CanvasScroll.drawFocusshape(paint, shape);
-            CurrentFocusCanvas.focus(element, shape);
+            CanvasScroll.drawAndFocusShape(painting, shape);
         }
     }
     static mouseMoveNeedDraw(painting, mouse) {
@@ -161,17 +166,16 @@ export class CanvasScroll {
             };
         }
         const shape = shapeArray[0];
-        const isFocus = CurrentFocusCanvas.isFocus(element, shape);
+        const isFocus = CanvasManager.isFocus(element, shape);
         if (isFocus) {
             return {
                 reset: false,
+                draw: false,
             };
         }
         return {
             reset: true,
             draw: true,
-            element,
-            paint,
             shape,
         };
     }
