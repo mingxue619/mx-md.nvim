@@ -13,7 +13,13 @@ export class Label {
         }
         this.params = params;
         let { title, lineSpace, font, color, align, position } = params;
+        this.font = font || "16px Hack Nerd Font Mono";
+        this.fillStyle = color || window.foreground;
+
         const ctx = this.ctx;
+        ctx.save();
+        ctx.font = this.font;
+        ctx.fillStyle = this.fillStyle;
 
         let textHeight = 0;
         let textWidth = 0;
@@ -72,6 +78,7 @@ export class Label {
             y = y + lineSpace;
         });
         this.trackPoints = trackPoints;
+        ctx.restore();
 
         // return
         let shape = {
@@ -143,13 +150,12 @@ export class Label {
     }
     draw() {
         const ctx = this.ctx;
-        let { title, lineSpace, font, color, align, position } = this.params;
 
         const trackPoints = this.trackPoints;
 
         ctx.save();
-        ctx.font = font || "16px Hack Nerd Font Mono";
-        ctx.fillStyle = color || window.foreground;
+        ctx.font = this.font;
+        ctx.fillStyle = this.fillStyle;
         trackPoints.forEach((trackPoint) => {
             const { text, x, y } = trackPoint;
             ctx.fillText(text, x, y);
