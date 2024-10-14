@@ -2,7 +2,7 @@ import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
 
 export class CanvasScroll {
     // canvas
-    static scrollToCanvas(bufferInfo) {
+    static onBufferMove(bufferInfo) {
         const { match, update, draw, painting, shape } = CanvasScroll.bufferMoveNeedDraw(bufferInfo);
         return this.execAction({
             match,

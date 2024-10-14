@@ -7,7 +7,7 @@ export class CursorScroll {
         this.scrollTo(bufferInfo);
     }
     scrollTo(bufferInfo) {
-        let scrollToCanvas = CanvasScroll.scrollToCanvas(bufferInfo);
+        let scrollToCanvas = CanvasScroll.onBufferMove(bufferInfo);
         if (scrollToCanvas) {
             return;
         }
