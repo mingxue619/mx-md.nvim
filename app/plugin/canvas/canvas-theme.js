@@ -8,8 +8,8 @@ export class Theme {
         let theme = this.theme;
         if (config === "dynamic") {
             theme = this.getDarkReaderConfig();
-        } else if (action === "light" || action === "dark") {
-            theme = action;
+        } else if (config === "light" || config === "dark") {
+            theme = config;
         } else {
         }
         this.theme = theme;
@@ -17,6 +17,7 @@ export class Theme {
     }
     initStyle(theme) {
         if (theme === "light") {
+            this.setLightTheme();
         } else if (theme === "dark") {
             this.setDarkTheme();
         }
@@ -31,7 +32,6 @@ export class Theme {
     setLightTheme() {
         this.background = null;
         this.foreground = null;
-
     }
     setDarkTheme() {
         // this.background = "#333";

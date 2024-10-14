@@ -12,6 +12,30 @@ export class CanvasManager {
             CanvasManager.afterPaintingInit(painting, render);
             CanvasManager.addMouseMoveListener(painting);
         });
+
+        window.addEventListener("beforeprint", () => {
+            CanvasManager.resetThemeAndDrawAll("clear");
+        });
+
+        window.addEventListener("afterprint", () => {
+            CanvasManager.resetThemeAndDrawAll("init");
+        });
+    }
+    static resetThemeAndDrawAll(action) {
+        debugger
+        const paintings = CanvasManager.paintings;
+        if(action === "init") {
+            paintings.forEach((painting) =>{
+                const {theme, config} = painting;
+                theme.init(config);
+            });
+        } else if(action === "clear") {
+            paintings.forEach((painting) =>{
+                const {theme, config} = painting;
+                theme.init("light");
+            });
+        }
+        CanvasManager.drawAll();
     }
     static dispatchPaintingInitEvent(painting) {
         const paintingFinishEvent = new CustomEvent("PaintingInitEvent", {
@@ -21,7 +45,7 @@ export class CanvasManager {
     }
     static afterPaintingInit(painting, render) {
         const { element, config } = painting;
-        if(config.axes) {
+        if (config.axes) {
             painting.axes = new Axes(element);
         }
         //theme

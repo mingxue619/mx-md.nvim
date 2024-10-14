@@ -196,19 +196,6 @@ function markdownitCanvas(md) {
                             }
                             initPainting();
 
-                            window.addEventListener("beforeprint", () => {
-                                if("${theme}" === "dynamic" && window.theme === "dark") {
-                                    new Theme(${element}).setTheme("beforeprint");
-                                    initPainting();
-                                }
-                            });
-                            
-                            window.addEventListener("afterprint", () => {
-                                if("${theme}" === "dynamic" && window.theme === "dark") {
-                                    new Theme(${element}).setTheme("afterprint");
-                                    initPainting();
-                                }
-                            });
                         </script>`;
         const html = tag + script;
         return html;
