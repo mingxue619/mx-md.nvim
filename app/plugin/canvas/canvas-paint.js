@@ -75,8 +75,7 @@ export class Paint {
     }
 
     circle(params) {
-        const circle = new Circle(this.ctx);
-        let shape = circle.draw(params);
+        let shape = Circle.build(this.ctx).buildShape(params);
         // label
         const lableShapes = Label.build(this.ctx).buildShapeWithFrame(params.label, shape.frame);
         shape.labels = lableShapes;
