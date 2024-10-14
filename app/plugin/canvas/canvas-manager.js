@@ -22,18 +22,22 @@ export class CanvasManager {
         });
     }
     static resetThemeAndDrawAll(action) {
-        debugger
+        debugger;
         const paintings = CanvasManager.paintings;
-        if(action === "init") {
-            paintings.forEach((painting) =>{
-                const {theme, config} = painting;
+        if (action === "init") {
+            paintings.forEach((painting) => {
+                const { element, theme, config } = painting;
                 theme.init(config.theme);
+                if (config.axes) {
+                    painting.axes = new Axes(element);
+                }
             });
-        } else if(action === "clear") {
+        } else if (action === "clear") {
             CanvasManager.resetFocus();
-            paintings.forEach((painting) =>{
-                const {theme, config} = painting;
+            paintings.forEach((painting) => {
+                const { theme, config } = painting;
                 theme.init("light");
+                painting.axes = null;
             });
         }
         CanvasManager.drawAll();
