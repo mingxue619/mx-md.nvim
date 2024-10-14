@@ -8,14 +8,16 @@ export class CanvasScroll {
             return false;
         }
         if (draw) {
-            CanvasScroll.buildShapeAndFocus(painting, shape);
+            CanvasScroll.buildShapeAndFocus(painting, shape, true);
         }
         return true;
     }
-    static buildShapeAndFocus(painting, shape) {
+    static buildShapeAndFocus(painting, shape, focus) {
         const focusShape = CanvasScroll.buildFocusshape(painting, shape);
-        CanvasManager.setFocus(painting, shape, focusShape);
-        CanvasScroll.focusToshape(painting, shape);
+        CanvasManager.setFocusShape(painting, shape, focusShape);
+        if (focus === true) {
+            CanvasScroll.focusToshape(painting, shape);
+        }
     }
     static bufferMoveNeedDraw(bufferInfo) {
         const cursor = bufferInfo.cursor;

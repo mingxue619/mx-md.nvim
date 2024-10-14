@@ -140,7 +140,7 @@ export class CanvasManager {
         }
         return true;
     }
-    static setFocus(painting, focusTarget, focusShape) {
+    static setFocusShape(painting, focusTarget, focusShape) {
         painting.focusTarget = focusTarget;
         painting.focusShape = focusShape;
     }
