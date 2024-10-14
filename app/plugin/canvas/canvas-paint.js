@@ -83,8 +83,7 @@ export class Paint {
     }
 
     ellipse(params) {
-        const ellipse = new Ellipse(this.ctx);
-        let shape = ellipse.draw(params);
+        let shape = Ellipse.build(this.ctx).buildShape(params);
         // label
         const lableShapes = Label.build(this.ctx).buildShapeWithFrame(params.label, shape.frame);
         shape.labels = lableShapes;
