@@ -3,8 +3,8 @@ import { CursorScroll } from "/app/scroll.js";
 import { HtmlRender } from "/app/html-render.js";
 let render = new HtmlRender();
 let cursorScroll = new CursorScroll();
-window.render = render;
-window.cursorScroll = cursorScroll;
+// window.render = render;
+// window.cursorScroll = cursorScroll;
 let bufnr = getBufferNumber();
 if (bufnr) {
     wsConnect(bufnr);
