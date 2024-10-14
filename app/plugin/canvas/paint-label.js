@@ -149,7 +149,6 @@ export class Label {
         }
     }
     draw(theme) {
-        debugger
         const ctx = this.ctx;
 
         const trackPoints = this.trackPoints;

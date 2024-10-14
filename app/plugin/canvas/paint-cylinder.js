@@ -54,7 +54,7 @@ export class Cylinder {
         }
         return shape;
     }
-    draw() {
+    draw(theme) {
         const { position, size, style, children } = this.params;
         const ctx = this.ctx;
         ctx.save();
@@ -77,12 +77,12 @@ export class Cylinder {
         //ctx.closePath();
         // style
         const { strokeStyle, lineWidth, fill, fillStyle } = style || {};
-        ctx.strokeStyle = strokeStyle;
+        ctx.strokeStyle = strokeStyle || theme.foreground;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
         // fill
         if (fill) {
-            ctx.fillStyle = fillStyle || window.foreground;
+            ctx.fillStyle = fillStyle || theme.foreground;
             ctx.fill();
         }
         ctx.restore();

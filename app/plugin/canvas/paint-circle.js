@@ -52,7 +52,7 @@ export class Circle {
         }
         return shape;
     }
-    draw() {
+    draw(theme) {
         const { position, size, style, children } = this.params;
         const ctx = this.ctx;
         ctx.save();
@@ -69,7 +69,7 @@ export class Circle {
         ctx.stroke();
         // fill
         if (fill) {
-            ctx.fillStyle = fillStyle || window.foreground;
+            ctx.fillStyle = fillStyle || theme.foreground;
             ctx.fill();
         }
         ctx.restore();

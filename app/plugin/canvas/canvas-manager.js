@@ -7,7 +7,6 @@ export class CanvasManager {
     static paintings = [];
     static init(render) {
         document.addEventListener("PaintingInitEvent", (event) => {
-            debugger;
             let painting = event.detail;
             CanvasManager.paintings.push(painting);
             CanvasManager.afterPaintingInit(painting, render);
@@ -21,7 +20,6 @@ export class CanvasManager {
         document.dispatchEvent(paintingFinishEvent);
     }
     static afterPaintingInit(painting, render) {
-        debugger;
         const { element, config } = painting;
         if(config.axes) {
             painting.axes = new Axes(element);
