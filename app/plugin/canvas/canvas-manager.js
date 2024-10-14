@@ -10,7 +10,7 @@ export class CanvasManager {
             debugger;
             let painting = event.detail;
             CanvasManager.paintings.push(painting);
-            CanvasManager.onPaintingInit(painting, render);
+            CanvasManager.afterPaintingInit(painting, render);
             CanvasManager.addMouseMoveListener(painting);
         });
     }
@@ -20,11 +20,14 @@ export class CanvasManager {
         });
         document.dispatchEvent(paintingFinishEvent);
     }
-    static onPaintingInit(painting, render) {
+    static afterPaintingInit(painting, render) {
         debugger;
-        const { element, theme } = painting;
+        const { element, config: {theme, axes} } = painting;
+        if(axes) {
+            painting.axes = new Axes(element);
+        }
         //theme
-        new Theme(element).setTheme(theme);
+        // painting.theme = new Theme(theme);
         // init draw and scroll
         const bufferInfo = render.bufferInfo;
         let scrollToCanvas = CanvasScroll.onPaintingInit(painting, bufferInfo);
@@ -52,11 +55,10 @@ export class CanvasManager {
         if (!painting.draw) {
             return;
         }
-        const { id, element, paint, config, shapes, focusShape } = painting;
-        const { axes } = config;
+        const { id, element, paint, axes, shapes, focusShape } = painting;
         CanvasManager.clearCanvas(paint);
         if (axes) {
-            new Axes(element).draw();
+            axes.draw();
         }
         Object.values(shapes).forEach((shape) => {
             CanvasManager.drawShape(shape);
