@@ -22,7 +22,6 @@ export class CanvasManager {
         });
     }
     static resetThemeAndDrawAll(action) {
-        debugger;
         const paintings = CanvasManager.paintings;
         if (action === "init") {
             paintings.forEach((painting) => {
@@ -60,7 +59,6 @@ export class CanvasManager {
         // init draw and scroll
         const bufferInfo = render.bufferInfo;
         let scrollToCanvas = CanvasScroll.onPaintingInit(painting, bufferInfo);
-        //todo print event
     }
 
     static clearCanvas(paint) {
