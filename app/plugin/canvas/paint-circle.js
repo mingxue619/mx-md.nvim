@@ -34,8 +34,9 @@ export class Circle {
 
         let shape = {
             type: "circle",
-            point: point,
+            brush: this,
             position: position,
+            point: point,
             frame: frame,
             outline: frame,
         };
