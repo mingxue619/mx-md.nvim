@@ -1,4 +1,5 @@
 import { Axes } from "/app/plugin/canvas/canvas-axes.js";
+import { Theme } from "/app/plugin/canvas/canvas-theme.js";
 import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
 
 export class CanvasManager {
@@ -19,8 +20,14 @@ export class CanvasManager {
         document.dispatchEvent(paintingFinishEvent);
     }
     static onPaintingInit(painting, render) {
+        debugger
+        const {element, theme} = painting;
+        //theme
+        new Theme(element).setTheme(theme);
+        // init draw and scroll
         const bufferInfo = render.bufferInfo;
         let scrollToCanvas = CanvasScroll.onPaintingInit(painting, bufferInfo);
+        //todo print event
     }
 
     static clearCanvas(paint) {

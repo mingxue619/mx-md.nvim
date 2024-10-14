@@ -163,17 +163,17 @@ function markdownitCanvas(md) {
                         <script type="module">
                             import { CanvasManager } from '/app/plugin/canvas/canvas-manager.js';
                             import { Paint } from '/app/plugin/canvas/canvas-paint.js';
-                            import { Theme } from '/app/plugin/canvas/canvas-theme.js';
                             let errorElement = document.getElementById('${errorId}');  
                             let ${element} = document.getElementById("${id}");
                             const ${paint} = new Paint(${element});
-                            function drawAxesAndpaint() {
+                            function initPainting() {
                                 try {
                                     const func = new Function('${element}', 'Paint', '${paint}', \`${content}\`);
                                     const shapes = func(${element}, Paint, ${paint});
                                     const painting = {
                                         id: "${id}",
                                         element: ${element},
+                                        theme: "${theme}",
                                         paint: ${paint},
                                         map: [${token.map}],
                                         axes: ${showAxes},
@@ -191,20 +191,19 @@ function markdownitCanvas(md) {
                                     document.getElementById('${errorId}').appendChild(pre);
                                 };
                             }
-                            new Theme(${element}).setTheme("${theme}");
-                            drawAxesAndpaint();
+                            initPainting();
 
                             window.addEventListener("beforeprint", () => {
                                 if("${theme}" === "dynamic" && window.theme === "dark") {
                                     new Theme(${element}).setTheme("beforeprint");
-                                    drawAxesAndpaint();
+                                    initPainting();
                                 }
                             });
                             
                             window.addEventListener("afterprint", () => {
                                 if("${theme}" === "dynamic" && window.theme === "dark") {
                                     new Theme(${element}).setTheme("afterprint");
-                                    drawAxesAndpaint();
+                                    initPainting();
                                 }
                             });
                         </script>`;
