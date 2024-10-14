@@ -138,7 +138,7 @@ export class Label {
         }
         const { multi } = labelParams;
         if (multi) {
-            // debugger;
+            // todo;
             return [];
         } else {
             const { type, position, frame, outline, trackPoints } = lineShape;
