@@ -170,31 +170,29 @@ function markdownitCanvas(md) {
                                 axes: ${showAxes},
                                 theme: "${theme}",
                             };
-                            function initPainting() {
-                                try {
-                                    const func = new Function('${element}', 'Paint', '${paint}', \`${content}\`);
-                                    const shapes = func(${element}, Paint, ${paint});
-                                    const painting = {
-                                        config: config,
-                                        id: "${id}",
-                                        element: ${element},
-                                        paint: ${paint},
-                                        map: [${token.map}],
-                                        shapes: shapes,
-                                        lineMap: ${lineMap}
-                                    };
-                                    CanvasManager.dispatchPaintingInitEvent(painting);
-                                } catch (error) {
-                                    errorElement.style.display = "block";
-                                    let code = document.createElement('code');  
-                                    code.style.color = "red";
-                                    code.textContent = error.stack;  
-                                    let pre = document.createElement('pre');  
-                                    pre.appendChild(code);  
-                                    document.getElementById('${errorId}').appendChild(pre);
+                            // init painting
+                            try {
+                                const func = new Function('${element}', 'Paint', '${paint}', \`${content}\`);
+                                const shapes = func(${element}, Paint, ${paint});
+                                const painting = {
+                                    config: config,
+                                    id: "${id}",
+                                    element: ${element},
+                                    paint: ${paint},
+                                    map: [${token.map}],
+                                    shapes: shapes,
+                                    lineMap: ${lineMap}
                                 };
-                            }
-                            initPainting();
+                                CanvasManager.dispatchPaintingInitEvent(painting);
+                            } catch (error) {
+                                errorElement.style.display = "block";
+                                let code = document.createElement('code');  
+                                code.style.color = "red";
+                                code.textContent = error.stack;  
+                                let pre = document.createElement('pre');  
+                                pre.appendChild(code);  
+                                document.getElementById('${errorId}').appendChild(pre);
+                            };
 
                         </script>`;
         const html = tag + script;
