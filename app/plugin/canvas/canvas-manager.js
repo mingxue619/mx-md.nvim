@@ -27,12 +27,9 @@ export class CanvasManager {
         const ctx = paint.ctx;
         ctx.clearRect(0, 0, element.width, element.height);
     }
-    static reDrawAll() {
+    static drawAll() {
         CanvasManager.paintings.forEach((painting) => {
-            painting.draw = true;
-            requestAnimationFrame(() => {
-                CanvasManager.recursionDraw(painting);
-            });
+            CanvasManager(painting);
         });
     }
     static draw(painting) {
