@@ -3,12 +3,18 @@ import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
 export class CanvasScroll {
     // canvas
     static scrollToCanvas(bufferInfo) {
-        const { match, draw, painting, shape } = CanvasScroll.bufferMoveNeedDraw(bufferInfo);
+        const { match, update, draw, painting, shape } = CanvasScroll.bufferMoveNeedDraw(bufferInfo);
+        if (match === false) {
+            CanvasManager.unFocus();
+        }
+        if (update === true) {
+            CanvasScroll.buildShapeAndFocus(painting, shape, true);
+        }
+        if (draw === true) {
+            CanvasManager.drawAll();
+        }
         if (match === false) {
             return false;
-        }
-        if (draw) {
-            CanvasScroll.buildShapeAndFocus(painting, shape, true);
         }
         return true;
     }
@@ -29,9 +35,12 @@ export class CanvasScroll {
             }
             return false;
         });
+        // miss any canvas painting
         if (paintings.length <= 0) {
             return {
                 match: false,
+                update: false,
+                draw: true,
             };
         }
         const painting = paintings[0];
@@ -48,12 +57,15 @@ export class CanvasScroll {
         const isFocus = CanvasManager.isFocus(painting, shape);
         if (isFocus) {
             return {
+                match: true,
+                update: false,
                 draw: false,
             };
         }
 
         return {
-            reset: true,
+            match: true,
+            update: true,
             draw: true,
             painting,
             shape,
@@ -123,16 +135,20 @@ export class CanvasScroll {
         window.scrollTo(targetLeft, targetTop);
     }
     static onMouseMove(painting, mouse) {
-        const { unFocus, reset, draw, shape } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
-        if (unFocus) {
+        const { match, update, draw, shape } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
+        if (match === false) {
             CanvasManager.unFocus();
         }
-        if (reset) {
-            // Paint.resetAllImageData();
-        }
-        if (draw) {
+        if (update) {
             CanvasScroll.buildShapeAndFocus(painting, shape);
         }
+        if (draw) {
+            CanvasManager.drawAll();
+        }
+        if (match === false) {
+            return false;
+        }
+        return true;
     }
     static mouseMoveNeedDraw(painting, mouse) {
         let { element, paint, shapes } = painting;
@@ -161,20 +177,23 @@ export class CanvasScroll {
         });
         if (shapeArray.length <= 0) {
             return {
-                reset: true,
-                unFocus: true,
+                match: false,
+                update: false,
+                draw: true,
             };
         }
         const shape = shapeArray[0];
         const isFocus = CanvasManager.isFocus(element, shape);
         if (isFocus) {
             return {
-                reset: false,
+                match: true,
+                update: false,
                 draw: false,
             };
         }
         return {
-            reset: true,
+            match: true,
+            update: true,
             draw: true,
             shape,
         };

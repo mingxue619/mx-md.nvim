@@ -11,8 +11,6 @@ export class CursorScroll {
         if (scrollToCanvas) {
             return;
         }
-        // Paint.resetAllImageData();
-        // this.unFocusCanvas();
         const cursor = bufferInfo.cursor;
         const winline = bufferInfo.winline;
         const winheight = bufferInfo.winheight;

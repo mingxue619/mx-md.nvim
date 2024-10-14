@@ -15,9 +15,9 @@ export class CanvasManager {
         document.addEventListener("PaintingFinishEvent", (event) => {
             let painting = event.detail;
             CanvasManager.paintings.push(painting);
-            CanvasManager.cancelDraw();
-            CanvasManager.unFocus();
-            CanvasManager.draw(painting);
+            // CanvasManager.cancelDraw();
+            // CanvasManager.unFocus();
+            // CanvasManager.draw(painting);
             CanvasManager.addMouseMoveListener(painting);
             callback(painting);
         });
@@ -28,8 +28,9 @@ export class CanvasManager {
         ctx.clearRect(0, 0, element.width, element.height);
     }
     static drawAll() {
+        CanvasManager.cancelDraw();
         CanvasManager.paintings.forEach((painting) => {
-            CanvasManager(painting);
+            CanvasManager.draw(painting);
         });
     }
     static draw(painting) {

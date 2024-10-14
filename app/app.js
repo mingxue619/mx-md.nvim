@@ -11,8 +11,6 @@ if (bufnr) {
 }
 
 CanvasManager.onPaintingDrawFinish((painting) => {
-    // requestAnimationFrame
-    // CurrentFocusCanvas.unFocus();
     cursorScroll.scrollToCanvas();
 });
 
