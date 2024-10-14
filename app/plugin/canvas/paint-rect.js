@@ -56,7 +56,7 @@ export class Rect {
         }
         return shape;
     }
-    draw() {
+    draw(theme) {
         const ctx = this.ctx;
         const params = this.params;
         const { position, size, style, children } = params;
@@ -75,7 +75,7 @@ export class Rect {
         }
         ctx.closePath(); // 闭合路径，即从左下角回到左上角
         // 绘制边框
-        ctx.strokeStyle = strokeStyle;
+        ctx.strokeStyle = strokeStyle || theme.foreground;
         ctx.lineWidth = lineWidth;
         if (lineDash) {
             ctx.setLineDash(lineDash);
@@ -83,7 +83,7 @@ export class Rect {
         ctx.stroke();
         // fill
         if (fill) {
-            ctx.fillStyle = fillStyle || window.foreground;
+            ctx.fillStyle = fillStyle || theme.foreground;
             ctx.fill();
         }
         ctx.restore();

@@ -57,7 +57,7 @@ export class Triangle {
         }
         return shape;
     }
-    draw() {
+    draw(theme) {
         const ctx = this.ctx;
         const params = this.params;
         const { position, size, style, children } = params;
@@ -76,7 +76,7 @@ export class Triangle {
         ctx.closePath();
 
         // 绘制边框
-        ctx.strokeStyle = strokeStyle;
+        ctx.strokeStyle = strokeStyle || theme.foreground;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
         // fill

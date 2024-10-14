@@ -132,7 +132,7 @@ export class Line {
         };
         return shape;
     }
-    draw() {
+    draw(theme) {
         const ctx = this.ctx;
         let { from, to, style, arrow = {}, polyline } = this.params;
         // style
@@ -148,7 +148,7 @@ export class Line {
         for (let i = 1; i < trackPoints.length; i++) {
             ctx.lineTo(trackPoints[i][0], trackPoints[i][1]);
         }
-        ctx.strokeStyle = strokeStyle;
+        ctx.strokeStyle = strokeStyle || theme.foreground;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
         if (arrow != false) {
@@ -157,7 +157,7 @@ export class Line {
                 arrow = {};
                 arrow.bidirection = true;
             }
-            arrow.strokeStyle == arrow.strokeStyle || strokeStyle;
+            arrow.strokeStyle = arrow.strokeStyle || strokeStyle || theme.foreground;
             this.drawArraw(arrow, firstLine, lastLine);
         }
         ctx.restore();
@@ -191,7 +191,7 @@ export class Line {
         ctx.closePath(); // 闭合路径以绘制箭头
         ctx.stroke();
         ctx.strokeStyle = strokeStyle;
-        ctx.fillStyle = fillStyle || strokeStyle || window.foreground;
+        ctx.fillStyle = fillStyle || strokeStyle;
         // fill color
         ctx.fill();
     }

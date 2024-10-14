@@ -50,7 +50,7 @@ export class Ellipse {
         }
         return shape;
     }
-    draw() {
+    draw(theme) {
         const { position, size, style, children } = this.params;
         const ctx = this.ctx;
         ctx.save();
@@ -68,7 +68,7 @@ export class Ellipse {
         ctx.beginPath();
         ctx.ellipse(x, y, radiusX, radiusY, 0, 0, 2 * Math.PI);
         // 绘制边框
-        ctx.strokeStyle = strokeStyle;
+        ctx.strokeStyle = strokeStyle || theme.foreground;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
         // fill

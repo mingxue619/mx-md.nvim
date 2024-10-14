@@ -64,7 +64,7 @@ export class Circle {
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, 2 * Math.PI);
         // 绘制边框
-        ctx.strokeStyle = strokeStyle;
+        ctx.strokeStyle = strokeStyle || theme.foreground;
         ctx.lineWidth = lineWidth;
         ctx.stroke();
         // fill
