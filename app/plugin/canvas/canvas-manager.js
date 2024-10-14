@@ -27,9 +27,10 @@ export class CanvasManager {
         if(action === "init") {
             paintings.forEach((painting) =>{
                 const {theme, config} = painting;
-                theme.init(config);
+                theme.init(config.theme);
             });
         } else if(action === "clear") {
+            CanvasManager.resetFocus();
             paintings.forEach((painting) =>{
                 const {theme, config} = painting;
                 theme.init("light");
