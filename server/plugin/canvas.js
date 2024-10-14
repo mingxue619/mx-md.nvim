@@ -166,17 +166,20 @@ function markdownitCanvas(md) {
                             let errorElement = document.getElementById('${errorId}');  
                             let ${element} = document.getElementById("${id}");
                             const ${paint} = new Paint(${element});
+                            const config = {
+                                axes: ${showAxes},
+                                theme: "${theme}",
+                            };
                             function initPainting() {
                                 try {
                                     const func = new Function('${element}', 'Paint', '${paint}', \`${content}\`);
                                     const shapes = func(${element}, Paint, ${paint});
                                     const painting = {
+                                        config: config,
                                         id: "${id}",
                                         element: ${element},
-                                        theme: "${theme}",
                                         paint: ${paint},
                                         map: [${token.map}],
-                                        axes: ${showAxes},
                                         shapes: shapes,
                                         lineMap: ${lineMap}
                                     };

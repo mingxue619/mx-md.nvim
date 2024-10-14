@@ -5,8 +5,9 @@ import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
 export class CanvasManager {
     static recursionDrawFlag = false;
     static paintings = [];
-    static init(render){
+    static init(render) {
         document.addEventListener("PaintingInitEvent", (event) => {
+            debugger;
             let painting = event.detail;
             CanvasManager.paintings.push(painting);
             CanvasManager.onPaintingInit(painting, render);
@@ -20,8 +21,8 @@ export class CanvasManager {
         document.dispatchEvent(paintingFinishEvent);
     }
     static onPaintingInit(painting, render) {
-        debugger
-        const {element, theme} = painting;
+        debugger;
+        const { element, theme } = painting;
         //theme
         new Theme(element).setTheme(theme);
         // init draw and scroll
@@ -51,7 +52,8 @@ export class CanvasManager {
         if (!painting.draw) {
             return;
         }
-        const { id, element, paint, axes, shapes, focusShape } = painting;
+        const { id, element, paint, config, shapes, focusShape } = painting;
+        const { axes } = config;
         CanvasManager.clearCanvas(paint);
         if (axes) {
             new Axes(element).draw();
