@@ -67,10 +67,10 @@ export class Paint {
     }
 
     cylinder(params) {
-        const cylinder = new Cylinder(this.ctx);
-        let shape = cylinder.draw(params);
+        let shape = Cylinder.build(this.ctx).buildShape(params);
         // label
         const lableShapes = Label.build(this.ctx).buildShapeWithFrame(params.label, shape.frame);
+        shape.labels = lableShapes;
         return shape;
     }
 

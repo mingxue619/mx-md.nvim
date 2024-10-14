@@ -78,7 +78,11 @@ export class CanvasManager {
     }
     static drawShape(shape) {
         const { brush, labels, children } = shape;
-        brush.draw();
+        if(brush) {
+            brush.draw();
+        } else {
+            debugger
+        }
         if (labels) {
             labels.forEach((labelShape) => {
                 CanvasManager.drawShape(labelShape);
@@ -86,7 +90,7 @@ export class CanvasManager {
         }
 
         if (children) {
-            children.forEach((childShape) => {
+            Object.values(children).forEach((childShape) => {
                 CanvasManager.drawShape(childShape);
             });
         }
@@ -146,7 +150,7 @@ export class CanvasManager {
     }
     static isFocus(painting, shape) {
         const matchs = CanvasManager.paintings.filter((item) => {
-            if(item != painting) {
+            if (item != painting) {
                 return false;
             }
             if (item.focusTarget != shape) {
