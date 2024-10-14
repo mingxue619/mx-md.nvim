@@ -66,21 +66,26 @@ function removeComments(content) {
         .join("\n");
 }
 function parseVariable(content) {
-    const ast = acorn.parse(content, { ecmaVersion: 2020, locations: true });
+    debugger;
     const variableRanges = new Map();
-    // 遍历 AST
-    ast.body.forEach((node) => {
-        if (node.type === "VariableDeclaration") {
-            node.declarations.forEach((declaration) => {
-                if (declaration.id.type === "Identifier") {
-                    const variableName = declaration.id.name;
-                    const startLine = declaration.loc.start.line;
-                    const endLine = declaration.loc.end.line;
-                    variableRanges.set(variableName, { startLine, endLine });
-                }
-            });
-        }
-    });
+    try {
+        const ast = acorn.parse(content, { ecmaVersion: 2020, locations: true });
+        // 遍历 AST
+        ast.body.forEach((node) => {
+            if (node.type === "VariableDeclaration") {
+                node.declarations.forEach((declaration) => {
+                    if (declaration.id.type === "Identifier") {
+                        const variableName = declaration.id.name;
+                        const startLine = declaration.loc.start.line;
+                        const endLine = declaration.loc.end.line;
+                        variableRanges.set(variableName, { startLine, endLine });
+                    }
+                });
+            }
+        });
+    } catch (e) {
+        console.error(e);
+    }
     // walk.simple(ast, {
     //     VariableDeclaration(node) {
     //         node.declarations.forEach((declaration) => {
