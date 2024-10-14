@@ -8,11 +8,11 @@ export class CanvasScroll {
             return false;
         }
         if (draw) {
-            CanvasScroll.drawAndFocusShape(painting, shape);
+            CanvasScroll.buildShapeAndFocus(painting, shape);
         }
         return true;
     }
-    static drawAndFocusShape(painting, shape) {
+    static buildShapeAndFocus(painting, shape) {
         const focusShape = CanvasScroll.buildFocusshape(painting, shape);
         CanvasManager.setFocus(painting, shape, focusShape);
         CanvasScroll.focusToshape(painting, shape);
@@ -129,7 +129,7 @@ export class CanvasScroll {
             // Paint.resetAllImageData();
         }
         if (draw) {
-            CanvasScroll.drawAndFocusShape(painting, shape);
+            CanvasScroll.buildShapeAndFocus(painting, shape);
         }
     }
     static mouseMoveNeedDraw(painting, mouse) {
