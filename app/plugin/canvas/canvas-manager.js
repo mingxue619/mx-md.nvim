@@ -12,28 +12,6 @@ export class CanvasManager {
     }
 
     static onPaintingDrawFinish(callback) {
-        // document.addEventListener("PaintingFinishEvent", (event) => {
-        //     let painting = event.detail;
-        //     // image data
-        //     const paint = painting.paint;
-        //     const canvas = paint.getCanvas();
-        //     const ctx = paint.getContext();
-        //     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        //     painting.imageData = imageData;
-        //     // paintings
-        //     const paintings = Paint.paintings.filter((painting) => {
-        //         const id = painting.id;
-        //         const element = document.getElementById(id);
-        //         if (element) {
-        //             return true;
-        //         }
-        //         return false;
-        //     });
-        //     paintings.push(painting);
-        //     Paint.paintings = paintings;
-        //
-        //     callback(painting, paintings);
-        // });
         document.addEventListener("PaintingFinishEvent", (event) => {
             let painting = event.detail;
             CanvasManager.paintings.push(painting);
