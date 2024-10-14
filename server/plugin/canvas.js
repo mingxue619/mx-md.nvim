@@ -180,7 +180,7 @@ function markdownitCanvas(md) {
                                         shapes: shapes,
                                         lineMap: ${lineMap}
                                     };
-                                    CanvasManager.dispatchPaintingFinishEvent(painting);
+                                    CanvasManager.dispatchPaintingInitEvent(painting);
                                 } catch (error) {
                                     errorElement.style.display = "block";
                                     let code = document.createElement('code');  

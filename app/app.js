@@ -9,10 +9,11 @@ let bufnr = getBufferNumber();
 if (bufnr) {
     wsConnect(bufnr);
 }
+CanvasManager.init(render);
 
-CanvasManager.onPaintingDrawFinish((painting) => {
-    cursorScroll.scrollToCanvas(painting);
-});
+// CanvasManager.onPaintingDrawFinish((painting) => {
+//     cursorScroll.onCanvasInit(painting);
+// });
 
 function getBufferNumber() {
     const pathname = window.location.pathname;

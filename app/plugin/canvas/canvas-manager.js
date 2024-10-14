@@ -4,24 +4,25 @@ import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
 export class CanvasManager {
     static recursionDrawFlag = false;
     static paintings = [];
-    static dispatchPaintingFinishEvent(painting) {
-        const paintingFinishEvent = new CustomEvent("PaintingFinishEvent", {
+    static init(render){
+        document.addEventListener("PaintingInitEvent", (event) => {
+            let painting = event.detail;
+            CanvasManager.paintings.push(painting);
+            CanvasManager.onPaintingInit(painting, render);
+            CanvasManager.addMouseMoveListener(painting);
+        });
+    }
+    static dispatchPaintingInitEvent(painting) {
+        const paintingFinishEvent = new CustomEvent("PaintingInitEvent", {
             detail: painting,
         });
         document.dispatchEvent(paintingFinishEvent);
     }
-
-    static onPaintingDrawFinish(callback) {
-        document.addEventListener("PaintingFinishEvent", (event) => {
-            let painting = event.detail;
-            CanvasManager.paintings.push(painting);
-            // CanvasManager.cancelDraw();
-            // CanvasManager.unFocus();
-            // CanvasManager.draw(painting);
-            CanvasManager.addMouseMoveListener(painting);
-            callback(painting);
-        });
+    static onPaintingInit(painting, render) {
+        const bufferInfo = render.bufferInfo;
+        let scrollToCanvas = CanvasScroll.onPaintingInit(painting, bufferInfo);
     }
+
     static clearCanvas(paint) {
         const element = paint.element;
         const ctx = paint.ctx;
@@ -116,7 +117,7 @@ export class CanvasManager {
             timeout = setTimeout(later, wait);
         };
     }
-    static unFocus() {
+    static resetFocus() {
         CanvasManager.paintings.forEach((painting) => {
             painting.focusTarget = null;
             painting.focusShape = null;
