@@ -1,6 +1,4 @@
-import { Paint } from "/app/plugin/canvas/canvas-paint.js";
-import { CanvasScroll } from "/app/scroll-canvas.js";
-import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
+import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
 
 export class CursorScroll {
     scrollToCanvas(painting) {

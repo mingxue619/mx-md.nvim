@@ -121,7 +121,6 @@ export class CanvasScroll {
         window.scrollTo(targetLeft, targetTop);
     }
     static onMouseMove(painting, mouse) {
-        // debugger;
         const { unFocus, reset, draw, shape } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
         if (unFocus) {
             CanvasManager.unFocus();

@@ -1,5 +1,5 @@
 import { Axes } from "/app/plugin/canvas/canvas-axes.js";
-import { CanvasScroll } from "/app/scroll-canvas.js";
+import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
 
 export class CanvasManager {
     static recursionDrawFlag = false;
@@ -59,7 +59,6 @@ export class CanvasManager {
         if(brush) {
             brush.draw();
         } else {
-            debugger
         }
         if (labels) {
             labels.forEach((labelShape) => {
