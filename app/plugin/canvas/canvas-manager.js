@@ -2,7 +2,7 @@ import { Axes } from "/app/plugin/canvas/canvas-axes.js";
 import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
 
 export class CanvasManager {
-    static recursionDrawFlag = true;
+    static recursionDrawFlag = false;
     static paintings = [];
     static dispatchPaintingFinishEvent(painting) {
         const paintingFinishEvent = new CustomEvent("PaintingFinishEvent", {
