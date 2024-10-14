@@ -11,7 +11,7 @@ if (bufnr) {
 }
 
 CanvasManager.onPaintingDrawFinish((painting) => {
-    cursorScroll.scrollToCanvas();
+    cursorScroll.scrollToCanvas(painting);
 });
 
 function getBufferNumber() {
