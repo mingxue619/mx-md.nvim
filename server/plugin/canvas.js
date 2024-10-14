@@ -66,7 +66,6 @@ function removeComments(content) {
         .join("\n");
 }
 function parseVariable(content) {
-    debugger;
     const variableRanges = new Map();
     try {
         const ast = acorn.parse(content, { ecmaVersion: 2020, locations: true });
