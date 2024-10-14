@@ -2,7 +2,7 @@ import { Axes } from "/app/plugin/canvas/canvas-axes.js";
 import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
 
 export class CanvasManager {
-    static recursionDrawShape = false;
+    static recursionDrawFlag = false;
     static paintings = [];
     static dispatchPaintingFinishEvent(painting) {
         const paintingFinishEvent = new CustomEvent("PaintingFinishEvent", {
@@ -53,7 +53,7 @@ export class CanvasManager {
         if (focusShape) {
             CanvasManager.drawShape(focusShape);
         }
-        if (CanvasManager.recursionDrawShape === true) {
+        if (CanvasManager.recursionDrawFlag === true) {
             requestAnimationFrame(() => {
                 CanvasManager.recursionDraw(painting);
             });
