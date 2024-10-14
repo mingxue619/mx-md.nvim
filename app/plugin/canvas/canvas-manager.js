@@ -27,6 +27,14 @@ export class CanvasManager {
         const ctx = paint.ctx;
         ctx.clearRect(0, 0, element.width, element.height);
     }
+    static reDrawAll() {
+        CanvasManager.paintings.forEach((painting) => {
+            painting.draw = true;
+            requestAnimationFrame(() => {
+                CanvasManager.recursionDraw(painting);
+            });
+        });
+    }
     static draw(painting) {
         painting.draw = true;
         requestAnimationFrame(() => {
@@ -56,7 +64,7 @@ export class CanvasManager {
     }
     static drawShape(shape) {
         const { brush, labels, children } = shape;
-        if(brush) {
+        if (brush) {
             brush.draw();
         } else {
         }
@@ -120,9 +128,9 @@ export class CanvasManager {
         };
     }
     static unFocus() {
-        CanvasManager.paintings.forEach((paintding) => {
-            paintding.focusTarget = null;
-            paintding.focusShape = null;
+        CanvasManager.paintings.forEach((painting) => {
+            painting.focusTarget = null;
+            painting.focusShape = null;
         });
     }
     static isFocus(painting, shape) {
