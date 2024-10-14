@@ -90,15 +90,6 @@ export class CanvasManager {
         });
         CanvasManager.paintings = paintings;
     }
-    // static resetAllImageData() {
-    //     Paint.paintings.forEach((painting) => {
-    //         const paint = painting.paint;
-    //         // const canvas = paint.getCanvas();
-    //         const ctx = paint.getContext();
-    //         const imageData = painting.imageData;
-    //         ctx.putImageData(imageData, 0, 0);
-    //     });
-    // }
 
     static addMouseMoveListener(painting) {
         const element = painting.element;
