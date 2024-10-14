@@ -148,14 +148,15 @@ export class Label {
             return [this.buildShape(labelParams)];
         }
     }
-    draw() {
+    draw(theme) {
+        debugger
         const ctx = this.ctx;
 
         const trackPoints = this.trackPoints;
 
         ctx.save();
         ctx.font = this.font;
-        ctx.fillStyle = this.fillStyle;
+        ctx.fillStyle = this.fillStyle || theme.foreground;
         trackPoints.forEach((trackPoint) => {
             const { text, x, y } = trackPoint;
             ctx.fillText(text, x, y);

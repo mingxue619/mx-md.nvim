@@ -22,12 +22,14 @@ export class CanvasManager {
     }
     static afterPaintingInit(painting, render) {
         debugger;
-        const { element, config: {theme, axes} } = painting;
-        if(axes) {
+        const { element, config } = painting;
+        if(config.axes) {
             painting.axes = new Axes(element);
         }
         //theme
-        // painting.theme = new Theme(theme);
+        const theme = new Theme();
+        theme.init(config.theme);
+        painting.theme = theme;
         // init draw and scroll
         const bufferInfo = render.bufferInfo;
         let scrollToCanvas = CanvasScroll.onPaintingInit(painting, bufferInfo);
@@ -55,16 +57,16 @@ export class CanvasManager {
         if (!painting.draw) {
             return;
         }
-        const { id, element, paint, axes, shapes, focusShape } = painting;
+        const { id, element, paint, axes, theme, shapes, focusShape } = painting;
         CanvasManager.clearCanvas(paint);
         if (axes) {
             axes.draw();
         }
         Object.values(shapes).forEach((shape) => {
-            CanvasManager.drawShape(shape);
+            CanvasManager.drawShape(shape, theme);
         });
         if (focusShape) {
-            CanvasManager.drawShape(focusShape);
+            CanvasManager.drawShape(focusShape, theme);
         }
         if (CanvasManager.recursionDrawFlag === true) {
             requestAnimationFrame(() => {
@@ -72,21 +74,21 @@ export class CanvasManager {
             });
         }
     }
-    static drawShape(shape) {
+    static drawShape(shape, theme) {
         const { brush, labels, children } = shape;
         if (brush) {
-            brush.draw();
+            brush.draw(theme);
         } else {
         }
         if (labels) {
             labels.forEach((labelShape) => {
-                CanvasManager.drawShape(labelShape);
+                CanvasManager.drawShape(labelShape, theme);
             });
         }
 
         if (children) {
             Object.values(children).forEach((childShape) => {
-                CanvasManager.drawShape(childShape);
+                CanvasManager.drawShape(childShape, theme);
             });
         }
     }
