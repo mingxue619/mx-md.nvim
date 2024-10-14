@@ -4,11 +4,33 @@ export class CanvasScroll {
     // canvas
     static scrollToCanvas(bufferInfo) {
         const { match, update, draw, painting, shape } = CanvasScroll.bufferMoveNeedDraw(bufferInfo);
+        return this.execAction({
+            match,
+            update,
+            draw,
+            painting,
+            shape,
+            focus: true,
+        });
+    }
+    static onMouseMove(painting, mouse) {
+        const { match, update, draw, shape } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
+        return this.execAction({
+            match,
+            update,
+            draw,
+            painting,
+            shape,
+            focus: false,
+        });
+    }
+    static execAction(action) {
+        const { match, update, draw, painting, shape, focus } = action;
         if (match === false) {
             CanvasManager.unFocus();
         }
         if (update === true) {
-            CanvasScroll.buildShapeAndFocus(painting, shape, true);
+            CanvasScroll.setFocusShapeAndFocus(painting, shape, focus);
         }
         if (draw === true) {
             CanvasManager.drawAll();
@@ -18,7 +40,7 @@ export class CanvasScroll {
         }
         return true;
     }
-    static buildShapeAndFocus(painting, shape, focus) {
+    static setFocusShapeAndFocus(painting, shape, focus) {
         const focusShape = CanvasScroll.buildFocusshape(painting, shape);
         CanvasManager.setFocusShape(painting, shape, focusShape);
         if (focus === true) {
@@ -133,22 +155,6 @@ export class CanvasScroll {
             targetTop = targetTop + position[1] - docHeight / 2;
         }
         window.scrollTo(targetLeft, targetTop);
-    }
-    static onMouseMove(painting, mouse) {
-        const { match, update, draw, shape } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
-        if (match === false) {
-            CanvasManager.unFocus();
-        }
-        if (update) {
-            CanvasScroll.buildShapeAndFocus(painting, shape);
-        }
-        if (draw) {
-            CanvasManager.drawAll();
-        }
-        if (match === false) {
-            return false;
-        }
-        return true;
     }
     static mouseMoveNeedDraw(painting, mouse) {
         let { element, paint, shapes } = painting;
