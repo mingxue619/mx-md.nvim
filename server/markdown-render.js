@@ -1,10 +1,11 @@
 import markdownit from "markdown-it";
 import hljs from "highlight.js"; // https://highlightjs.org
 import { createHash } from "crypto";
-import { markdownitCanvas } from "./plugin/canvas.js";
-import { markdownitHr } from "./plugin/hr.js";
 import markdownitInjectLinenumbers from "markdown-it-inject-linenumbers";
 // import MarkdownItTypst from "markdown-it-typst";
+import markdownItMultimdTable from "markdown-it-multimd-table";
+import { markdownitCanvas } from "./plugin/canvas.js";
+import { markdownitHr } from "./plugin/hr.js";
 import { markdownitTypst } from "./plugin/typst.js";
 
 export default class MarkdownRender {
@@ -17,11 +18,11 @@ export default class MarkdownRender {
             linkify: true,
             typographer: true,
             quotes: "“”‘’",
-            highlight: function (str, lang) {
+            highlight: function(str, lang) {
                 if (lang && hljs.getLanguage(lang)) {
                     try {
                         return '<pre><code class="hljs">' + hljs.highlight(str, { language: lang, ignoreIllegals: true }).value + "</code></pre>";
-                    } catch (__) {}
+                    } catch (__) { }
                 }
 
                 return '<pre><code class="hljs">' + md.utils.escapeHtml(str) + "</code></pre>";
@@ -52,6 +53,13 @@ export default class MarkdownRender {
             .use(markdownitInjectLinenumbers)
             // .use(MarkdownItTypst)
             .use(markdownitTypst)
+            // .use(markdownItMultimdTable, {
+            //     multiline: false,
+            //     rowspan: true,
+            //     headerless: false,
+            //     multibody: true,
+            //     autolabel: true,
+            // })
             .render(newContent);
         this.html = html;
         this.hash = newHash;
