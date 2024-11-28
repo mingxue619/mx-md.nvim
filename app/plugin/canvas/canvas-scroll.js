@@ -43,7 +43,7 @@ export class CanvasScroll {
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
         const painting = LineUtil.getCurrentPainting(line);
-        if (!painting) {
+        if (painting == null) {
             return {
                 matchCanvas: false,
                 resetFocus: true,
