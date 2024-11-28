@@ -40,24 +40,25 @@ export class CanvasScroll {
         });
     }
     static paintingInitNeedDraw(bufferInfo) {
+        const result = {
+            matchCanvas: false,
+            resetFocus: true,
+            updateFocusShape: false,
+            drawAll: true,
+        };
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
         const painting = CanvasScroll.getCurrentPaintingByLine(line);
         if (painting == null) {
-            return {
-                matchCanvas: false,
-                resetFocus: true,
-                updateFocusShape: false,
-                drawAll: true,
-            };
+            return result;
+        } else {
+            result.matchCanvas = true;
         }
         let { config } = painting;
         const shape = CanvasScroll.getSharpByCurrentLine(painting, line);
+        result.updateFocusShape = config.focus;
         return {
-            matchCanvas: true,
-            resetFocus: true,
-            updateFocusShape: config.focus,
-            drawAll: true,
+            ...result,
             painting,
             shape,
         };
