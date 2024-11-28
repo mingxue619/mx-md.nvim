@@ -173,7 +173,7 @@ function markdownitCanvas(md) {
                             const config = {
                                 axes: ${showAxes},
                                 theme: "${theme}",
-                                focus: "${focus}",
+                                focus: ${focus},
                             };
                             // init painting
                             try {

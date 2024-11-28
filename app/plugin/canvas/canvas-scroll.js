@@ -63,36 +63,33 @@ export class CanvasScroll {
         };
     }
     static bufferMoveNeedDraw(bufferInfo) {
-        debugger
+        const result = {
+            matchCanvas: false,
+            resetFocus: true,
+            updateFocusShape: false,
+            drawAll: true,
+        };
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
         const painting = CanvasScroll.getCurrentPaintingByLine(line);
         if (painting == null) {
-            return {
-                matchCanvas: false,
-                resetFocus: true,
-                updateFocusShape: false,
-                drawAll: true,
-            };
+            return result;
+        } else {
+            result.matchCanvas = true;
         }
         let { config } = painting;
         const shape = CanvasScroll.getSharpByCurrentLine(painting, line);
         if (config.focus) {
             const isFocus = CanvasManager.isFocus(painting, shape);
             if (isFocus) {
-                return {
-                    matchCanvas: true,
-                    resetFocus: false,
-                    updateFocusShape: false,
-                    drawAll: false,
-                };
+                result.resetFocus = false;
+                result.drawAll = false;
+                return result;
             }
         }
+        result.updateFocusShape = config.focus;
         return {
-            matchCanvas: true,
-            resetFocus: true,
-            updateFocusShape: config.focus,
-            drawAll: true,
+            ...result,
             painting,
             shape,
         };
