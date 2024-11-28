@@ -39,29 +39,6 @@ export class CanvasScroll {
             scrollTo: false,
         });
     }
-    static execAction(action) {
-        const { matchCanvas, resetFocus, updateFocusShape, drawAll, painting, shape, scrollTo } = action;
-        if (resetFocus === true) {
-            CanvasManager.resetFocus();
-        }
-        if (updateFocusShape === true) {
-            CanvasScroll.setFocusShapeAndScroolTo(painting, shape, scrollTo);
-        }
-        if (drawAll === true) {
-            CanvasManager.drawAll();
-        }
-        if (matchCanvas === false) {
-            return false;
-        }
-        return true;
-    }
-    static setFocusShapeAndScroolTo(painting, shape, scrollTo) {
-        const focusShape = CanvasScroll.buildFocusshape(painting, shape);
-        CanvasManager.setFocusShape(painting, shape, focusShape);
-        if (scrollTo === true) {
-            CanvasScroll.scrollToshape(painting, shape);
-        }
-    }
     static paintingInitNeedDraw(bufferInfo) {
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
@@ -126,7 +103,6 @@ export class CanvasScroll {
                 };
             }
         }
-
         return {
             matchCanvas: true,
             resetFocus: true,
@@ -135,6 +111,81 @@ export class CanvasScroll {
             painting,
             shape,
         };
+    }
+    static mouseMoveNeedDraw(painting, mouse) {
+        let { element, paint, shapes } = painting;
+        const [x, y] = mouse;
+        const shapeArray = Object.values(shapes).filter((shape) => {
+            const { type, outline, trackPoints } = shape;
+            if (type === "lable") {
+                return;
+            } else if (type === "line") {
+                const distinct = LineUtil.pointToPolylineDistance(mouse, trackPoints);
+                if (distinct > 10) {
+                    return false;
+                }
+            } else {
+                const { left, top, right, bottom } = outline;
+                if (left <= x && x <= right) {
+                } else {
+                    return false;
+                }
+                if (top <= y && y <= bottom) {
+                } else {
+                    return false;
+                }
+            }
+            return true;
+        });
+        if (shapeArray.length <= 0) {
+            return {
+                matchCanvas: false,
+                resetFocus: true,
+                updateFocusShape: false,
+                drawAll: true,
+            };
+        }
+        const shape = shapeArray[0];
+        const isFocus = CanvasManager.isFocus(painting, shape);
+        if (isFocus) {
+            return {
+                matchCanvas: true,
+                resetFocus: false,
+                updateFocusShape: false,
+                drawAll: false,
+            };
+        }
+        return {
+            matchCanvas: true,
+            resetFocus: true,
+            updateFocusShape: true,
+            drawAll: true,
+            painting,
+            shape,
+        };
+    }
+    static execAction(action) {
+        const { matchCanvas, resetFocus, updateFocusShape, drawAll, painting, shape, scrollTo } = action;
+        if (resetFocus === true) {
+            CanvasManager.resetFocus();
+        }
+        if (updateFocusShape === true) {
+            CanvasScroll.setFocusShapeAndScroolTo(painting, shape, scrollTo);
+        }
+        if (drawAll === true) {
+            CanvasManager.drawAll();
+        }
+        if (matchCanvas === false) {
+            return false;
+        }
+        return true;
+    }
+    static setFocusShapeAndScroolTo(painting, shape, scrollTo) {
+        const focusShape = CanvasScroll.buildFocusshape(painting, shape);
+        CanvasManager.setFocusShape(painting, shape, focusShape);
+        if (scrollTo === true) {
+            CanvasScroll.scrollToshape(painting, shape);
+        }
     }
     static buildFocusshape(painting, shape) {
         const { paint } = painting;
@@ -198,58 +249,6 @@ export class CanvasScroll {
             targetTop = targetTop + position[1] - docHeight / 2;
         }
         window.scrollTo(targetLeft, targetTop);
-    }
-    static mouseMoveNeedDraw(painting, mouse) {
-        let { element, paint, shapes } = painting;
-        const [x, y] = mouse;
-        const shapeArray = Object.values(shapes).filter((shape) => {
-            const { type, outline, trackPoints } = shape;
-            if (type === "lable") {
-                return;
-            } else if (type === "line") {
-                const distinct = LineUtil.pointToPolylineDistance(mouse, trackPoints);
-                if (distinct > 10) {
-                    return false;
-                }
-            } else {
-                const { left, top, right, bottom } = outline;
-                if (left <= x && x <= right) {
-                } else {
-                    return false;
-                }
-                if (top <= y && y <= bottom) {
-                } else {
-                    return false;
-                }
-            }
-            return true;
-        });
-        if (shapeArray.length <= 0) {
-            return {
-                matchCanvas: false,
-                resetFocus: true,
-                updateFocusShape: false,
-                drawAll: true,
-            };
-        }
-        const shape = shapeArray[0];
-        const isFocus = CanvasManager.isFocus(painting, shape);
-        if (isFocus) {
-            return {
-                matchCanvas: true,
-                resetFocus: false,
-                updateFocusShape: false,
-                drawAll: false,
-            };
-        }
-        return {
-            matchCanvas: true,
-            resetFocus: true,
-            updateFocusShape: true,
-            drawAll: true,
-            painting,
-            shape,
-        };
     }
 }
 class LineUtil {
