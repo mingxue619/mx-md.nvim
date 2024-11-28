@@ -96,33 +96,31 @@ export class CanvasScroll {
         };
     }
     static mouseMoveNeedDraw(painting, mouse) {
+        const result = {
+            matchCanvas: false,
+            resetFocus: true,
+            updateFocusShape: false,
+            drawAll: true,
+        };
         const shape = CanvasScroll.getCurrentShapeByMouse(painting, mouse);
         if (shape == null) {
-            return {
-                matchCanvas: false,
-                resetFocus: true,
-                updateFocusShape: false,
-                drawAll: true,
-            };
+            return result;
+        } else {
+            result.matchCanvas = true;
         }
 
         let { config } = painting;
         if (config.focus) {
             const isFocus = CanvasManager.isFocus(painting, shape);
             if (isFocus) {
-                return {
-                    matchCanvas: true,
-                    resetFocus: false,
-                    updateFocusShape: false,
-                    drawAll: false,
-                };
+                result.resetFocus = false;
+                result.drawAll = false;
+                return result;
             }
         }
+        result.updateFocusShape = config.focus;
         return {
-            matchCanvas: true,
-            resetFocus: true,
-            updateFocusShape: true,
-            drawAll: true,
+            ...result,
             painting,
             shape,
         };
