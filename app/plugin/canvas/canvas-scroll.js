@@ -12,6 +12,7 @@ export class CanvasScroll {
             scrollTo: true,
             painting,
             shape,
+            scrollTo: false,
         });
     }
     static onBufferMove(bufferInfo) {
@@ -23,10 +24,11 @@ export class CanvasScroll {
             drawAll,
             painting,
             shape,
-            focus: true,
+            scrollTo: true,
         });
     }
     static onMouseMove(painting, mouse) {
+        return;
         const { matchCanvas, resetFocus, updateFocusShape, drawAll, shape } = CanvasScroll.mouseMoveNeedDraw(painting, mouse);
         return this.execAction({
             matchCanvas,
@@ -35,7 +37,7 @@ export class CanvasScroll {
             drawAll,
             painting,
             shape,
-            focus: false,
+            scrollTo: false,
         });
     }
     static execAction(action) {
