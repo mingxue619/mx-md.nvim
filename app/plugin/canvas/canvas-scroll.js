@@ -42,7 +42,7 @@ export class CanvasScroll {
     static paintingInitNeedDraw(bufferInfo) {
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
-        const painting = LineUtil.getCurrentPainting(line);
+        const painting = CanvasScroll.getCurrentPaintingByLine(line);
         if (painting == null) {
             return {
                 matchCanvas: false,
@@ -52,7 +52,7 @@ export class CanvasScroll {
             };
         }
         let { config } = painting;
-        const shape = LineUtil.getSharpByCurrentLine(painting, line);
+        const shape = CanvasScroll.getSharpByCurrentLine(painting, line);
         return {
             matchCanvas: true,
             resetFocus: true,
@@ -65,7 +65,7 @@ export class CanvasScroll {
     static bufferMoveNeedDraw(bufferInfo) {
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
-        const painting = LineUtil.getCurrentPainting(line);
+        const painting = CanvasScroll.getCurrentPaintingByLine(line);
         if (painting == null) {
             return {
                 matchCanvas: false,
@@ -75,7 +75,7 @@ export class CanvasScroll {
             };
         }
         let { config } = painting;
-        const shape = LineUtil.getSharpByCurrentLine(painting, line);
+        const shape = CanvasScroll.getSharpByCurrentLine(painting, line);
         if (config.focus) {
             const isFocus = CanvasManager.isFocus(painting, shape);
             if (isFocus) {
@@ -234,6 +234,30 @@ export class CanvasScroll {
         }
         window.scrollTo(targetLeft, targetTop);
     }
+    static getCurrentPaintingByLine(line) {
+        const paintings = CanvasManager.paintings.filter((painting) => {
+            let [start, end] = painting.map;
+            if (start <= line && line < end) {
+                return true;
+            }
+            return false;
+        });
+        // miss any canvas painting
+        if (paintings.length <= 0) {
+            return null;
+        }
+        return paintings[0];
+    }
+    static getSharpByCurrentLine(painting, line) {
+        let { map, lineMap } = painting;
+        let [start, end] = map;
+        // 相对行号转为绝对行号
+        lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
+        const matchLines = lineMap.filter(([key, value]) => line <= key);
+        const [key, variableName] = matchLines.at(0) || lineMap.at(-1);
+        const shape = painting.shapes[variableName];
+        return shape;
+    }
 }
 class LineUtil {
     static pointToLineDistance(point, from, to) {
@@ -301,29 +325,5 @@ class LineUtil {
         }
 
         return minDistance;
-    }
-    static getCurrentPainting(line) {
-        const paintings = CanvasManager.paintings.filter((painting) => {
-            let [start, end] = painting.map;
-            if (start <= line && line < end) {
-                return true;
-            }
-            return false;
-        });
-        // miss any canvas painting
-        if (paintings.length <= 0) {
-            return null;
-        }
-        return paintings[0];
-    }
-    static getSharpByCurrentLine(painting, line) {
-        let { map, lineMap } = painting;
-        let [start, end] = map;
-        // 相对行号转为绝对行号
-        lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
-        const matchLines = lineMap.filter(([key, value]) => line <= key);
-        const [key, variableName] = matchLines.at(0) || lineMap.at(-1);
-        const shape = painting.shapes[variableName];
-        return shape;
     }
 }
