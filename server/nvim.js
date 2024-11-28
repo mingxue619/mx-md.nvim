@@ -109,7 +109,7 @@ export default class Nvim {
         const currentWindow = await this.connection.window;
         const winheight = await this.connection.call("winheight", currentWindow.id);
         const cursor = await this.connection.call("getpos", ".");
-        const pageTitle = await this.connection.getVar("mkdp_page_title");
+        const pageTitle = await this.connection.getVar("mxmd_page_title");
         const name = await buffer.name;
         const currentBuffer = await this.connection.buffer;
         const bufferInfo = {
