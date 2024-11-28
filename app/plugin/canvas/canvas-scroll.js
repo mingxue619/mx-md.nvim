@@ -82,20 +82,12 @@ export class CanvasScroll {
             };
         }
         const painting = paintings[0];
-        let { config, map, lineMap } = painting;
-        if(config.focus) {
-
-        }
-        let [start, end] = map;
-        // 相对行号转为绝对行号
-        lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
-        const matchLines = lineMap.filter(([key, value]) => line <= key);
-        const [key, variableName] = matchLines.at(0) || lineMap.at(-1);
-        const shape = painting.shapes[variableName];
+        let { config } = painting;
+        const shape = LineUtil.getSharpByCurrentLine(painting, line);
         return {
             matchCanvas: true,
             resetFocus: true,
-            updateFocusShape: focus,
+            updateFocusShape: config.focus,
             drawAll: true,
             painting,
             shape,
@@ -121,9 +113,8 @@ export class CanvasScroll {
             };
         }
         const painting = paintings[0];
-        let { config, map, lineMap } = painting;
+        let { config } = painting;
         const shape = LineUtil.getSharpByCurrentLine(painting, line);
-        debugger
         if (config.focus) {
             const isFocus = CanvasManager.isFocus(painting, shape);
             if (isFocus) {
