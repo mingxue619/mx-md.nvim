@@ -106,14 +106,18 @@ export class CanvasScroll {
                 drawAll: true,
             };
         }
-        const isFocus = CanvasManager.isFocus(painting, shape);
-        if (isFocus) {
-            return {
-                matchCanvas: true,
-                resetFocus: false,
-                updateFocusShape: false,
-                drawAll: false,
-            };
+
+        let { config } = painting;
+        if (config.focus) {
+            const isFocus = CanvasManager.isFocus(painting, shape);
+            if (isFocus) {
+                return {
+                    matchCanvas: true,
+                    resetFocus: false,
+                    updateFocusShape: false,
+                    drawAll: false,
+                };
+            }
         }
         return {
             matchCanvas: true,
