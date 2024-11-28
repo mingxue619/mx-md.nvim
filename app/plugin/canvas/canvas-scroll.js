@@ -97,31 +97,8 @@ export class CanvasScroll {
         };
     }
     static mouseMoveNeedDraw(painting, mouse) {
-        let { element, paint, shapes } = painting;
-        const [x, y] = mouse;
-        const shapeArray = Object.values(shapes).filter((shape) => {
-            const { type, outline, trackPoints } = shape;
-            if (type === "lable") {
-                return;
-            } else if (type === "line") {
-                const distinct = LineUtil.pointToPolylineDistance(mouse, trackPoints);
-                if (distinct > 10) {
-                    return false;
-                }
-            } else {
-                const { left, top, right, bottom } = outline;
-                if (left <= x && x <= right) {
-                } else {
-                    return false;
-                }
-                if (top <= y && y <= bottom) {
-                } else {
-                    return false;
-                }
-            }
-            return true;
-        });
-        if (shapeArray.length <= 0) {
+        const shape = CanvasScroll.getCurrentShapeByMouse(painting, mouse);
+        if (shape == null) {
             return {
                 matchCanvas: false,
                 resetFocus: true,
@@ -129,7 +106,6 @@ export class CanvasScroll {
                 drawAll: true,
             };
         }
-        const shape = shapeArray[0];
         const isFocus = CanvasManager.isFocus(painting, shape);
         if (isFocus) {
             return {
@@ -247,6 +223,36 @@ export class CanvasScroll {
             return null;
         }
         return paintings[0];
+    }
+    static getCurrentShapeByMouse(painting, mouse) {
+        let { shapes } = painting;
+        const [x, y] = mouse;
+        const shapeArray = Object.values(shapes).filter((shape) => {
+            const { type, outline, trackPoints } = shape;
+            if (type === "lable") {
+                return;
+            } else if (type === "line") {
+                const distinct = LineUtil.pointToPolylineDistance(mouse, trackPoints);
+                if (distinct > 10) {
+                    return false;
+                }
+            } else {
+                const { left, top, right, bottom } = outline;
+                if (left <= x && x <= right) {
+                } else {
+                    return false;
+                }
+                if (top <= y && y <= bottom) {
+                } else {
+                    return false;
+                }
+            }
+            return true;
+        });
+        if (shapeArray.length <= 0) {
+            return null;
+        }
+        return shapeArray[0];
     }
     static getSharpByCurrentLine(painting, line) {
         let { map, lineMap } = painting;
