@@ -63,6 +63,7 @@ export class CanvasScroll {
         };
     }
     static bufferMoveNeedDraw(bufferInfo) {
+        debugger
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
         const painting = CanvasScroll.getCurrentPaintingByLine(line);

@@ -60,7 +60,7 @@ function getTheme(props) {
     return props.dark || props.light || props.theme || "dynamic";
 }
 function getFocus(props) {
-    return props.focus || true ;
+    return props.focus !== undefined ? props.focus : true
 }
 function removeComments(content) {
     return content
