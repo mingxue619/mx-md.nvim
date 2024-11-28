@@ -82,8 +82,11 @@ export class CanvasScroll {
             };
         }
         const painting = paintings[0];
-        let [start, end] = painting.map;
-        let lineMap = painting.lineMap;
+        let { config, map, lineMap } = painting;
+        if(config.focus) {
+
+        }
+        let [start, end] = map;
         // 相对行号转为绝对行号
         lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
         const matchLines = lineMap.filter(([key, value]) => line <= key);
@@ -92,7 +95,7 @@ export class CanvasScroll {
         return {
             matchCanvas: true,
             resetFocus: true,
-            updateFocusShape: true,
+            updateFocusShape: focus,
             drawAll: true,
             painting,
             shape,
@@ -118,30 +121,25 @@ export class CanvasScroll {
             };
         }
         const painting = paintings[0];
-        let [start, end] = painting.map;
-        let lineMap = painting.lineMap;
-        // 相对行号转为绝对行号
-        lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
-        const matchLines = lineMap.filter(([key, value]) => line <= key);
-        const [key, variableName] = matchLines.at(0) || lineMap.at(-1);
-        // const element = painting.element;
-        // const paint = painting.paint;
-        const shape = painting.shapes[variableName];
-        // const ctx = paint.getContext();
-        const isFocus = CanvasManager.isFocus(painting, shape);
-        if (isFocus) {
-            return {
-                matchCanvas: true,
-                resetFocus: false,
-                updateFocusShape: false,
-                drawAll: false,
-            };
+        let { config, map, lineMap } = painting;
+        const shape = LineUtil.getSharpByCurrentLine(painting, line);
+        debugger
+        if (config.focus) {
+            const isFocus = CanvasManager.isFocus(painting, shape);
+            if (isFocus) {
+                return {
+                    matchCanvas: true,
+                    resetFocus: false,
+                    updateFocusShape: false,
+                    drawAll: false,
+                };
+            }
         }
 
         return {
             matchCanvas: true,
             resetFocus: true,
-            updateFocusShape: true,
+            updateFocusShape: config.focus,
             drawAll: true,
             painting,
             shape,
@@ -329,5 +327,15 @@ class LineUtil {
         }
 
         return minDistance;
+    }
+    static getSharpByCurrentLine(painting, line) {
+        let { map, lineMap } = painting;
+        let [start, end] = map;
+        // 相对行号转为绝对行号
+        lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
+        const matchLines = lineMap.filter(([key, value]) => line <= key);
+        const [key, variableName] = matchLines.at(0) || lineMap.at(-1);
+        const shape = painting.shapes[variableName];
+        return shape;
     }
 }
