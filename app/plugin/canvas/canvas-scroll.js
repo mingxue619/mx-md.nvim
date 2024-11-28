@@ -42,15 +42,8 @@ export class CanvasScroll {
     static paintingInitNeedDraw(bufferInfo) {
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
-        const paintings = CanvasManager.paintings.filter((painting) => {
-            let [start, end] = painting.map;
-            if (start <= line && line < end) {
-                return true;
-            }
-            return false;
-        });
-        // miss any canvas painting
-        if (paintings.length <= 0) {
+        const painting = LineUtil.getCurrentPainting(line);
+        if (!painting) {
             return {
                 matchCanvas: false,
                 resetFocus: true,
@@ -58,7 +51,6 @@ export class CanvasScroll {
                 drawAll: true,
             };
         }
-        const painting = paintings[0];
         let { config } = painting;
         const shape = LineUtil.getSharpByCurrentLine(painting, line);
         return {
@@ -317,6 +309,20 @@ class LineUtil {
         }
 
         return minDistance;
+    }
+    static getCurrentPainting(line) {
+        const paintings = CanvasManager.paintings.filter((painting) => {
+            let [start, end] = painting.map;
+            if (start <= line && line < end) {
+                return true;
+            }
+            return false;
+        });
+        // miss any canvas painting
+        if (paintings.length <= 0) {
+            return null;
+        }
+        return paintings[0];
     }
     static getSharpByCurrentLine(painting, line) {
         let { map, lineMap } = painting;
