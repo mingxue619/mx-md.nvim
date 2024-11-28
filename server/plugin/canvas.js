@@ -59,6 +59,9 @@ function getAxes(props) {
 function getTheme(props) {
     return props.dark || props.light || props.theme || "dynamic";
 }
+function getFocus(props) {
+    return props.focus || true ;
+}
 function removeComments(content) {
     return content
         .split("\n")
@@ -143,6 +146,7 @@ function markdownitCanvas(md) {
         let element = getElementName(props);
         let paint = getPaintName(props);
         let theme = getTheme(props);
+        let focus = getFocus(props);
         let showAxes = getAxes(props);
         let content = token.content || "";
         const variables = parseVariable(content);
@@ -169,6 +173,7 @@ function markdownitCanvas(md) {
                             const config = {
                                 axes: ${showAxes},
                                 theme: "${theme}",
+                                focus: "${focus}",
                             };
                             // init painting
                             try {
