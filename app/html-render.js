@@ -12,7 +12,8 @@ export class HtmlRender {
         const filePath = bufferInfo.name;
         const fileName = filePath.split('/').at(-1).split('.')[0];
         const pageTitle = bufferInfo.pageTitle;
-        debugger
+        const title = pageTitle.replace("${name}", fileName);
+        document.title = title;
         // html
         const html = bufferInfo.html;
         const newHtml = `<section>${html}</section>`;
