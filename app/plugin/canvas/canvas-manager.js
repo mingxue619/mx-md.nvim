@@ -1,6 +1,6 @@
-import { Axes } from "/app/plugin/canvas-draw/canvas-axes.js";
-import { Theme } from "/app/plugin/canvas-draw/canvas-theme.js";
-import { CanvasScroll } from "/app/plugin/canvas-draw/canvas-scroll.js";
+import { Axes } from "/app/plugin/canvas/canvas-axes.js";
+import { Theme } from "/app/plugin/canvas/canvas-theme.js";
+import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
 
 export class CanvasManager {
     static recursionDrawFlag = false;
