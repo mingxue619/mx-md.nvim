@@ -60,21 +60,3 @@ function wsConnect(bufnr) {
         console.log("Disconnected from the server");
     };
 }
-
-// function wsConnect(bufnr) {
-//     // const host = window.location.host;
-//     // const ws = new WebSocket("ws://" + host);
-//     const socket = io();
-//     socket.on("connect", function () {
-//         console.log("Connected to server");
-//         const data = {
-//             bufnr: bufnr,
-//         };
-//         let msg = JSON.stringify(data);
-//         socket.emit("init", msg);
-//     });
-//
-//     socket.on("refresh-content", function (msg) {
-//         console.log("received message: " + msg);
-//     });
-// }

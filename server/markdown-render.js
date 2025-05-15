@@ -5,7 +5,7 @@ import markdownitInjectLinenumbers from "markdown-it-inject-linenumbers";
 // import MarkdownItTypst from "markdown-it-typst";
 import markdownItMultimdTable from "markdown-it-multimd-table";
 import { markdownItCanvas } from "./plugin/canvas-element.js";
-import { markdownItMermaid } from "./plugin/mermaid.js";
+import { markdownItMermaid } from "./plugin/mermaid-element.js";
 import { markdownitHr } from "./plugin/hr.js";
 import { markdownitTypst } from "./plugin/typst.js";
 
