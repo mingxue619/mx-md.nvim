@@ -1,4 +1,4 @@
-import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
+import { CanvasScroll } from "/app/plugin/canvas-draw/canvas-scroll.js";
 
 export class CursorScroll {
     scrollTo(bufferInfo) {

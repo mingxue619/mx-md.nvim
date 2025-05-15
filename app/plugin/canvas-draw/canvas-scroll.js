@@ -1,4 +1,4 @@
-import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
+import { CanvasManager } from "/app/plugin/canvas-draw/canvas-manager.js";
 
 export class CanvasScroll {
     // canvas

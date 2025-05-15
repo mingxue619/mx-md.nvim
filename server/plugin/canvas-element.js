@@ -62,12 +62,12 @@ function getTheme(props) {
 function getFocus(props) {
     return props.focus !== undefined ? props.focus : true
 }
-function removeComments(content) {
-    return content
-        .split("\n")
-        .filter((line) => !line.trim().startsWith("//"))
-        .join("\n");
-}
+// function removeComments(content) {
+//     return content
+//         .split("\n")
+//         .filter((line) => !line.trim().startsWith("//"))
+//         .join("\n");
+// }
 function parseVariable(content) {
     const variableRanges = new Map();
     try {
@@ -165,8 +165,8 @@ function markdownitCanvas(md) {
                     `;
         const script = `
                         <script type="module">
-                            import { CanvasManager } from '/app/plugin/canvas/canvas-manager.js';
-                            import { Paint } from '/app/plugin/canvas/canvas-paint.js';
+                            import { CanvasManager } from '/app/plugin/canvas-draw/canvas-manager.js';
+                            import { Paint } from '/app/plugin/canvas-draw/canvas-paint.js';
                             let errorElement = document.getElementById('${errorId}');  
                             let ${element} = document.getElementById("${id}");
                             const ${paint} = new Paint(${element});

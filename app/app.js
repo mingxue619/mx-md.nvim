@@ -1,4 +1,4 @@
-import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
+import { CanvasManager } from "/app/plugin/canvas-draw/canvas-manager.js";
 import { CursorScroll } from "/app/scroll.js";
 import { HtmlRender } from "/app/html-render.js";
 let render = new HtmlRender();
