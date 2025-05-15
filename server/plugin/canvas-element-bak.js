@@ -19,7 +19,7 @@ function getId(props) {
     if (!id) {
         id =
             "canvas-uuid-" +
-            "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+            "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
                 var r = (Math.random() * 16) | 0,
                     v = c == "x" ? r : (r & 0x3) | 0x8;
                 return v.toString(16);
@@ -27,15 +27,6 @@ function getId(props) {
         props["id"] = id;
     }
     return id;
-}
-
-function getWidthAndHeight(props) {
-    return Object.entries(props)
-        .filter(([key, value]) => {
-            return key === "width" || key === "height";
-        })
-        .map(([key, value]) => `${key}="${value}"`)
-        .join(" ");
 }
 
 function getElementName(props) {
@@ -69,7 +60,7 @@ function getTheme(props) {
     return props.dark || props.light || props.theme || "dynamic";
 }
 function getFocus(props) {
-    return props.focus !== undefined ? props.focus : true;
+    return props.focus !== undefined ? props.focus : true
 }
 // function removeComments(content) {
 //     return content
@@ -146,41 +137,70 @@ function markdownItCanvas(md) {
     const proxy = (tokens, idx, options, env, self) => self.renderToken(tokens, idx, options);
     const defaultFenceRenderer = md.renderer.rules.fence || proxy;
 
-    md.renderer.rules.canvas = function(tokens, idx, options, env, self) {
+    md.renderer.rules.canvas = function (tokens, idx, options, env, self) {
         let token = tokens[idx];
         let info = token.info;
         let props = parseCanvasProps(info);
         let id = getId(props);
         let errorId = "error-" + id;
-        let widthAndHeight = getWidthAndHeight(props);
         let element = getElementName(props);
         let paint = getPaintName(props);
         let theme = getTheme(props);
         let focus = getFocus(props);
-        let axes = getAxes(props);
+        let showAxes = getAxes(props);
         let content = token.content || "";
         const variables = parseVariable(content);
         const lineMap = getLineMap(variables);
         const contentReturnLine = getContentReturnLine(variables);
         //content = removeComments(content);
         content = content + contentReturnLine;
-        // let canvasProps = Object.entries(props)
-        //     .map(([k, v]) => `${k}="${v}"`)
-        //     .join(" ");
-        debugger;
-        const html = `
-                    <canvas class="canvas" id="${id}" ${widthAndHeight} 
-                        data-element="${element}" 
-                        data-paint="${paint}" 
-                        data-theme="${theme}" 
-                        data-focus="${focus}" 
-                        data-axes="${axes}" 
-                        data-line-map="${lineMap}" 
-                    >
+        let canvasProps = Object.entries(props)
+            .map(([k, v]) => `${k}="${v}"`)
+            .join(" ");
+        const tag = `
+                    <canvas class="canvas" ${canvasProps}>
                         browser not support canvas
                     </canvas>
                     <div id="${errorId}" style="display: none"></div>
                     `;
+        const script = `
+                        <script type="module">
+                            import { CanvasManager } from '/app/plugin/canvas-draw/canvas-manager.js';
+                            import { Paint } from '/app/plugin/canvas-draw/canvas-paint.js';
+                            let errorElement = document.getElementById('${errorId}');  
+                            let ${element} = document.getElementById("${id}");
+                            const ${paint} = new Paint(${element});
+                            const config = {
+                                axes: ${showAxes},
+                                theme: "${theme}",
+                                focus: ${focus},
+                            };
+                            // init painting
+                            try {
+                                const func = new Function('${element}', 'Paint', '${paint}', \`${content}\`);
+                                const shapes = func(${element}, Paint, ${paint});
+                                const painting = {
+                                    config: config,
+                                    id: "${id}",
+                                    element: ${element},
+                                    paint: ${paint},
+                                    map: [${token.map}],
+                                    shapes: shapes,
+                                    lineMap: ${lineMap}
+                                };
+                                CanvasManager.dispatchPaintingInitEvent(painting);
+                            } catch (error) {
+                                errorElement.style.display = "block";
+                                let code = document.createElement('code');  
+                                code.style.color = "red";
+                                code.textContent = error.stack;  
+                                let pre = document.createElement('pre');  
+                                pre.appendChild(code);  
+                                document.getElementById('${errorId}').appendChild(pre);
+                            };
+
+                        </script>`;
+        const html = tag + script;
         return html;
     };
 }
