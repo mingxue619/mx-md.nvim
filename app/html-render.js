@@ -12,7 +12,7 @@ export class HtmlRender {
         }
         //title
         const filePath = bufferInfo.name;
-        const fileName = filePath.split('/').at(-1).split('.')[0];
+        const fileName = filePath.split("/").at(-1).split(".")[0];
         const pageTitle = bufferInfo.pageTitle;
         const title = pageTitle.replace("${name}", fileName);
         document.title = title;
@@ -22,7 +22,6 @@ export class HtmlRender {
         // console.log(Object.keys(md.renderer.rules));
         const contentElement = document.getElementById("content");
         contentElement.innerHTML = newHtml;
-        this.pluginRender()
         // script
         // let scripts = contentElement.getElementsByTagName("script");
         // Array.from(scripts).forEach(function (script) {
@@ -37,9 +36,15 @@ export class HtmlRender {
         //     // }, 0);
         // });
         this.hash = newHash;
+        this.pluginRender();
         return true;
     }
-    pluginRender(){
-        CanvasManager.init(render);
+    pluginRender() {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                console.log("HTML 内容渲染完成");
+                CanvasManager.init(render);
+            });
+        });
     }
 }
