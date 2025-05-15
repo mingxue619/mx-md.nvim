@@ -1,3 +1,5 @@
+import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
+
 export class HtmlRender {
     constructor() {
         this.hash = "";
@@ -20,20 +22,24 @@ export class HtmlRender {
         // console.log(Object.keys(md.renderer.rules));
         const contentElement = document.getElementById("content");
         contentElement.innerHTML = newHtml;
+        this.pluginRender()
         // script
-        let scripts = contentElement.getElementsByTagName("script");
-        Array.from(scripts).forEach(function (script) {
-            let scriptElement = document.createElement("script");
-            if(script.type) {
-                scriptElement.type = script.type;
-            }
-            scriptElement.textContent = script.textContent || script.innerText || "";
-            document.body.appendChild(scriptElement);
-            // setTimeout(function () {
-            //     document.body.removeChild(newScript);
-            // }, 0);
-        });
+        // let scripts = contentElement.getElementsByTagName("script");
+        // Array.from(scripts).forEach(function (script) {
+        //     let scriptElement = document.createElement("script");
+        //     if(script.type) {
+        //         scriptElement.type = script.type;
+        //     }
+        //     scriptElement.textContent = script.textContent || script.innerText || "";
+        //     document.body.appendChild(scriptElement);
+        //     // setTimeout(function () {
+        //     //     document.body.removeChild(newScript);
+        //     // }, 0);
+        // });
         this.hash = newHash;
         return true;
+    }
+    pluginRender(){
+        CanvasManager.init(render);
     }
 }
