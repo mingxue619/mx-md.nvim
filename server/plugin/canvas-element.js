@@ -204,4 +204,4 @@ function markdownItCanvas(md) {
         return html;
     };
 }
-export { markdownitCanvas };
+export { markdownItCanvas };
