@@ -4,7 +4,8 @@ import { createHash } from "crypto";
 import markdownitInjectLinenumbers from "markdown-it-inject-linenumbers";
 // import MarkdownItTypst from "markdown-it-typst";
 import markdownItMultimdTable from "markdown-it-multimd-table";
-import { markdownitCanvas } from "./plugin/canvas-element.js";
+import { markdownItCanvas } from "./plugin/canvas-element.js";
+import { markdownItMermaid } from "./plugin/mermaid.js";
 import { markdownitHr } from "./plugin/hr.js";
 import { markdownitTypst } from "./plugin/typst.js";
 
@@ -46,7 +47,8 @@ export default class MarkdownRender {
             return bufferInfo;
         }
         const html = this.md
-            .use(markdownitCanvas)
+            .use(markdownItCanvas)
+            .use(markdownItMermaid)
             .use(markdownitHr)
             // .use(window.markdownitSub)
             // .use(window.markdownitSup)

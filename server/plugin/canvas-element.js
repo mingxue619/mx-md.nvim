@@ -115,7 +115,7 @@ function getLineMap(variableRanges) {
     return jsonString;
 }
 
-function markdownitCanvas(md) {
+function markdownItCanvas(md) {
     md.core.ruler.after("block", "canvas", (state) => {
         for (let i = 0; i < state.tokens.length; i++) {
             const token = state.tokens[i];
