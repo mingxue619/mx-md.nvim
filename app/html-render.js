@@ -36,14 +36,14 @@ export class HtmlRender {
         //     // }, 0);
         // });
         this.hash = newHash;
-        this.pluginRender(render);
+        this.pluginRender(bufferInfo);
         return true;
     }
-    pluginRender(render) {
+    pluginRender(bufferInfo) {
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 console.log("HTML 内容渲染完成");
-                CanvasManager.init(render);
+                CanvasManager.init(bufferInfo);
             });
         });
     }

@@ -5,14 +5,15 @@ import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
 export class CanvasManager {
     static recursionDrawFlag = false;
     static paintings = [];
-    static init(render) {
+    static init(bufferInfo) {
+        CanvasManager.initPaintingList();
 
-        document.addEventListener("PaintingInitEvent", (event) => {
-            let painting = event.detail;
-            CanvasManager.paintings.push(painting);
-            CanvasManager.afterPaintingInit(painting, render);
-            CanvasManager.addMouseMoveListener(painting);
-        });
+        // document.addEventListener("PaintingInitEvent", (event) => {
+        //     let painting = event.detail;
+        //     CanvasManager.paintings.push(painting);
+        //     CanvasManager.afterPaintingInit(painting, render);
+        //     CanvasManager.addMouseMoveListener(painting);
+        // });
 
         window.addEventListener("beforeprint", () => {
             CanvasManager.resetThemeAndDrawAll("clear");
@@ -21,6 +22,9 @@ export class CanvasManager {
         window.addEventListener("afterprint", () => {
             CanvasManager.resetThemeAndDrawAll("init");
         });
+    }
+    static initPaintingList(){
+
     }
     static resetThemeAndDrawAll(action) {
         const paintings = CanvasManager.paintings;

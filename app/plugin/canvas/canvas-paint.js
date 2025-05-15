@@ -2,7 +2,7 @@
 // frame: 画框，图形左右上下的范围
 // from: 起点
 
-// import { Axes } from "/app/plugin/canvas-draw/canvas-axes.js";
+// import { Axes } from "/app/plugin/canvas/canvas-axes.js";
 import { Label } from "./paint-label.js";
 import { Line } from "./paint-line.js";
 import { Rect } from "./paint-rect.js";
