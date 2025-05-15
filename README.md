@@ -31,3 +31,4 @@ markdown-it-inject-linenumbers
 | table-merge-cells         | n      | <https://github.com/Tianci-blog/markdown-it-table-merge-cells>    |         |
 | markdown-it-multimd-table | y      | <https://github.com/redbug312/markdown-it-multimd-table>          |         |
 | vega                      | n      | https://github.com/vega/vega                                      |         |
+| mermaid                   | y      | https://github.com/mermaid-js/mermaid                             |         |

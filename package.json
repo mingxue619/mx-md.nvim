@@ -27,6 +27,7 @@
     "markdown-it-sub": "^2.0.0",
     "markdown-it-sup": "^2.0.0",
     "markdown-it-typst": "^1.0.2",
+    "mermaid": "^11.6.0",
     "neovim": "^5.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4",
