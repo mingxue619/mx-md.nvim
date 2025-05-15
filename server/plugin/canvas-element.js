@@ -71,16 +71,16 @@ function getTheme(props) {
 function getFocus(props) {
     return props.focus !== undefined ? props.focus : true;
 }
-// function removeComments(content) {
-//     return content
+// function removeComments(code) {
+//     return code
 //         .split("\n")
 //         .filter((line) => !line.trim().startsWith("//"))
 //         .join("\n");
 // }
-function parseVariable(content) {
+function parseVariable(code) {
     const variableRanges = new Map();
     try {
-        const ast = acorn.parse(content, { ecmaVersion: 2020, locations: true });
+        const ast = acorn.parse(code, { ecmaVersion: 2020, locations: true });
         // 遍历 AST
         ast.body.forEach((node) => {
             if (node.type === "VariableDeclaration") {
@@ -111,7 +111,7 @@ function parseVariable(content) {
     // });
     return variableRanges;
 }
-function getContentReturnLine(variableRanges) {
+function getCodeReturnLine(variableRanges) {
     const names = Array.from(variableRanges.keys()).join(",");
     return `return {${names}};`;
 }
@@ -147,23 +147,24 @@ function markdownItCanvas(md) {
     const defaultFenceRenderer = md.renderer.rules.fence || proxy;
 
     md.renderer.rules.canvas = function(tokens, idx, options, env, self) {
-        let token = tokens[idx];
-        let info = token.info;
-        let props = parseCanvasProps(info);
-        let id = getId(props);
-        let errorId = "error-" + id;
-        let widthAndHeight = getWidthAndHeight(props);
-        let element = getElementName(props);
-        let paint = getPaintName(props);
-        let theme = getTheme(props);
-        let focus = getFocus(props);
-        let axes = getAxes(props);
-        let content = token.content || "";
-        const variables = parseVariable(content);
+        const token = tokens[idx];
+        const info = token.info;
+        const props = parseCanvasProps(info);
+        const id = getId(props);
+        const errorId = "error-" + id;
+        const widthAndHeight = getWidthAndHeight(props);
+        const element = getElementName(props);
+        const paint = getPaintName(props);
+        const theme = getTheme(props);
+        const focus = getFocus(props);
+        const axes = getAxes(props);
+        let code = token.content || "";
+        const variables = parseVariable(code);
         const lineMap = getLineMap(variables);
-        const contentReturnLine = getContentReturnLine(variables);
-        //content = removeComments(content);
-        content = content + contentReturnLine;
+        const codeReturnLine = getCodeReturnLine(variables);
+        // code = removeComments(code);
+        code = code + codeReturnLine;
+        code = encodeURIComponent(code);
         // let canvasProps = Object.entries(props)
         //     .map(([k, v]) => `${k}="${v}"`)
         //     .join(" ");
@@ -176,6 +177,7 @@ function markdownItCanvas(md) {
                         data-focus="${focus}" 
                         data-axes="${axes}" 
                         data-line-map="${lineMap}" 
+                        data-code="${code}" 
                     >
                         browser not support canvas
                     </canvas>

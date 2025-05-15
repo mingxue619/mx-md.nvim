@@ -23,8 +23,35 @@ export class CanvasManager {
             CanvasManager.resetThemeAndDrawAll("init");
         });
     }
-    static initPaintingList(){
+    static initPaintingList() {
+        const elements = document.getElementsByClassName("canvas");
+        const elementArray = Array.from(elements);
+        elementArray.map((value) => {
+            debugger
+            const id = value.id;
+            const element = value.dataset.element;
+            const paint = value.dataset.paint;
+            const theme = value.dataset.theme;
+            const focus = value.dataset.focus;
+            const axes = value.dataset.axes;
+            const lineMap = value.dataset.lineMap;
+            let code = value.dataset.code;
+            code = decodeURIComponent(code);
 
+            // const func = new Function(element, 'Paint', paint, \`${content}\`);
+            // const shapes = func(value, Paint, ${paint});
+            const config = {
+                axes,
+                theme,
+                focus,
+            };
+            const painting = {
+                id,
+                element,
+                config,
+            };
+            return painting;
+        });
     }
     static resetThemeAndDrawAll(action) {
         const paintings = CanvasManager.paintings;
