@@ -36,10 +36,10 @@ export class HtmlRender {
         //     // }, 0);
         // });
         this.hash = newHash;
-        this.pluginRender();
+        this.pluginRender(render);
         return true;
     }
-    pluginRender() {
+    pluginRender(render) {
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 console.log("HTML 内容渲染完成");

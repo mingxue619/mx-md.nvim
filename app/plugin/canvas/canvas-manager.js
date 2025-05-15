@@ -6,6 +6,7 @@ export class CanvasManager {
     static recursionDrawFlag = false;
     static paintings = [];
     static init(render) {
+
         document.addEventListener("PaintingInitEvent", (event) => {
             let painting = event.detail;
             CanvasManager.paintings.push(painting);
