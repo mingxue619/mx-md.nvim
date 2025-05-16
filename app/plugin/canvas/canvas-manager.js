@@ -25,17 +25,42 @@ export class CanvasManager {
         //     CanvasManager.addMouseMoveListener(painting);
         // });
         window.addEventListener("beforeprint", () => {
-            CanvasManager.resetThemeAndDrawAll("clear");
+            CanvasManager._resetThemeAndDrawAll("clear");
         });
 
         window.addEventListener("afterprint", () => {
-            CanvasManager.resetThemeAndDrawAll("init");
+            CanvasManager._resetThemeAndDrawAll("init");
         });
     }
     static drawAll() {
         CanvasManager.paintings.forEach((painting) => {
             CanvasManager._draw(painting);
         });
+    }
+    static resetFocus() {
+        CanvasManager.paintings.forEach((painting) => {
+            painting.focusTarget = null;
+            painting.focusShape = null;
+        });
+    }
+    static isFocus(painting, shape) {
+        const matchs = CanvasManager.paintings.filter((item) => {
+            if (item != painting) {
+                return false;
+            }
+            if (item.focusTarget != shape) {
+                return false;
+            }
+            return true;
+        });
+        if (matchs.length <= 0) {
+            return false;
+        }
+        return true;
+    }
+    static setFocusShape(painting, focusTarget, focusShape) {
+        painting.focusTarget = focusTarget;
+        painting.focusShape = focusShape;
     }
     static _initPaintingList() {
         const elements = document.getElementsByClassName("canvas");
@@ -82,7 +107,7 @@ export class CanvasManager {
         });
         CanvasManager.paintings = paintings;
     }
-    static resetThemeAndDrawAll(action) {
+    static _resetThemeAndDrawAll(action) {
         const paintings = CanvasManager.paintings;
         if (action === "init") {
             paintings.forEach((painting) => {
@@ -102,12 +127,12 @@ export class CanvasManager {
         }
         CanvasManager.drawAll();
     }
-    static dispatchPaintingInitEvent(painting) {
-        const paintingFinishEvent = new CustomEvent("PaintingInitEvent", {
-            detail: painting,
-        });
-        document.dispatchEvent(paintingFinishEvent);
-    }
+    // static dispatchPaintingInitEvent(painting) {
+    //     const paintingFinishEvent = new CustomEvent("PaintingInitEvent", {
+    //         detail: painting,
+    //     });
+    //     document.dispatchEvent(paintingFinishEvent);
+    // }
     // static afterPaintingInit(painting, render) {
     //     const { element, config } = painting;
     //     if (config.axes) {
@@ -122,7 +147,7 @@ export class CanvasManager {
     //     let scrollToCanvas = CanvasScroll.onPaintingInit(painting, bufferInfo);
     // }
 
-    static clearCanvas(paint) {
+    static _clearCanvas(paint) {
         const element = paint.element;
         const ctx = paint.ctx;
         ctx.clearRect(0, 0, element.width, element.height);
@@ -130,31 +155,31 @@ export class CanvasManager {
     static _draw(painting) {
         painting.draw = true;
         requestAnimationFrame(() => {
-            CanvasManager.recursionDraw(painting);
+            CanvasManager._recursionDraw(painting);
         });
     }
-    static recursionDraw(painting) {
+    static _recursionDraw(painting) {
         if (!painting.draw) {
             return;
         }
         const { id, element, paint, axes, theme, shapes, focusShape } = painting;
-        CanvasManager.clearCanvas(paint);
+        CanvasManager._clearCanvas(paint);
         if (axes) {
             axes.draw();
         }
         Object.values(shapes).forEach((shape) => {
-            CanvasManager.drawShape(shape, theme);
+            CanvasManager._drawShape(shape, theme);
         });
         if (focusShape) {
-            CanvasManager.drawShape(focusShape, theme);
+            CanvasManager._drawShape(focusShape, theme);
         }
         if (CanvasManager.recursionDrawFlag === true) {
             requestAnimationFrame(() => {
-                CanvasManager.recursionDraw(painting);
+                CanvasManager._recursionDraw(painting);
             });
         }
     }
-    static drawShape(shape, theme) {
+    static _drawShape(shape, theme) {
         const { brush, labels, children } = shape;
         if (brush) {
             brush.draw(theme);
@@ -162,20 +187,20 @@ export class CanvasManager {
         }
         if (labels) {
             labels.forEach((labelShape) => {
-                CanvasManager.drawShape(labelShape, theme);
+                CanvasManager._drawShape(labelShape, theme);
             });
         }
 
         if (children) {
             Object.values(children).forEach((childShape) => {
-                CanvasManager.drawShape(childShape, theme);
+                CanvasManager._drawShape(childShape, theme);
             });
         }
     }
     static _addMouseMoveListener() {
         CanvasManager.paintings.forEach((painting) => {
             const element = painting.element;
-            const debouncedHandler = CanvasManager.debounce(100, function (event) {
+            const debouncedHandler = CanvasManager._debounce(100, function (event) {
                 // 获取鼠标位置
                 const rect = element.getBoundingClientRect();
                 const x = event.clientX - rect.left;
@@ -187,7 +212,7 @@ export class CanvasManager {
         });
     }
     // 防抖函数
-    static debounce(wait, func) {
+    static _debounce(wait, func) {
         let timeout;
         return function (...args) {
             const later = () => {
@@ -197,30 +222,5 @@ export class CanvasManager {
             clearTimeout(timeout);
             timeout = setTimeout(later, wait);
         };
-    }
-    static resetFocus() {
-        CanvasManager.paintings.forEach((painting) => {
-            painting.focusTarget = null;
-            painting.focusShape = null;
-        });
-    }
-    static isFocus(painting, shape) {
-        const matchs = CanvasManager.paintings.filter((item) => {
-            if (item != painting) {
-                return false;
-            }
-            if (item.focusTarget != shape) {
-                return false;
-            }
-            return true;
-        });
-        if (matchs.length <= 0) {
-            return false;
-        }
-        return true;
-    }
-    static setFocusShape(painting, focusTarget, focusShape) {
-        painting.focusTarget = focusTarget;
-        painting.focusShape = focusShape;
     }
 }
