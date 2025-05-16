@@ -12,10 +12,8 @@ export class CanvasManager {
             painting.draw = false;
         });
         CanvasManager._initPaintingList();
-        // draw all
-        CanvasManager.paintings.forEach((painting) => {
-            CanvasManager.draw(painting);
-        });
+        CanvasManager.drawAll();
+        // CanvasManager._addMouseMoveListener();
         // document.addEventListener("PaintingInitEvent", (event) => {
         //     let painting = event.detail;
         //     CanvasManager.paintings.push(painting);
@@ -28,6 +26,11 @@ export class CanvasManager {
 
         window.addEventListener("afterprint", () => {
             CanvasManager.resetThemeAndDrawAll("init");
+        });
+    }
+    static drawAll() {
+        CanvasManager.paintings.forEach((painting) => {
+            CanvasManager._draw(painting);
         });
     }
     static _initPaintingList() {
@@ -115,7 +118,7 @@ export class CanvasManager {
         const ctx = paint.ctx;
         ctx.clearRect(0, 0, element.width, element.height);
     }
-    static draw(painting) {
+    static _draw(painting) {
         painting.draw = true;
         requestAnimationFrame(() => {
             CanvasManager.recursionDraw(painting);
@@ -160,17 +163,19 @@ export class CanvasManager {
             });
         }
     }
-    static addMouseMoveListener(painting) {
-        const element = painting.element;
-        const debouncedHandler = CanvasManager.debounce(100, function (event) {
-            // 获取鼠标位置
-            const rect = element.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
-            const mouse = [x, y];
-            CanvasScroll.onMouseMove(painting, mouse);
+    static _addMouseMoveListener() {
+        CanvasManager.paintings.forEach((painting) => {
+            const element = painting.element;
+            const debouncedHandler = CanvasManager.debounce(100, function (event) {
+                // 获取鼠标位置
+                const rect = element.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                const mouse = [x, y];
+                CanvasScroll.onMouseMove(painting, mouse);
+            });
+            element.addEventListener("mousemove", debouncedHandler);
         });
-        element.addEventListener("mousemove", debouncedHandler);
     }
     // 防抖函数
     static debounce(wait, func) {

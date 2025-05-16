@@ -16,7 +16,7 @@ export class CanvasScroll {
         });
     }
     static onBufferMove(bufferInfo) {
-        const { matchCanvas, resetFocus, updateFocusShape, drawAll, painting, shape } = CanvasScroll.bufferMoveNeedDraw(bufferInfo);
+        const { matchCanvas, resetFocus, updateFocusShape, drawAll, painting, shape } = CanvasScroll._bufferMoveNeedDraw(bufferInfo);
         return this.execAction({
             matchCanvas,
             resetFocus,
@@ -63,7 +63,7 @@ export class CanvasScroll {
             shape,
         };
     }
-    static bufferMoveNeedDraw(bufferInfo) {
+    static _bufferMoveNeedDraw(bufferInfo) {
         const result = {
             matchCanvas: false,
             resetFocus: true,
@@ -72,14 +72,14 @@ export class CanvasScroll {
         };
         const cursor = bufferInfo.cursor;
         const line = cursor[1] - 1;
-        const painting = CanvasScroll.getCurrentPaintingByLine(line);
+        const painting = CanvasScroll._getCurrentPaintingByLine(line);
         if (painting == null) {
             return result;
         } else {
             result.matchCanvas = true;
         }
         let { config } = painting;
-        const shape = CanvasScroll.getSharpByCurrentLine(painting, line);
+        const shape = CanvasScroll._getSharpByCurrentLine(painting, line);
         if (config.focus) {
             const isFocus = CanvasManager.isFocus(painting, shape);
             if (isFocus) {
@@ -211,9 +211,9 @@ export class CanvasScroll {
         }
         window.scrollTo(targetLeft, targetTop);
     }
-    static getCurrentPaintingByLine(line) {
+    static _getCurrentPaintingByLine(line) {
         const paintings = CanvasManager.paintings.filter((painting) => {
-            let [start, end] = painting.map;
+            let [start, end] = painting.codeMap;
             if (start <= line && line < end) {
                 return true;
             }
@@ -255,7 +255,7 @@ export class CanvasScroll {
         }
         return shapeArray[0];
     }
-    static getSharpByCurrentLine(painting, line) {
+    static _getSharpByCurrentLine(painting, line) {
         let { map, lineMap } = painting;
         let [start, end] = map;
         // 相对行号转为绝对行号
