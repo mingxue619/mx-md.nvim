@@ -29,7 +29,6 @@ export class CanvasManager {
         const elements = document.getElementsByClassName("canvas");
         const elementArray = Array.from(elements);
         const paintings = elementArray.map((element) => {
-            debugger
             // const id = element.id;
             const elementVariableName = element.dataset.element;
             const paintVariableName = element.dataset.paint;
@@ -40,7 +39,6 @@ export class CanvasManager {
             const lineMap = element.dataset.lineMap;
             let code = element.dataset.code;
             code = decodeURIComponent(code);
-
             const paint = new Paint(element);
             const func = new Function(elementVariableName, paintVariableName, code);
             const shapes = func(element, paint);
@@ -65,7 +63,6 @@ export class CanvasManager {
             }
             return painting;
         });
-
         // cacel draw all, memory leaks may occur
         CanvasManager.paintings.forEach((painting) => {
             painting.draw = false;
