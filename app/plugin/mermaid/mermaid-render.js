@@ -1,20 +1,13 @@
+// https://mermaid.js.org/config/usage.html
+// import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+import mermaid from '/node_modules/mermaid/dist/mermaid.esm.min.mjs';
+
 export class MermaidRender {
-    static init() {
-        debugger
-        const theme = "default";
-        const ganttAxisFormat = "%Y-%m-%d";
-        mermaid.initialize({
-            theme: theme,
-            gantt: {
-                axisFormatter: [
-                    [
-                        ganttAxisFormat,
-                        (d) => {
-                            return d.getDay() === 1;
-                        },
-                    ],
-                ],
-            },
+    static async init() {
+        // debugger
+        mermaid.initialize({ startOnLoad: false });
+        await mermaid.run({
+          nodes: document.querySelectorAll('.mermaid'),
         });
     }
 }
