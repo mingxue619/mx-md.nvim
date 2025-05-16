@@ -11,11 +11,11 @@ export class CanvasManager {
         CanvasManager.paintings.forEach((painting) => {
             painting.draw = false;
         });
+        CanvasManager._initPaintingList();
         // draw all
         CanvasManager.paintings.forEach((painting) => {
             CanvasManager.draw(painting);
         });
-        CanvasManager._initPaintingList();
         // document.addEventListener("PaintingInitEvent", (event) => {
         //     let painting = event.detail;
         //     CanvasManager.paintings.push(painting);
