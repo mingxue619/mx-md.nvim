@@ -7,29 +7,25 @@ export class CanvasManager {
     static recursionDrawFlag = false;
     static paintings = [];
     static init(bufferInfo) {
-        // cacel draw all, memory leaks may occur
-        CanvasManager.paintings.forEach((painting) => {
-            painting.draw = false;
-        });
+        CanvasManager._cancelDrawAll();
         CanvasManager._initPaintingList();
         CanvasManager.drawAll();
         CanvasManager.paintings.forEach((painting) => {
             CanvasManager._addMouseMoveListener(painting);
         });
         let scrollToCanvas = CanvasScroll.onBufferMove(bufferInfo);
-        // CanvasManager._addMouseMoveListener();
-        // document.addEventListener("PaintingInitEvent", (event) => {
-        //     let painting = event.detail;
-        //     CanvasManager.paintings.push(painting);
-        //     CanvasManager.afterPaintingInit(painting, render);
-        //     CanvasManager.addMouseMoveListener(painting);
-        // });
         window.addEventListener("beforeprint", () => {
             CanvasManager._resetThemeAndDrawAll("clear");
         });
 
         window.addEventListener("afterprint", () => {
             CanvasManager._resetThemeAndDrawAll("init");
+        });
+    }
+    static _cancelDrawAll() {
+        // cacel draw all, memory leaks may occur
+        CanvasManager.paintings.forEach((painting) => {
+            painting.draw = false;
         });
     }
     static drawAll() {
