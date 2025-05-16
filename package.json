@@ -18,6 +18,7 @@
     "@myriaddreamin/typst-ts-node-compiler": "^0.5.0-rc7",
     "@types/node": "^20.14.9",
     "@types/ws": "^8.5.12",
+    "@viz-js/viz": "^3.12.0",
     "acorn": "^8.12.1",
     "acorn-walk": "^8.3.4",
     "highlight.js": "^11.10.0",
