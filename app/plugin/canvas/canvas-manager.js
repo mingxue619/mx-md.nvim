@@ -7,6 +7,14 @@ export class CanvasManager {
     static recursionDrawFlag = false;
     static paintings = [];
     static init(bufferInfo) {
+        // cacel draw all, memory leaks may occur
+        CanvasManager.paintings.forEach((painting) => {
+            painting.draw = false;
+        });
+        // draw all
+        CanvasManager.paintings.forEach((painting) => {
+            CanvasManager.draw(painting);
+        });
         CanvasManager._initPaintingList();
         // document.addEventListener("PaintingInitEvent", (event) => {
         //     let painting = event.detail;
@@ -60,15 +68,7 @@ export class CanvasManager {
             }
             return painting;
         });
-        // cacel draw all, memory leaks may occur
-        CanvasManager.paintings.forEach((painting) => {
-            painting.draw = false;
-        });
         CanvasManager.paintings = paintings;
-        // draw all
-        CanvasManager.paintings.forEach((painting) => {
-            CanvasManager.draw(painting);
-        });
     }
     static resetThemeAndDrawAll(action) {
         const paintings = CanvasManager.paintings;
