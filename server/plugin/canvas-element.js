@@ -160,7 +160,8 @@ function markdownItCanvas(md) {
         const axes = getAxes(props);
         let code = token.content || "";
         const variables = parseVariable(code);
-        const lineMap = getLineMap(variables);
+        let lineMap = getLineMap(variables);
+        lineMap = encodeURIComponent(lineMap);
         const codeReturnLine = getCodeReturnLine(variables);
         // code = removeComments(code);
         code = code + codeReturnLine;

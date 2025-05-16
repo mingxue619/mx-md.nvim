@@ -13,6 +13,7 @@ export class CanvasManager {
         });
         CanvasManager._initPaintingList();
         CanvasManager.drawAll();
+        let scrollToCanvas = CanvasScroll.onBufferMove(bufferInfo);
         // CanvasManager._addMouseMoveListener();
         // document.addEventListener("PaintingInitEvent", (event) => {
         //     let painting = event.detail;
@@ -37,6 +38,7 @@ export class CanvasManager {
         const elements = document.getElementsByClassName("canvas");
         const elementArray = Array.from(elements);
         const paintings = elementArray.map((element) => {
+            debugger
             // const id = element.id;
             const elementVariableName = element.dataset.element;
             const paintVariableName = element.dataset.paint;
@@ -44,7 +46,8 @@ export class CanvasManager {
             const focusConfig = element.dataset.focus;
             const axesConfig = element.dataset.axes;
             const codeMap = element.dataset.codeMap;
-            const lineMap = element.dataset.lineMap;
+            let lineMap = element.dataset.lineMap;
+            lineMap = decodeURIComponent(lineMap);
             let code = element.dataset.code;
             code = decodeURIComponent(code);
             const paint = new Paint(element);

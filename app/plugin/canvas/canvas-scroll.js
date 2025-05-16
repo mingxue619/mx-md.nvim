@@ -2,19 +2,19 @@ import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
 
 export class CanvasScroll {
     // canvas
-    static onPaintingInit(painting, bufferInfo) {
-        const { matchCanvas, resetFocus, updateFocusShape, drawAll, shape } = CanvasScroll.paintingInitNeedDraw(bufferInfo);
-        return this.execAction({
-            matchCanvas,
-            resetFocus,
-            updateFocusShape,
-            drawAll,
-            scrollTo: true,
-            painting,
-            shape,
-            scrollTo: false,
-        });
-    }
+    // static onPaintingInit(painting, bufferInfo) {
+    //     const { matchCanvas, resetFocus, updateFocusShape, drawAll, shape } = CanvasScroll.paintingInitNeedDraw(bufferInfo);
+    //     return this.execAction({
+    //         matchCanvas,
+    //         resetFocus,
+    //         updateFocusShape,
+    //         drawAll,
+    //         scrollTo: true,
+    //         painting,
+    //         shape,
+    //         scrollTo: false,
+    //     });
+    // }
     static onBufferMove(bufferInfo) {
         const { matchCanvas, resetFocus, updateFocusShape, drawAll, painting, shape } = CanvasScroll._bufferMoveNeedDraw(bufferInfo);
         return this.execAction({
@@ -64,6 +64,7 @@ export class CanvasScroll {
         };
     }
     static _bufferMoveNeedDraw(bufferInfo) {
+        debugger
         const result = {
             matchCanvas: false,
             resetFocus: true,
