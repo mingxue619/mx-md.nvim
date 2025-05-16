@@ -17,7 +17,7 @@ export class CanvasScroll {
     // }
     static onBufferMove(bufferInfo) {
         const { matchCanvas, resetFocus, updateFocusShape, drawAll, painting, shape } = CanvasScroll._bufferMoveNeedDraw(bufferInfo);
-        return this.execAction({
+        return this._execAction({
             matchCanvas,
             resetFocus,
             updateFocusShape,
@@ -64,7 +64,6 @@ export class CanvasScroll {
         };
     }
     static _bufferMoveNeedDraw(bufferInfo) {
-        debugger
         const result = {
             matchCanvas: false,
             resetFocus: true,
@@ -126,7 +125,7 @@ export class CanvasScroll {
             shape,
         };
     }
-    static execAction(action) {
+    static _execAction(action) {
         const { matchCanvas, resetFocus, updateFocusShape, drawAll, painting, shape, scrollTo } = action;
         if (resetFocus === true) {
             CanvasManager.resetFocus();
@@ -257,7 +256,6 @@ export class CanvasScroll {
         return shapeArray[0];
     }
     static _getSharpByCurrentLine(painting, line) {
-        debugger
         let { codeMap, lineMap } = painting;
         let [start, end] = codeMap;
         // 相对行号转为绝对行号

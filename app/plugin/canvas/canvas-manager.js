@@ -42,14 +42,15 @@ export class CanvasManager {
             const elementVariableName = element.dataset.element;
             const paintVariableName = element.dataset.paint;
             const themeConfig = element.dataset.theme;
-            const focusConfig = element.dataset.focus;
-            const axesConfig = element.dataset.axes;
+            let focusConfig = element.dataset.focus;
+            focusConfig = focusConfig.toLowerCase() === "true";
+            let axesConfig = element.dataset.axes;
+            axesConfig = axesConfig.toLowerCase() === "true";
             let codeMap = element.dataset.codeMap;
             codeMap = codeMap.split(',').map(Number);
             let lineMap = element.dataset.lineMap;
             lineMap = decodeURIComponent(lineMap);
             lineMap = JSON.parse(lineMap);
-            debugger
             let code = element.dataset.code;
             code = decodeURIComponent(code);
             const paint = new Paint(element);
