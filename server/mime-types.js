@@ -19,4 +19,5 @@ export const types = {
   "wmv": "video/x-ms-wmv",
   "xml": "text/xml",
   "mp4": "video/mp4",
+  "mjs": "application/javascript",
 };
