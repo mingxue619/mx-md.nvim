@@ -8,6 +8,7 @@ export class CanvasManager {
     static paintings = [];
     static init(bufferInfo) {
         CanvasManager._initPaintingList();
+        CanvasManager._drawAll();
 
         // document.addEventListener("PaintingInitEvent", (event) => {
         //     let painting = event.detail;
@@ -27,7 +28,7 @@ export class CanvasManager {
     static _initPaintingList() {
         const elements = document.getElementsByClassName("canvas");
         const elementArray = Array.from(elements);
-        CanvasManager.paintings = elementArray.map((element) => {
+        const paintings = elementArray.map((element) => {
             debugger
             // const id = element.id;
             const elementVariableName = element.dataset.element;
@@ -64,7 +65,12 @@ export class CanvasManager {
             }
             return painting;
         });
-        
+
+        // cacel draw all, memory leaks may occur
+        CanvasManager.paintings.forEach((painting) => {
+            painting.draw = false;
+        });
+        CanvasManager.paintings = paintings;
     }
     static resetThemeAndDrawAll(action) {
         const paintings = CanvasManager.paintings;
@@ -111,8 +117,8 @@ export class CanvasManager {
         const ctx = paint.ctx;
         ctx.clearRect(0, 0, element.width, element.height);
     }
-    static drawAll() {
-        CanvasManager.cancelDraw();
+    static _drawAll() {
+        // CanvasManager.cancelDraw();
         CanvasManager.paintings.forEach((painting) => {
             CanvasManager.draw(painting);
         });
@@ -162,20 +168,6 @@ export class CanvasManager {
             });
         }
     }
-    static cancelDraw() {
-        // paintings
-        const paintings = CanvasManager.paintings.filter((painting) => {
-            const id = painting.id;
-            const element = document.getElementById(id);
-            if (element) {
-                return true;
-            }
-            painting.draw = false;
-            return false;
-        });
-        CanvasManager.paintings = paintings;
-    }
-
     static addMouseMoveListener(painting) {
         const element = painting.element;
         const debouncedHandler = CanvasManager.debounce(100, function (event) {
