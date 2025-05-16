@@ -68,7 +68,6 @@ export class CanvasManager {
             painting.draw = false;
         });
         CanvasManager.paintings = paintings;
-
         // draw all
         CanvasManager.paintings.forEach((painting) => {
             CanvasManager.draw(painting);
