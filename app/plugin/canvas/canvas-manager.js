@@ -8,15 +8,12 @@ export class CanvasManager {
     static paintings = [];
     static init(bufferInfo) {
         CanvasManager._initPaintingList();
-        CanvasManager._drawAll();
-
         // document.addEventListener("PaintingInitEvent", (event) => {
         //     let painting = event.detail;
         //     CanvasManager.paintings.push(painting);
         //     CanvasManager.afterPaintingInit(painting, render);
         //     CanvasManager.addMouseMoveListener(painting);
         // });
-
         window.addEventListener("beforeprint", () => {
             CanvasManager.resetThemeAndDrawAll("clear");
         });
