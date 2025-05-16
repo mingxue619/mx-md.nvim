@@ -151,7 +151,6 @@ function markdownItCanvas(md) {
         const info = token.info;
         const props = parseCanvasProps(info);
         const id = getId(props);
-        const errorId = "error-" + id;
         const widthAndHeight = getWidthAndHeight(props);
         const element = getElementName(props);
         const paint = getPaintName(props);
@@ -183,7 +182,6 @@ function markdownItCanvas(md) {
                     >
                         browser not support canvas
                     </canvas>
-                    <div id="${errorId}" style="display: none"></div>
                     `;
         return html;
     };
