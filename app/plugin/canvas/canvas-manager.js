@@ -33,7 +33,7 @@ export class CanvasManager {
             CanvasManager._draw(painting);
         });
     }
-    static resetFocus() {
+    static clearFocus() {
         CanvasManager.paintings.forEach((painting) => {
             painting.focusTarget = null;
             painting.focusShape = null;
@@ -123,7 +123,7 @@ export class CanvasManager {
                 }
             });
         } else if (action === "clear") {
-            CanvasManager.resetFocus();
+            CanvasManager.clearFocus();
             paintings.forEach((painting) => {
                 const { theme, config } = painting;
                 theme.init("light");
@@ -132,26 +132,6 @@ export class CanvasManager {
         }
         CanvasManager.drawAll();
     }
-    // static dispatchPaintingInitEvent(painting) {
-    //     const paintingFinishEvent = new CustomEvent("PaintingInitEvent", {
-    //         detail: painting,
-    //     });
-    //     document.dispatchEvent(paintingFinishEvent);
-    // }
-    // static afterPaintingInit(painting, render) {
-    //     const { element, config } = painting;
-    //     if (config.axes) {
-    //         painting.axes = new Axes(element);
-    //     }
-    //     //theme
-    //     const theme = new Theme();
-    //     theme.init(config.theme);
-    //     painting.theme = theme;
-    //     // init draw and scroll
-    //     const bufferInfo = render.bufferInfo;
-    //     let scrollToCanvas = CanvasScroll.onPaintingInit(painting, bufferInfo);
-    // }
-
     static _clearCanvas(paint) {
         const element = paint.element;
         const ctx = paint.ctx;
