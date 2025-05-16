@@ -176,6 +176,7 @@ function markdownItCanvas(md) {
                         data-theme="${theme}" 
                         data-focus="${focus}" 
                         data-axes="${axes}" 
+                        data-code-map="${token.map}",
                         data-line-map="${lineMap}" 
                         data-code="${code}" 
                     >

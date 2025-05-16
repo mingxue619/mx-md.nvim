@@ -1,6 +1,7 @@
 import { Axes } from "/app/plugin/canvas/canvas-axes.js";
 import { Theme } from "/app/plugin/canvas/canvas-theme.js";
 import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
+import { Paint } from '/app/plugin/canvas/canvas-paint.js';
 
 export class CanvasManager {
     static recursionDrawFlag = false;
@@ -26,29 +27,34 @@ export class CanvasManager {
     static initPaintingList() {
         const elements = document.getElementsByClassName("canvas");
         const elementArray = Array.from(elements);
-        elementArray.map((value) => {
+        elementArray.map((element) => {
             debugger
-            const id = value.id;
-            const element = value.dataset.element;
-            const paint = value.dataset.paint;
-            const theme = value.dataset.theme;
-            const focus = value.dataset.focus;
-            const axes = value.dataset.axes;
-            const lineMap = value.dataset.lineMap;
-            let code = value.dataset.code;
+            const id = element.id;
+            const elementVariableName = element.dataset.element;
+            const paintVariableName = element.dataset.paint;
+            const theme = element.dataset.theme;
+            const focus = element.dataset.focus;
+            const axes = element.dataset.axes;
+            const codeMap = element.dataset.codeMap;
+            const lineMap = element.dataset.lineMap;
+            let code = element.dataset.code;
             code = decodeURIComponent(code);
 
-            // const func = new Function(element, 'Paint', paint, \`${content}\`);
-            // const shapes = func(value, Paint, ${paint});
+            const paint = new Paint(value);
+            const func = new Function(elementVariableName, paintVariableName, code);
+            const shapes = func(element, paint);
             const config = {
                 axes,
                 theme,
                 focus,
             };
             const painting = {
-                id,
-                element,
                 config,
+                element,
+                paint,
+                shapes,
+                codeMap,
+                lineMap
             };
             return painting;
         });
