@@ -7,7 +7,7 @@ export class CanvasManager {
     static recursionDrawFlag = false;
     static paintings = [];
     static init(bufferInfo) {
-        CanvasManager.initPaintingList();
+        CanvasManager._initPaintingList();
 
         // document.addEventListener("PaintingInitEvent", (event) => {
         //     let painting = event.detail;
@@ -24,40 +24,47 @@ export class CanvasManager {
             CanvasManager.resetThemeAndDrawAll("init");
         });
     }
-    static initPaintingList() {
+    static _initPaintingList() {
         const elements = document.getElementsByClassName("canvas");
         const elementArray = Array.from(elements);
-        elementArray.map((element) => {
+        CanvasManager.paintings = elementArray.map((element) => {
             debugger
-            const id = element.id;
+            // const id = element.id;
             const elementVariableName = element.dataset.element;
             const paintVariableName = element.dataset.paint;
-            const theme = element.dataset.theme;
-            const focus = element.dataset.focus;
-            const axes = element.dataset.axes;
+            const themeConfig = element.dataset.theme;
+            const focusConfig = element.dataset.focus;
+            const axesConfig = element.dataset.axes;
             const codeMap = element.dataset.codeMap;
             const lineMap = element.dataset.lineMap;
             let code = element.dataset.code;
             code = decodeURIComponent(code);
 
-            const paint = new Paint(value);
+            const paint = new Paint(element);
             const func = new Function(elementVariableName, paintVariableName, code);
             const shapes = func(element, paint);
             const config = {
-                axes,
-                theme,
-                focus,
+                theme: themeConfig,
+                axes: axesConfig,
+                focus: focusConfig,
             };
+            const theme = new Theme();
+            theme.init(themeConfig);
             const painting = {
                 config,
                 element,
                 paint,
                 shapes,
+                theme,
                 codeMap,
-                lineMap
+                lineMap,
             };
+            if (axesConfig) {
+                painting.axes = new Axes(element);
+            }
             return painting;
         });
+        
     }
     static resetThemeAndDrawAll(action) {
         const paintings = CanvasManager.paintings;
@@ -85,19 +92,19 @@ export class CanvasManager {
         });
         document.dispatchEvent(paintingFinishEvent);
     }
-    static afterPaintingInit(painting, render) {
-        const { element, config } = painting;
-        if (config.axes) {
-            painting.axes = new Axes(element);
-        }
-        //theme
-        const theme = new Theme();
-        theme.init(config.theme);
-        painting.theme = theme;
-        // init draw and scroll
-        const bufferInfo = render.bufferInfo;
-        let scrollToCanvas = CanvasScroll.onPaintingInit(painting, bufferInfo);
-    }
+    // static afterPaintingInit(painting, render) {
+    //     const { element, config } = painting;
+    //     if (config.axes) {
+    //         painting.axes = new Axes(element);
+    //     }
+    //     //theme
+    //     const theme = new Theme();
+    //     theme.init(config.theme);
+    //     painting.theme = theme;
+    //     // init draw and scroll
+    //     const bufferInfo = render.bufferInfo;
+    //     let scrollToCanvas = CanvasScroll.onPaintingInit(painting, bufferInfo);
+    // }
 
     static clearCanvas(paint) {
         const element = paint.element;
