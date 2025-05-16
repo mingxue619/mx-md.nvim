@@ -1,32 +1,5 @@
-import mermaid from "mermaid";
-
 const mermaidChart = (code) => {
-    try {
-        mermaid.parse(code);
-        const tag = `<div class="mermaid">${code}</div>`;
-        const script = `
-                        <script>
-                            const theme = "default";
-                            const ganttAxisFormat = "%Y-%m-%d";
-                            mermaid.initialize({
-                                theme: theme,
-                                gantt: {
-                                    axisFormatter: [
-                                        [
-                                            ganttAxisFormat,
-                                            (d) => {
-                                                return d.getDay() === 1;
-                                            },
-                                        ],
-                                    ],
-                                },
-                            });
-                        </script>`;
-        const html = tag + script;
-        return html;
-    } catch ({ str, hash }) {
-        return `<pre>${str}</pre>`;
-    }
+    return `<div class="mermaid">${code}</div>`;
 };
 
 const markdownItMermaid = (md) => {

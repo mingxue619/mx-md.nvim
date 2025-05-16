@@ -1,4 +1,5 @@
 import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
+import { MermaidRender } from "/app/plugin/mermaid/mermaid-render.js";
 
 export class HtmlRender {
     constructor() {
@@ -44,6 +45,7 @@ export class HtmlRender {
             requestAnimationFrame(() => {
                 console.log("HTML 内容渲染完成");
                 CanvasManager.init(bufferInfo);
+                MermaidRender.init(bufferInfo);
             });
         });
     }
