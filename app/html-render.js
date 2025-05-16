@@ -1,5 +1,6 @@
 import { CanvasManager } from "/app/plugin/canvas/canvas-manager.js";
 import { MermaidRender } from "/app/plugin/mermaid/mermaid-render.js";
+import { GraphvizRender } from "/app/plugin/graphviz/graphviz-render.js";
 
 export class HtmlRender {
     constructor() {
@@ -20,22 +21,8 @@ export class HtmlRender {
         // html
         const html = bufferInfo.html;
         const newHtml = `<section>${html}</section>`;
-        // console.log(Object.keys(md.renderer.rules));
         const contentElement = document.getElementById("content");
         contentElement.innerHTML = newHtml;
-        // script
-        // let scripts = contentElement.getElementsByTagName("script");
-        // Array.from(scripts).forEach(function (script) {
-        //     let scriptElement = document.createElement("script");
-        //     if(script.type) {
-        //         scriptElement.type = script.type;
-        //     }
-        //     scriptElement.textContent = script.textContent || script.innerText || "";
-        //     document.body.appendChild(scriptElement);
-        //     // setTimeout(function () {
-        //     //     document.body.removeChild(newScript);
-        //     // }, 0);
-        // });
         this.hash = newHash;
         this.pluginRender(bufferInfo);
         return true;
@@ -46,6 +33,7 @@ export class HtmlRender {
                 console.log("HTML 内容渲染完成");
                 CanvasManager.init(bufferInfo);
                 MermaidRender.init(bufferInfo);
+                GraphvizRender.init(bufferInfo);
             });
         });
     }
