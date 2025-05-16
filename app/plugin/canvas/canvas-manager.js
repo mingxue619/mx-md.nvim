@@ -78,8 +78,17 @@ export class CanvasManager {
             let code = element.dataset.code;
             code = decodeURIComponent(code);
             const paint = new Paint(element);
-            const func = new Function(elementVariableName, paintVariableName, code);
-            const shapes = func(element, paint);
+            let shapes;
+            try {
+                const func = new Function(elementVariableName, paintVariableName, code);
+                shapes = func(element, paint);
+            } catch (error) {
+                console.log(error);
+                const errorDiv = document.createElement('div');
+                errorDiv.textContent = error.message;
+                element.parentNode.insertBefore(errorDiv, element);
+                return;
+            };
             const config = {
                 theme: themeConfig,
                 axes: axesConfig,
@@ -100,7 +109,7 @@ export class CanvasManager {
                 painting.axes = new Axes(element);
             }
             return painting;
-        });
+        }).filter(item => !!item);
         CanvasManager.paintings = paintings;
     }
     static _resetThemeAndDrawAll(action) {
