@@ -32,3 +32,4 @@ markdown-it-inject-linenumbers
 | markdown-it-multimd-table | y      | <https://github.com/redbug312/markdown-it-multimd-table>          |         |
 | vega                      | n      | https://github.com/vega/vega                                      |         |
 | mermaid                   | y      | https://github.com/mermaid-js/mermaid                             |         |
+| graphviz                  | y      | https://github.com/mdaines/viz-js                                 |         |
