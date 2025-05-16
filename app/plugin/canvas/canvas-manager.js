@@ -45,7 +45,8 @@ export class CanvasManager {
             const themeConfig = element.dataset.theme;
             const focusConfig = element.dataset.focus;
             const axesConfig = element.dataset.axes;
-            const codeMap = element.dataset.codeMap;
+            let codeMap = element.dataset.codeMap;
+            codeMap = codeMap.split(',').map(Number);
             let lineMap = element.dataset.lineMap;
             lineMap = decodeURIComponent(lineMap);
             let code = element.dataset.code;

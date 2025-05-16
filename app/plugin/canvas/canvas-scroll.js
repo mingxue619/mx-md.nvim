@@ -257,8 +257,9 @@ export class CanvasScroll {
         return shapeArray[0];
     }
     static _getSharpByCurrentLine(painting, line) {
-        let { map, lineMap } = painting;
-        let [start, end] = map;
+        debugger
+        let { codeMap, lineMap } = painting;
+        let [start, end] = codeMap;
         // 相对行号转为绝对行号
         lineMap = Object.entries(lineMap).map(([key, value]) => [start + parseInt(key), value]);
         const matchLines = lineMap.filter(([key, value]) => line <= key);
