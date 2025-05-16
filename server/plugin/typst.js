@@ -38,7 +38,7 @@ function svgWrapper(svg) {
     return '<div class="typst">\n' + svg + "\n</div>";
 }
 
-function markdownitTypst(md) {
+function markdownItTypst(md) {
     md.core.ruler.after("block", "typst", (state) => {
         for (let i = 0; i < state.tokens.length; i++) {
             const token = state.tokens[i];
@@ -80,4 +80,4 @@ function markdownitTypst(md) {
         }
     };
 }
-export { markdownitTypst };
+export { markdownItTypst };

@@ -6,8 +6,9 @@ import markdownitInjectLinenumbers from "markdown-it-inject-linenumbers";
 import markdownItMultimdTable from "markdown-it-multimd-table";
 import { markdownItCanvas } from "./plugin/canvas-element.js";
 import { markdownItMermaid } from "./plugin/mermaid-element.js";
-import { markdownitHr } from "./plugin/hr.js";
-import { markdownitTypst } from "./plugin/typst.js";
+import { markdownItGraphviz } from "./plugin/graphviz-element.js";
+import { markdownItHr } from "./plugin/hr.js";
+import { markdownItTypst } from "./plugin/typst.js";
 
 export default class MarkdownRender {
     constructor() {
@@ -49,12 +50,11 @@ export default class MarkdownRender {
         const html = this.md
             .use(markdownItCanvas)
             .use(markdownItMermaid)
-            .use(markdownitHr)
+            .use(markdownItGraphviz)
+            .use(markdownItHr)
             // .use(window.markdownitSub)
             // .use(window.markdownitSup)
-            .use(markdownitInjectLinenumbers)
-            // .use(MarkdownItTypst)
-            .use(markdownitTypst)
+            .use(markdownItTypst)
             .use(markdownItMultimdTable, {
                 multiline: false,
                 rowspan: false,
@@ -62,6 +62,7 @@ export default class MarkdownRender {
                 multibody: true,
                 autolabel: true,
             })
+            .use(markdownitInjectLinenumbers)
             .render(newContent);
         this.html = html;
         this.hash = newHash;

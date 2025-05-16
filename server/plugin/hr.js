@@ -1,4 +1,4 @@
-function markdownitHr(md) {
+function markdownItHr(md) {
     const proxy = (tokens, idx, options, env, self) => self.renderToken(tokens, idx, options);
     const defaultFenceRenderer = md.renderer.rules.hr || proxy;
 
@@ -9,4 +9,4 @@ function markdownitHr(md) {
         return element;
     };
 };
-export { markdownitHr };
+export { markdownItHr };
