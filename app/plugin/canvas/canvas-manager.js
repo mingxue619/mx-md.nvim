@@ -1,7 +1,7 @@
 import { Axes } from "/app/plugin/canvas/canvas-axes.js";
 import { Theme } from "/app/plugin/canvas/canvas-theme.js";
 import { CanvasScroll } from "/app/plugin/canvas/canvas-scroll.js";
-import { Paint } from '/app/plugin/canvas/canvas-paint.js';
+import { Paint } from "/app/plugin/canvas/canvas-paint.js";
 
 export class CanvasManager {
     static recursionDrawFlag = false;
@@ -68,6 +68,11 @@ export class CanvasManager {
             painting.draw = false;
         });
         CanvasManager.paintings = paintings;
+
+        // draw all
+        CanvasManager.paintings.forEach((painting) => {
+            CanvasManager.draw(painting);
+        });
     }
     static resetThemeAndDrawAll(action) {
         const paintings = CanvasManager.paintings;
@@ -113,12 +118,6 @@ export class CanvasManager {
         const element = paint.element;
         const ctx = paint.ctx;
         ctx.clearRect(0, 0, element.width, element.height);
-    }
-    static _drawAll() {
-        // CanvasManager.cancelDraw();
-        CanvasManager.paintings.forEach((painting) => {
-            CanvasManager.draw(painting);
-        });
     }
     static draw(painting) {
         painting.draw = true;
