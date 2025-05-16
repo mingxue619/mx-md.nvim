@@ -13,6 +13,9 @@ export class CanvasManager {
         });
         CanvasManager._initPaintingList();
         CanvasManager.drawAll();
+        CanvasManager.paintings.forEach((painting) => {
+            CanvasManager._addMouseMoveListener(painting);
+        });
         let scrollToCanvas = CanvasScroll.onBufferMove(bufferInfo);
         // CanvasManager._addMouseMoveListener();
         // document.addEventListener("PaintingInitEvent", (event) => {

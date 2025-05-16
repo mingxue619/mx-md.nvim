@@ -29,7 +29,7 @@ export class CanvasScroll {
     }
     static onMouseMove(painting, mouse) {
         const { matchCanvas, resetFocus, updateFocusShape, drawAll, shape } = CanvasScroll._mouseMoveNeedDraw(painting, mouse);
-        return this.execAction({
+        return this._execAction({
             matchCanvas,
             resetFocus,
             updateFocusShape,
