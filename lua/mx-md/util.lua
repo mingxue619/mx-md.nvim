@@ -20,13 +20,22 @@ function M.perview()
 end
 
 function M.stop()
-    job.stop();
+	job.stop()
+end
+
+function M.copyUrl()
+	local port = vim.g.mxmd_port
+	local bufnr = vim.g.mxmd_preview_bufnr
+	local url = "http://localhost:" .. port .. "/page/" .. bufnr
+	vim.fn.setreg("+", url)
+	print(url)
 end
 
 function M.restart()
-    job.restart();
+	job.restart()
 	autocmd.setup_autocmd()
-    print("port===" .. vim.g.mxmd_port .. ", bufnr===" .. vim.g.mxmd_preview_bufnr)
+	-- print("port===" .. vim.g.mxmd_port .. ", bufnr===" .. vim.g.mxmd_preview_bufnr)
+	M.copyUrl()
 end
 
 function M.openBrowser()
