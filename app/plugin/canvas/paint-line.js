@@ -136,13 +136,16 @@ export class Line {
         const ctx = this.ctx;
         let { from, to, style, arrow = {}, polyline } = this.params;
         // style
-        const { strokeStyle, lineWidth } = style || {};
+        const { lineDash, strokeStyle, lineWidth } = style || {};
 
         const trackPoints = this.trackPoints;
         const firstLine = this.firstLine;
         const lastLine = this.lastLine;
         // draw line
         ctx.save();
+        if(!!lineDash) {
+            ctx.setLineDash(lineDash); 
+        }
         ctx.beginPath();
         ctx.moveTo(trackPoints[0][0], trackPoints[0][1]);
         for (let i = 1; i < trackPoints.length; i++) {
