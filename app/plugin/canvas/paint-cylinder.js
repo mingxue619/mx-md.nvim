@@ -38,6 +38,8 @@ export class Cylinder {
             type: "cylinder",
             brush: this,
             position: position,
+            x: x,
+            y: y,
             point: point,
             frame: frame,
             outline: outline,

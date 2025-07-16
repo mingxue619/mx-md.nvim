@@ -40,6 +40,8 @@ export class Triangle {
             type: "triangle",
             brush: this,
             position: position,
+            x: x,
+            y: y,
             point: point,
             frame: frame,
             outline: frame,

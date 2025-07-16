@@ -39,6 +39,8 @@ export class Rect {
             type: "rect",
             brush: this,
             position: position,
+            x: x,
+            y: y,
             point: point,
             frame: frame,
             outline: frame,

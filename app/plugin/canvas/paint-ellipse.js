@@ -34,6 +34,8 @@ export class Ellipse {
             type: "ellipse",
             brush: this,
             position: position,
+            x: x,
+            y: y,
             point: point,
             frame: frame,
             outline: frame,
