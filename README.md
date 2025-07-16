@@ -31,5 +31,5 @@ markdown-it-inject-linenumbers
 | table-merge-cells         |            | n      | <https://github.com/Tianci-blog/markdown-it-table-merge-cells>    |                                       |
 | markdown-it-multimd-table |            | y      | <https://github.com/redbug312/markdown-it-multimd-table>          |                                       |
 | vega                      | data chart | n      | https://github.com/vega/vega                                      | https://vega.github.io/vega/examples/ |
-| mermaid                   |            | y      | https://github.com/mermaid-js/mermaid                             |                                       |
+| mermaid                   | diagram    | y      | https://github.com/mermaid-js/mermaid                             |                                       |
 | graphviz                  |            | y      | https://github.com/mdaines/viz-js                                 |                                       |
