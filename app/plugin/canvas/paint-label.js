@@ -19,7 +19,7 @@ export class Label {
             };
         }
         this.params = params;
-        let { title, lineSpace, font, color, position, parentsFrame, top, right, bottom, left } = params;
+        let { title, lineSpace, font, color, position, parentsFrame, top, right, bottom, left, offset } = params;
         this.font = font || "16px Hack Nerd Font Mono";
         this.fillStyle = color || window.foreground;
 
@@ -44,12 +44,13 @@ export class Label {
             let x = 0;
             let y = 0;
             // align
-            const horizontal = left ? "left" : right ? "right" : "center";
-            const vertical = top ? "top" : bottom ? "bottom" : "center";
+            const horizontal = (left !==undefined)  ? "left" : (right !== undefined) ? "right" : "center";
+            const vertical = (top !== undefined) ? "top" : (bottom !== undefined) ? "bottom" : "center";
             const { top: ptop, right: pright, bottom: pbottom, left: pleft } = parentsFrame;
             const pwidth = pright - pleft;
             const pheight = pbottom - ptop;
             const parseAlignValue = (value) => {
+                value = String(value);
                 const match = value.match(/^([^*]*)\*(.*)$/) || [, value];
                 const parseRatio = (str) => {
                     if (!str.trim()) return 0;
@@ -67,41 +68,37 @@ export class Label {
                     value: parseValue(match[2] || ""),
                 };
             };
-            debugger;
             if (horizontal === "left") {
                 const { ratio, value } = parseAlignValue(left);
-                x = pleft + ratio * pwidth + value;
+                x = pleft + ratio * pwidth + value + width / 2;
             } else if (horizontal === "right") {
                 const { ratio, value } = parseAlignValue(right);
-                x = pright - ratio * pwidth + value;
+                x = pright - ratio * pwidth + value - width / 2;
             } else {
-                x = pleft + pwidth / 2 - width / 2;
+                x = pleft + pwidth / 2;
             }
             if (vertical === "top") {
                 const { ratio, value } = parseAlignValue(top);
-                if (ratio === 0) {
-                    y = ptop + value;
-                } else {
-                    y = ptop + ratio * pheight + height / 2 + value;
-                }
+                y = ptop + ratio * pheight + value + height / 2;
             } else if (vertical === "bottom") {
                 const { ratio, value } = parseAlignValue(bottom);
-                if (ratio === 0) {
-                    y = pbottom - +value;
-                } else {
-                    y = pbottom - ratio * pheight - height / 2 + value;
-                }
+                y = pbottom - ratio * pheight + value - height / 2;
             } else {
                 y = ptop + pheight / 2;
             }
-            // padding = [1, 1, 1,1]
+            // offset = [1, 1]
+            if (!!offset) {
+                const [ox, oy] = offset;
+                x = x + ox;
+                y = y + oy;
+            }
             position = [x, y];
         }
 
         // startX, startY
-        const [x, y] =  position;
-        let startX = x - width/2;
-        let startY = y - height/2;
+        const [x, y] = position;
+        let startX = x - width / 2;
+        let startY = y - height / 2;
         let trackPoints = [];
         lines.forEach((line) => {
             const lineWidth = ctx.measureText(line).width;
