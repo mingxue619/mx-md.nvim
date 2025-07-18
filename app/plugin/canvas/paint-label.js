@@ -32,50 +32,50 @@ export class Label {
             width = Math.max(width, lineWidth);
             height = height + lineHeight;
         });
-        let [x, y] = [0, 0]; // start point, [left, top]
+        let [startX, startY] = [0, 0]; // start point, [left, top]
         if (position) {
-            x = position[0] - width / 2;
-            y = position[1] + height / 2;
+            startX = position[0] - width / 2;
+            startY = position[1] + height / 2;
         } else {
             // h: left, right, center; v: top, bottom,center; frame: left,right,top bottom
             let { frame = { left: 0, right: 100, top: 0, bottom: 100 }, margin, v = "center", h = "center" } = align || {};
             const { marginTop, marginRight, marginBottom, marginLeft } = this.parseMargin(margin);
             if (h === "left") {
-                x = frame.left + marginLeft;
+                startX = frame.left + marginLeft;
             } else if (h === "right") {
-                x = frame.right - width - marginRight;
+                startX = frame.right - width - marginRight;
             } else if (h === "center") {
                 const fw = frame.right - frame.left;
                 let spaceW = fw - width;
                 spaceW = spaceW > 0 ? spaceW : 0;
-                x = frame.left + spaceW / 2;
-                x = x + marginLeft - marginRight;
+                startX = frame.left + spaceW / 2;
+                startX = startX + marginLeft - marginRight;
             } else {
                 throw new Error("label.align.h is error");
             }
             if (v === "top") {
-                y = frame.top + marginTop;
+                startY = frame.top + marginTop;
             } else if (v === "bottom") {
-                y = frame.bottom - height - marginBottom;
+                startY = frame.bottom - height - marginBottom;
             } else {
                 const fh = frame.bottom - frame.top;
                 let spaceH = fh - height;
                 spaceH = spaceH > 0 ? spaceH : 0;
-                y = frame.top + spaceH / 2;
-                y = y + marginTop - marginBottom;
+                startY = frame.top + spaceH / 2;
+                startY = startY + marginTop - marginBottom;
             }
         }
         let trackPoints = [];
         lines.forEach((line) => {
             const lineWidth = ctx.measureText(line).width;
             const spaceW = width - lineWidth;
-            y = y + lineHeight;
+            startY = startY + lineHeight;
             trackPoints.push({
                 text: line,
-                x: x + spaceW / 2,
-                y: y,
+                startX: startX + spaceW / 2,
+                startY: startY,
             });
-            y = y + lineSpace;
+            startY = startY + lineSpace;
         });
         this.trackPoints = trackPoints;
         ctx.restore();
@@ -136,8 +136,8 @@ export class Label {
         ctx.font = this.font;
         ctx.fillStyle = this.fillStyle || theme.foreground;
         trackPoints.forEach((trackPoint) => {
-            const { text, x, y } = trackPoint;
-            ctx.fillText(text, x, y);
+            const { text, startX, startY } = trackPoint;
+            ctx.fillText(text, startX, startY);
         });
 
         ctx.restore();
