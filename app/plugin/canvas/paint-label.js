@@ -21,21 +21,21 @@ export class Label {
         ctx.font = this.font;
         ctx.fillStyle = this.fillStyle;
 
-        let textHeight = 0;
-        let textWidth = 0;
+        let width = 0;
+        let height = 0;
         const lineHeight = parseInt(ctx.font, 10);
         lineSpace = lineSpace || lineHeight / 4;
 
         const lines = title.split("<br>");
         lines.forEach((line) => {
             let lineWidth = ctx.measureText(line).width;
-            textWidth = Math.max(textWidth, lineWidth);
-            textHeight = textHeight + lineHeight;
+            width = Math.max(width, lineWidth);
+            height = height + lineHeight;
         });
         let [x, y] = [0, 0]; // start point, [left, top]
         if (position) {
-            x = position[0] - textWidth / 2;
-            y = position[1] + textHeight / 2;
+            x = position[0] - width / 2;
+            y = position[1] + height / 2;
         } else {
             // h: left, right, center; v: top, bottom,center; frame: left,right,top bottom
             let { frame = { left: 0, right: 100, top: 0, bottom: 100 }, margin, v = "center", h = "center" } = align || {};
@@ -43,10 +43,10 @@ export class Label {
             if (h === "left") {
                 x = frame.left + marginLeft;
             } else if (h === "right") {
-                x = frame.right - textWidth - marginRight;
+                x = frame.right - width - marginRight;
             } else if (h === "center") {
                 const fw = frame.right - frame.left;
-                let spaceW = fw - textWidth;
+                let spaceW = fw - width;
                 spaceW = spaceW > 0 ? spaceW : 0;
                 x = frame.left + spaceW / 2;
                 x = x + marginLeft - marginRight;
@@ -56,10 +56,10 @@ export class Label {
             if (v === "top") {
                 y = frame.top + marginTop;
             } else if (v === "bottom") {
-                y = frame.bottom - textHeight - marginBottom;
+                y = frame.bottom - height - marginBottom;
             } else {
                 const fh = frame.bottom - frame.top;
-                let spaceH = fh - textHeight;
+                let spaceH = fh - height;
                 spaceH = spaceH > 0 ? spaceH : 0;
                 y = frame.top + spaceH / 2;
                 y = y + marginTop - marginBottom;
@@ -68,7 +68,7 @@ export class Label {
         let trackPoints = [];
         lines.forEach((line) => {
             const lineWidth = ctx.measureText(line).width;
-            const spaceW = textWidth - lineWidth;
+            const spaceW = width - lineWidth;
             y = y + lineHeight;
             trackPoints.push({
                 text: line,
