@@ -38,6 +38,8 @@ export class Circle {
             position: position,
             x: x,
             y: y,
+            width, 
+            height,
             point: point,
             frame: frame,
             outline: frame,

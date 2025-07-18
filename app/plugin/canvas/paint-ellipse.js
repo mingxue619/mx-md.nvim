@@ -10,8 +10,8 @@ export class Ellipse {
         const { position, size, style, children } = params;
         let [x, y] = position;
         const [radiusX, radiusY] = size;
-        const width = radiusX * 2,
-            height = radiusY * 2;
+        const width = radiusX * 2;
+        const height = radiusY * 2;
         let from = {
             x: x - width / 2,
             y: y - height / 2,
@@ -36,6 +36,8 @@ export class Ellipse {
             position: position,
             x: x,
             y: y,
+            width, 
+            height,
             point: point,
             frame: frame,
             outline: frame,

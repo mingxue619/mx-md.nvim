@@ -42,6 +42,8 @@ export class Triangle {
             position: position,
             x: x,
             y: y,
+            width, 
+            height,
             point: point,
             frame: frame,
             outline: frame,

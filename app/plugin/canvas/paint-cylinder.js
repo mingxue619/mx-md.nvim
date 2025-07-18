@@ -40,6 +40,8 @@ export class Cylinder {
             position: position,
             x: x,
             y: y,
+            width, 
+            height,
             point: point,
             frame: frame,
             outline: outline,
