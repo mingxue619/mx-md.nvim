@@ -117,7 +117,7 @@ export class Label {
 
     buildShapeWithFrame(labelParams, frame) {
         if (!labelParams) {
-            return [];
+            return undefined;
         }
         if (typeof labelParams === "string") {
             labelParams = {
@@ -125,7 +125,7 @@ export class Label {
             };
         }
         (labelParams.align ??= {}).frame = frame;
-        return [this.buildShape(labelParams)];
+        return this.buildShape(labelParams);
     }
     buildShapesWithLine(labelParams, lineShape) {
         if (!labelParams) {
