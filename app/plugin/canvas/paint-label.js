@@ -70,18 +70,10 @@ export class Label {
             debugger;
             if (horizontal === "left") {
                 const { ratio, value } = parseAlignValue(left);
-                if (ratio === 0) {
-                    x = pleft + value;
-                } else {
-                    x = pleft + ratio * pwidth - width / 2 + value;
-                }
+                x = pleft + ratio * pwidth + value;
             } else if (horizontal === "right") {
                 const { ratio, value } = parseAlignValue(right);
-                if (ratio === 0) {
-                    x = pright + value;
-                } else {
-                    x = pright - ratio * pwidth - width / 2 + value;
-                }
+                x = pright - ratio * pwidth + value;
             } else {
                 x = pleft + pwidth / 2 - width / 2;
             }
@@ -107,7 +99,9 @@ export class Label {
         }
 
         // startX, startY
-        let [startX, startY] = position; // start point, [left, top]
+        const [x, y] =  position;
+        let startX = x - width/2;
+        let startY = y - height/2;
         let trackPoints = [];
         lines.forEach((line) => {
             const lineWidth = ctx.measureText(line).width;
