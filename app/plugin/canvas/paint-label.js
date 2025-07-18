@@ -70,21 +70,37 @@ export class Label {
             debugger;
             if (horizontal === "left") {
                 const { ratio, value } = parseAlignValue(left);
-                x = pleft + ratio * pwidth + value;
+                if (ratio === 0) {
+                    x = pleft + value;
+                } else {
+                    x = pleft + ratio * pwidth - width / 2 + value;
+                }
             } else if (horizontal === "right") {
                 const { ratio, value } = parseAlignValue(right);
-                x = pright - ratio * pwidth + value;
+                if (ratio === 0) {
+                    x = pright + value;
+                } else {
+                    x = pright - ratio * pwidth - width / 2 + value;
+                }
             } else {
-                x = pleft + pwidth / 2;
+                x = pleft + pwidth / 2 - width / 2;
             }
             if (vertical === "top") {
                 const { ratio, value } = parseAlignValue(top);
-                y = ptop + ratio * pheight + value;
+                if (ratio === 0) {
+                    y = ptop + value;
+                } else {
+                    y = ptop + ratio * pheight + height / 2 + value;
+                }
             } else if (vertical === "bottom") {
                 const { ratio, value } = parseAlignValue(bottom);
-                y = pbottom - ratio * pheight + value;
+                if (ratio === 0) {
+                    y = pbottom - +value;
+                } else {
+                    y = pbottom - ratio * pheight - height / 2 + value;
+                }
             } else {
-                y = ptop + pheight/2;
+                y = ptop + pheight / 2;
             }
             // padding = [1, 1, 1,1]
             position = [x, y];
