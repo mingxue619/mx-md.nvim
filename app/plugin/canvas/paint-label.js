@@ -5,6 +5,13 @@ export class Label {
     static build(ctx) {
         return new Label(ctx);
     }
+    _parseRatioFromValue(value) {
+        // "1/2*-1"
+        const match = value.match(/^([^*]*)\*(.*)$/) || [, value];
+        const ratio = match[1] !== undefined ? match[1] : "0";
+        const offset = match[2] !== undefined ? match[2] : "0";
+        return { ratio, offset };
+    }
     buildShape(params) {
         if (typeof params === "string") {
             params = {
@@ -12,7 +19,7 @@ export class Label {
             };
         }
         this.params = params;
-        let { title, lineSpace, font, color, align, position } = params;
+        let { title, lineSpace, font, color, position, parentsFrame, top, right, bottom, left } = params;
         this.font = font || "16px Hack Nerd Font Mono";
         this.fillStyle = color || window.foreground;
 
@@ -34,9 +41,53 @@ export class Label {
         });
         // position
         if (!position) {
-            let { parentsFrame = { left: 0, right: 100, top: 0, bottom: 100 }, top, right, bottom, left } = align || {};
-            position = [0, 0]
-            debugger
+            let x = 0;
+            let y = 0;
+            // align
+            const horizontal = left ? "left" : right ? "right" : "center";
+            const vertical = top ? "top" : bottom ? "bottom" : "center";
+            const { top: ptop, right: pright, bottom: pbottom, left: pleft } = parentsFrame;
+            const pwidth = pright - pleft;
+            const pheight = pbottom - ptop;
+            const parseAlignValue = (value) => {
+                const match = value.match(/^([^*]*)\*(.*)$/) || [, value];
+                const parseRatio = (str) => {
+                    if (!str.trim()) return 0;
+                    if (str.includes("/")) {
+                        const [num, den] = str.split("/").map((v) => parseFloat(v) || 0);
+                        return den === 0 ? 0 : num / den;
+                    }
+                    return parseFloat(str) || 0;
+                };
+                const parseValue = (str) => {
+                    return parseFloat(str.trim()) || 0;
+                };
+                return {
+                    ratio: parseRatio(match[1] || ""),
+                    value: parseValue(match[2] || ""),
+                };
+            };
+            debugger;
+            if (horizontal === "left") {
+                const { ratio, value } = parseAlignValue(left);
+                x = pleft + ratio * pwidth + value;
+            } else if (horizontal === "right") {
+                const { ratio, value } = parseAlignValue(right);
+                x = pright - ratio * pwidth + value;
+            } else {
+                x = pleft + pwidth / 2;
+            }
+            if (vertical === "top") {
+                const { ratio, value } = parseAlignValue(top);
+                y = ptop + ratio * pheight + value;
+            } else if (vertical === "bottom") {
+                const { ratio, value } = parseAlignValue(bottom);
+                y = pbottom - ratio * pheight + value;
+            } else {
+                y = ptop + pheight/2;
+            }
+            // padding = [1, 1, 1,1]
+            position = [x, y];
         }
 
         // startX, startY
@@ -100,7 +151,7 @@ export class Label {
                 title: labelParams,
             };
         }
-        (labelParams.align ??= {}).parentsFrame = parentsFrame;
+        labelParams.parentsFrame = parentsFrame;
         return this.buildShape(labelParams);
     }
     draw(theme) {
