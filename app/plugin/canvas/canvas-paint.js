@@ -17,21 +17,23 @@ export class Paint {
         const ctx = element.getContext("2d", { willReadFrequently: true });
         this.ctx = ctx;
     }
-    _buildLabelShapesWithFrame(label, labels, frame) {
+    _buildLabelShapesWithFrame(label, frame) {
         const lableShapes = [];
-        if (!!label) {
-            const lableShape = Label.build(this.ctx).buildShapeWithFrame(label, frame);
-            if (!!lableShape) {
-                lableShapes.push(lableShape);
-            }
+        if(!label) {
+            return lableShapes;
         }
-        if (!!labels && Array.isArray(labels)) {
-            labels.forEach((label) => {
-                const lableShape = Label.build(this.ctx).buildShapeWithFrame(label, frame);
+        if (Array.isArray(label)) {
+            label.forEach((item) => {
+                const lableShape = Label.build(this.ctx).buildShapeWithFrame(item, frame);
                 if (!!lableShape) {
                     lableShapes.push(lableShape);
                 }
             });
+        } else {
+            const lableShape = Label.build(this.ctx).buildShapeWithFrame(label, frame);
+            if (!!lableShape) {
+                lableShapes.push(lableShape);
+            }
         }
         return lableShapes;
     }
@@ -46,8 +48,7 @@ export class Paint {
         let shape = Line.build(this.ctx).buildShape(params);
         // shape.brush.draw();
         //labels
-        const {label, labels} = params;
-        const lableShapes = this._buildLabelShapesWithFrame(label, labels, shape.frame);
+        const lableShapes = this._buildLabelShapesWithFrame(params.label, shape.frame);
         shape.labels = lableShapes;
         return shape;
     }
@@ -55,8 +56,7 @@ export class Paint {
     rect(params) {
         let shape = Rect.build(this.ctx).buildShape(params);
         //labels
-        const {label, labels} = params;
-        const lableShapes = this._buildLabelShapesWithFrame(label, labels, shape.frame);
+        const lableShapes = this._buildLabelShapesWithFrame(params.label, shape.frame);
         shape.labels = lableShapes;
         return shape;
     }
@@ -66,21 +66,8 @@ export class Paint {
         // shape.brush.draw();
         let frame = shape.frame;
         const height = frame.bottom - frame.top;
-        // label
-        const {label, labels} = params;
-        if (typeof label === "string") {
-            label = {
-                title: label,
-                align: {
-                    v: "top",
-                    margin: {
-                        top: height / 2,
-                    },
-                },
-            };
-        }
         //labels
-        const lableShapes = this._buildLabelShapesWithFrame(label, labels, shape.frame);
+        const lableShapes = this._buildLabelShapesWithFrame(params.label, shape.frame);
         shape.labels = lableShapes;
 
         return shape;
@@ -89,8 +76,7 @@ export class Paint {
     cylinder(params) {
         let shape = Cylinder.build(this.ctx).buildShape(params);
         //labels
-        const {label, labels} = params;
-        const lableShapes = this._buildLabelShapesWithFrame(label, labels, shape.frame);
+        const lableShapes = this._buildLabelShapesWithFrame(params.label, shape.frame);
         shape.labels = lableShapes;
         return shape;
     }
@@ -99,7 +85,7 @@ export class Paint {
         let shape = Circle.build(this.ctx).buildShape(params);
         //labels
         const {label, labels} = params;
-        const lableShapes = this._buildLabelShapesWithFrame(label, labels, shape.frame);
+        const lableShapes = this._buildLabelShapesWithFrame(params.label, shape.frame);
         shape.labels = lableShapes;
         return shape;
     }
@@ -108,7 +94,7 @@ export class Paint {
         let shape = Ellipse.build(this.ctx).buildShape(params);
         //labels
         const {label, labels} = params;
-        const lableShapes = this._buildLabelShapesWithFrame(label, labels, shape.frame);
+        const lableShapes = this._buildLabelShapesWithFrame(params.label, shape.frame);
         shape.labels = lableShapes;
         return shape;
     }

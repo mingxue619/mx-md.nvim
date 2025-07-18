@@ -32,39 +32,15 @@ export class Label {
             width = Math.max(width, lineWidth);
             height = height + lineHeight;
         });
-        let [startX, startY] = [0, 0]; // start point, [left, top]
-        if (position) {
-            startX = position[0] - width / 2;
-            startY = position[1] + height / 2;
-        } else {
-            // h: left, right, center; v: top, bottom,center; frame: left,right,top bottom
-            let { frame = { left: 0, right: 100, top: 0, bottom: 100 }, margin, v = "center", h = "center" } = align || {};
-            const { marginTop, marginRight, marginBottom, marginLeft } = this.parseMargin(margin);
-            if (h === "left") {
-                startX = frame.left + marginLeft;
-            } else if (h === "right") {
-                startX = frame.right - width - marginRight;
-            } else if (h === "center") {
-                const fw = frame.right - frame.left;
-                let spaceW = fw - width;
-                spaceW = spaceW > 0 ? spaceW : 0;
-                startX = frame.left + spaceW / 2;
-                startX = startX + marginLeft - marginRight;
-            } else {
-                throw new Error("label.align.h is error");
-            }
-            if (v === "top") {
-                startY = frame.top + marginTop;
-            } else if (v === "bottom") {
-                startY = frame.bottom - height - marginBottom;
-            } else {
-                const fh = frame.bottom - frame.top;
-                let spaceH = fh - height;
-                spaceH = spaceH > 0 ? spaceH : 0;
-                startY = frame.top + spaceH / 2;
-                startY = startY + marginTop - marginBottom;
-            }
+        // position
+        if (!position) {
+            let { parentsFrame = { left: 0, right: 100, top: 0, bottom: 100 }, top, right, bottom, left } = align || {};
+            position = [0, 0]
+            debugger
         }
+
+        // startX, startY
+        let [startX, startY] = position; // start point, [left, top]
         let trackPoints = [];
         lines.forEach((line) => {
             const lineWidth = ctx.measureText(line).width;
@@ -115,7 +91,7 @@ export class Label {
         return { marginTop, marginRight, marginBottom, marginLeft };
     }
 
-    buildShapeWithFrame(labelParams, frame) {
+    buildShapeWithFrame(labelParams, parentsFrame) {
         if (!labelParams) {
             return undefined;
         }
@@ -124,7 +100,7 @@ export class Label {
                 title: labelParams,
             };
         }
-        (labelParams.align ??= {}).frame = frame;
+        (labelParams.align ??= {}).parentsFrame = parentsFrame;
         return this.buildShape(labelParams);
     }
     draw(theme) {
