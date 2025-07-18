@@ -45,8 +45,9 @@ export class Paint {
     line(params) {
         let shape = Line.build(this.ctx).buildShape(params);
         // shape.brush.draw();
-        // label
-        const lableShapes = Label.build(this.ctx).buildShapesWithLine(params.label, shape);
+        //labels
+        const {label, labels} = params;
+        const lableShapes = this._buildLabelShapesWithFrame(label, labels, shape.frame);
         shape.labels = lableShapes;
         return shape;
     }

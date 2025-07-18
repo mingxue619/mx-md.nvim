@@ -127,27 +127,6 @@ export class Label {
         (labelParams.align ??= {}).frame = frame;
         return this.buildShape(labelParams);
     }
-    buildShapesWithLine(labelParams, lineShape) {
-        if (!labelParams) {
-            return [];
-        }
-        if (typeof labelParams === "string") {
-            labelParams = {
-                title: labelParams,
-            };
-        }
-        const { multi } = labelParams;
-        if (multi) {
-            // todo;
-            return [];
-        } else {
-            const { type, position, frame, outline, trackPoints } = lineShape;
-            const align = labelParams.align || {};
-            align.frame = frame;
-            labelParams.align = align;
-            return [this.buildShape(labelParams)];
-        }
-    }
     draw(theme) {
         const ctx = this.ctx;
 
