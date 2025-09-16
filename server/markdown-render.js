@@ -20,6 +20,7 @@ export default class MarkdownRender {
             linkify: true,
             typographer: true,
             quotes: "“”‘’",
+            linkify: false, 
             highlight: function (str, lang) {
                 if (lang && hljs.getLanguage(lang)) {
                     try {
