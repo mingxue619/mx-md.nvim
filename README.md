@@ -33,3 +33,4 @@ markdown-it-inject-linenumbers
 | vega                      | data chart | n      | https://github.com/vega/vega                                      | https://vega.github.io/vega/examples/ |
 | mermaid                   | diagram    | y      | https://github.com/mermaid-js/mermaid                             |                                       |
 | graphviz                  |            | y      | https://github.com/mdaines/viz-js                                 |                                       |
+| toc                       |            |        | https://github.com/nagaozen/markdown-it-toc-done-right            | [toc]                                 |
