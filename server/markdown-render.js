@@ -74,6 +74,7 @@ export default class MarkdownRender {
                 permalinkBefore: true,
                 permalinkSymbol: anchorSymbol,
                 permalinkClass: "anchor",
+                // permalinkSpace: false,
             })
             .use(markdownItToc, {
                 listType: "ul",
