@@ -1,7 +1,7 @@
  .anchor {
      visibility: hidden;
-     /* margin-left: -5mm; */
-     margin-left: -30px;
+     position: absolute;
+     left: 3mm;
  }
 
  h1:hover .anchor,
