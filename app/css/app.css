@@ -1,6 +1,7 @@
  a {
      text-decoration: none;
  }
+
  body {
      background-color: white;
  }
@@ -12,3 +13,17 @@
      align-items: stretch;
  }
 
+ .anchor {
+     opacity: 0;
+     transition: opacity 0.2s ease;
+     text-decoration: none;
+ }
+
+ h1:hover .anchor,
+ h2:hover .anchor,
+ h3:hover .anchor,
+ h4:hover .anchor,
+ h5:hover .anchor,
+ h6:hover .anchor {
+     opacity: 1;
+ }
