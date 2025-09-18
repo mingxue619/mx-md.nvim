@@ -11,7 +11,12 @@
          visibility: visible;
          /* margin: 1mm; */
      }
+
      hr {
          visibility: hidden;
+     }
+
+     .anchor {
+         display: none;
      }
  }
