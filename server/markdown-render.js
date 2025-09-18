@@ -69,12 +69,12 @@ export default class MarkdownRender {
                 autolabel: true,
             })
             .use(markdownitInjectLinenumbers)
-            // .use(markdownItAnchor, {
-            //     permalink: true,
-            //     permalinkBefore: true,
-            //     permalinkSymbol: anchorSymbol,
-            //     permalinkClass: "anchor",
-            // })
+            .use(markdownItAnchor, {
+                permalink: true,
+                permalinkBefore: true,
+                permalinkSymbol: anchorSymbol,
+                permalinkClass: "anchor",
+            })
             .use(markdownItToc, {
                 listType: "ul",
             })
