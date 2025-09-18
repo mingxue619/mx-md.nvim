@@ -6,7 +6,10 @@
      /* aspect-ratio: 1 / 1.414; */
      aspect-ratio: 210 / 297;
      box-sizing: border-box;
-     padding: 5mm;
+     padding-top: 5mm;
+     padding-right: 10mm;
+     padding-bottom: 10mm;
+     padding-left: 10mm;
      /* border: 1px solid #000; */
      position: relative;
      /* overflow: hidden;  */
