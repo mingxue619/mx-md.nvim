@@ -34,3 +34,4 @@ markdown-it-inject-linenumbers
 | mermaid                   | diagram    | y      | https://github.com/mermaid-js/mermaid                             |                                       |
 | graphviz                  |            | y      | https://github.com/mdaines/viz-js                                 |                                       |
 | toc                       |            |        | https://github.com/nagaozen/markdown-it-toc-done-right            | [toc]                                 |
+| anchor                    |            |        | https://github.com/valeriangalliat/markdown-it-anchor             |                                       |
